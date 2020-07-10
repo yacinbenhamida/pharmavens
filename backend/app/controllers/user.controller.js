@@ -10,6 +10,7 @@ exports.loggedOn = (req, res , next) => {
         if(user) {
         res.status(200).send({
           auth: true,
+          id : user.id,
           prenom: user.prenom,
           nom: user.nom,
           email: user.email,

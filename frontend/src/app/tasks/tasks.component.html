@@ -2,9 +2,9 @@
     <main class="content">
         <div class="container-fluid p-0">
 
-            <button *ngIf="!showForm" (click)="showPanel()" class="btn btn-primary float-right mt-n1"><i
+            <button *ngIf="!showForm && connectedUser.role === 'admin'" (click)="showPanel()" class="btn btn-primary float-right mt-n1"><i
                     class="fas fa-plus"></i> Nouvelle tache</button>
-            <button *ngIf="showForm" (click)="hidePanel()" class="btn btn-danger float-right mt-n1"><i
+            <button *ngIf="showForm && connectedUser.role === 'admin'" (click)="hidePanel()" class="btn btn-danger float-right mt-n1"><i
                     class="fas fa-times"></i> Annuler</button>
             <h1 class="h3 mb-3">Taches</h1>
             <!--form-->
@@ -119,13 +119,29 @@
             </div>
             <!--endform-->
             <div class="row">
-            <div class="input-group mb-3 col-md-6" *ngIf="tasks">
+            <div class="input-group mb-3 col-md-4" *ngIf="tasks">
                 <input type="text" #content (keyup)="filterTasks(content.value)" class="form-control"
                  placeholder="Recherche" aria-label="Search">
             </div>
+            <div class="input-group mt-2 col-md-4" *ngIf="tasks">
+                <div class="form-group custom-control custom-switch">
+                    <input #vehicule="ngModel" [(ngModel)]="done"
+                        name="vehicule" type="checkbox" class="custom-control-input"
+                        id="customSwitch2" (change)="filterDoneTasks()">
+                    <label for="customSwitch2" class="custom-control-label">{{vehicule.value == true ? 'terminées' : 'tous'}}
+                    </label>
+                </div>
+            </div>
         </div>
             <div class="row">
-                <div *ngIf="tasks.length == 0" class="col-md-12">
+                <div *ngIf="loading" class="col-12 text-center mt-2 mb-2 ">
+                    <div class="px-4 d-none d-md-block">
+                        <div class="spinner-border text-primary mr-2" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="tasks.length == 0 && loading == false" class="col-md-12">
                 <div class="alert alert-primary alert-outline alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">×</span>
@@ -140,8 +156,11 @@
             </div>
             
                 <div class="col-12 col-lg-6 col-xl-3" *ngFor="let t of tasks">
-                    <div class="row">
+                    <div class="row" *ngIf="connectedUser.role === 'admin'">
                         <app-task-element (handleDeletion)="deleteIncomingTask($event)" [task]="t"></app-task-element>
+                    </div>
+                    <div class="row" *ngIf="connectedUser.role !== 'admin'">
+                        <app-task-element [task]="t.ut_tasks[0]"></app-task-element>
                     </div>
                 </div>
             </div>

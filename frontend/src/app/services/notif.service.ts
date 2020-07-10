@@ -9,73 +9,41 @@ import { User } from '../models/user.model';
 @Injectable({
   providedIn: 'root'
 })
-export class TaskService {
+export class NotificationService {
 
   constructor(private http:HttpClient, private userService : UserService) { }
-  get(id){
+  get(email){
     let connnectedUser :any = this.userService.getLoggedOn()
     if(connnectedUser){
       let headers = new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/getTask',{task : id},options)
+      return this.http.post('/api/getNotificationsOfUser',{email : email},options)
     }
     return null
   }
-  add(task:Task , users :User[]){
+  add(content:string, title:string , targetsId :number[], sender, taskId){
     let connnectedUser :any = this.userService.getLoggedOn()
-    if(task && connnectedUser){
+    if(content && title && targetsId && sender && taskId &&   connnectedUser){
       let headers = new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/addTask',{task : task , users : users},options)
+      return this.http.post('/api/addNotif',{notif : {content : content , title : title}
+       , targets : targetsId , sender : sender , taskId : taskId},options)
     }       
     return null
   }
-  edit(product:Produit){
+  updateSeen(email){
     let connnectedUser :any = this.userService.getLoggedOn()
-    if(product && connnectedUser){
+    if(email && connnectedUser){
       let headers = new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/editProduct',{produit : product},options)
-    }
-    return null
-  }
-  getUTOFtask(id:number){
-    let connnectedUser :any = this.userService.getLoggedOn()
-    if(connnectedUser){
-      let headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': "JWT "+connnectedUser.token });
-      let options = { headers: headers };
-      return this.http.post('/api/getUTOfTask',{task : id},options)
-    }
-    return null
-  }
-  getTasksOfUser(id:number){
-    let connnectedUser :any = this.userService.getLoggedOn()
-    if(connnectedUser){
-      let headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': "JWT "+connnectedUser.token });
-      let options = { headers: headers };
-      return this.http.post('/api/getTasksOfUser',{user : id},options)
-    }
-    return null
-  }
-  updateTaskStatus(id:number,status:boolean){
-    let connnectedUser :any = this.userService.getLoggedOn()
-    if(connnectedUser){
-      let headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': "JWT "+connnectedUser.token });
-      let options = { headers: headers };
-      return this.http.post('/api/updateTaskstatus',{id : id , state : status},options)
-    }
+      return this.http.post('/api/updateNotif',{email : email},options)
+    }       
     return null
   }
   getAll(){
@@ -85,7 +53,7 @@ export class TaskService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.get('/api/getAllTasks',options)
+      return this.http.post('/api/getAllTasks',{email : connnectedUser.email},options)
     }
     return null
   }
@@ -96,7 +64,7 @@ export class TaskService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/deleteTask',{id : id},options)
+      return this.http.post('/api/deleteNotif',{id : id},options)
     }
     return null
   }

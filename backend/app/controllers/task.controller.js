@@ -48,7 +48,26 @@ exports.getUTofTask = (req,res)=>{
         })
     }else return res.status(404)
 }
-
+exports.getTasksOFUser = (req,res)=> {
+    const userId = req.body.user
+    if(userId){
+        UserTask.findAll({where : {idDelegue : userId}, include: [{
+            model: Task,
+            as: 'ut_tasks',
+            required: false,
+            attributes: ['id', 'nom_tache','date_echance','contenu','date_rappel','attached_file','isdone'],
+            through: {
+              model: UserTask,
+              as: 'userTask',
+            }
+          }]}).then(ut=>{
+            if(ut){
+                return res.send(ut)
+            }
+            return res.status(404).send({message : 'no task'})
+        })
+    }else return res.status(404)
+}
 exports.deleteTask = (req,res)=>{
     const taskId = req.body.id
     if(taskId){

@@ -19,8 +19,11 @@ export class AdminUsersComponent implements OnInit {
   carToAdd : Vehicule = {} as Vehicule
   selectedUser : User = {} as User // for deletion
   editableUser : User // for edition
-
+  connectedUser : User = {} as User
   constructor(private userservice:UserService) {
+    userservice.getCurrentUser().subscribe((x:User)=>{
+      this.connectedUser = x
+    })
    }
 
   dtOptions: DataTables.Settings = {};

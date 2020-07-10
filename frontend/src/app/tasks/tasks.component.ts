@@ -18,6 +18,10 @@ export class TasksComponent implements OnInit {
   showForm : boolean = false
   usersForm: FormGroup
   deleges : User [] = []
+  done : boolean = false
+  oldArray : Task[] = []
+  connectedUser : User = {} as User
+  loading : boolean = true
   constructor(private fb:FormBuilder,private userv:UserService, private taskserv:TaskService) { 
     this.usersForm = this.fb.group({
       users: this.fb.array([]) ,
@@ -26,12 +30,30 @@ export class TasksComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.taskserv.getAll().subscribe((task:Task[])=>{
-      this.userv.getAllDeleges().subscribe((d:User[])=>{
-        this.deleges = d
-        this.tasks = task
-      })
+    this.userv.getCurrentUser().subscribe((user:User)=>{
+      if(user){
+        this.loading = true
+        this.connectedUser = user
+        if(this.connectedUser.role === 'admin'){
+          this.taskserv.getAll().subscribe((task:Task[])=>{
+              this.userv.getAllDeleges().subscribe((d:User[])=>{
+                this.deleges = d
+                this.tasks = task
+                this.loading = false
+              })
+            })
+        }else {
+          setTimeout(()=>{
+            this.taskserv.getTasksOfUser(user.id).subscribe((tasks : Task[])=>{
+              this.loading = false
+              this.tasks = tasks             
+            })
+          },5000)
+          
+        }
+        }
     })
+   
   }
   updateList(data,i){
     let id = Number(data.substring(data.indexOf(':')+1,data.length))
@@ -50,10 +72,21 @@ export class TasksComponent implements OnInit {
     }
     return true
   }
-
+  filterDoneTasks(){
+    if(this.done){
+      if(this.tasks.length > 0){
+        this.oldArray = this.tasks
+        this.tasks = this.tasks.filter(x=>x.isdone)
+      }
+      else return false     
+    }
+    else {
+      this.ngOnInit()
+      this.tasks = this.tasks.filter(x=>!x.isdone)
+    }
+  }
   filterTasks(content){
     if(content.length > 0){
-      console.log(this.tasks)
       this.tasks = this.tasks.filter(x=>x.nom_tache.trim().toLowerCase().indexOf(content.toLowerCase()) != -1)
     }
     else this.ngOnInit()

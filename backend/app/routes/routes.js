@@ -9,6 +9,8 @@ const packs = require('../controllers/pack.controller')
 const veilles = require('../controllers/veille.controller')
 const tasks = require('../controllers/task.controller')
 const comments = require('../controllers/comment.controller')
+const notifs = require('../controllers/notifications.controller')
+const reunions = require('../controllers/reunions.controller')
 module.exports = app => {
   app.post('/login', auth.login);
   app.use('/logout', passport.authenticate('jwt', {
@@ -125,4 +127,33 @@ module.exports = app => {
   app.use('/getTask', passport.authenticate('jwt', {
     session: false
   })).post('/getTask', tasks.getTask);
+  app.use('/getTasksOfUser', passport.authenticate('jwt', {
+    session: false
+  })).post('/getTasksOfUser', tasks.getTasksOFUser);
+  // notifications
+  app.use('/addNotif', passport.authenticate('jwt', {
+    session: false
+  })).post('/addNotif', notifs.addNotification);
+  app.use('/getNotificationsOfUser', passport.authenticate('jwt', {
+    session: false
+  })).post('/getNotificationsOfUser', notifs.getNotificationsOfUser);
+  app.use('/updateNotif', passport.authenticate('jwt', {
+    session: false
+  })).post('/updateNotif', notifs.setNotificationSeen);
+  app.use('/deleteNotif', passport.authenticate('jwt', {
+    session: false
+  })).post('/deleteNotif', notifs.deleteNotif);
+  // reunions
+  app.use('/addReun', passport.authenticate('jwt', {
+    session: false
+  })).post('/addReun', reunions.addReunion);
+  app.use('/getAllReun', passport.authenticate('jwt', {
+    session: false
+  })).get('/getAllReun', reunions.getAll);
+  app.use('/deleteReun', passport.authenticate('jwt', {
+    session: false
+  })).post('/deleteReun', reunions.delete);
+  app.use('/updateReun', passport.authenticate('jwt', {
+    session: false
+  })).post('/updateReun', reunions.edit);
 };

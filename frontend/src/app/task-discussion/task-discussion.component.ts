@@ -7,6 +7,7 @@ import { UserTask } from '../models/usertaks.model';
 import { CommentService } from '../services/comment.service';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
+import { NotificationService } from '../services/notif.service';
 
 @Component({
   selector: 'app-task-discussion',
@@ -23,9 +24,7 @@ export class TaskDiscussionComponent implements OnInit {
   loading : boolean = false
   constructor(private activatedRoute: ActivatedRoute,
     private taskserv:TaskService, private router:Router,
-    private commserv:CommentService, private userv:UserService) {
-      
-     }
+    private commserv:CommentService, private userv:UserService, private notifserv:NotificationService) {}
 
   ngOnInit() {
     setTimeout(()=>{
@@ -38,7 +37,7 @@ export class TaskDiscussionComponent implements OnInit {
               this.targetTask = task
               this.todos = todo
               this.commserv.getCommentsOfTask(this.targetTask.id).subscribe((comments:Comment[])=>{
-                this.commentsList = comments
+                this.commentsList = comments                
                 this.loading = false
               })
             }
@@ -55,8 +54,22 @@ export class TaskDiscussionComponent implements OnInit {
       this.commserv.add(this.text,this.targetTask.id).subscribe((comment:any)=>{      
         setTimeout(()=>{
           if(comment){
-            this.commentsList.push(comment.comment)
-            this.loading = false
+            let targetUsers = []
+            this.todos.forEach(t=>{
+              if(t.task_users[0].id != this.connectedUser.id){
+                targetUsers.push(t.task_users[0].id)
+              }
+            })
+            if(this.connectedUser.role != 'admin'){
+              targetUsers.push(1)
+            }
+            if(targetUsers.length > 0){
+              this.notifserv.add(comment.comment.content , "nouveau message" , targetUsers
+               ,this.connectedUser.email, this.targetTask.id).subscribe(r=>{
+              this.commentsList.push(comment.comment)
+              this.loading = false
+            })    
+            }       
         }} ,5000)
       })
   }

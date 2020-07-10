@@ -31,6 +31,8 @@ db.veille = require('./veilleconcur.model')(sequelize,Sequelize)
 db.task =  require('./task.model')(sequelize,Sequelize)
 db.usertask =  require('./usertask.model')(sequelize,Sequelize)
 db.comments = require('./comments.model')(sequelize,Sequelize)
+db.notifications = require('./notification.model')(sequelize,Sequelize)
+db.reunions =  require('./reunion.model')(sequelize,Sequelize)
 // relations
 
 db.users.hasOne(db.vehicules)
@@ -43,6 +45,10 @@ db.veille.belongsTo(db.produits, {as : 'produitCible'})
 db.veille.belongsTo(db.users, {as : 'analyseur'})
 db.comments.belongsTo(db.users, {as : 'emitter'})
 db.comments.belongsTo(db.task, {as : 'targetTask'})
+db.notifications.belongsTo(db.users , {as : 'sender' , foreignKey : 'senderId'})
+db.notifications.belongsTo(db.users , {as : 'reciever' , foreignKey : 'recieverId'})
+db.notifications.belongsTo(db.task , {as : 'subject', foreignKey : 'taskId'})
+
 // join tbl commande produit
 db.produits.belongsToMany(db.commandes,{
     through: 'commandeProduit',
@@ -102,5 +108,11 @@ db.usertask.belongsToMany(db.users, {
   otherKey: 'idDelegue',
   unique : false
 });
-
+db.usertask.belongsToMany(db.task, {
+  through: 'userTask',
+  as: 'ut_tasks',
+  foreignKey: 'id',
+  otherKey: 'idTache',
+  unique : false
+});
 module.exports = db;

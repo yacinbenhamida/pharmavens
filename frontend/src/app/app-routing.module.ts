@@ -17,6 +17,7 @@ import { ProductsVeillecComponent } from './products-veillec/products-veillec.co
 import { ProductsVeillecAdminComponent } from './products-veillec-admin/products-veillec-admin.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { TaskDiscussionComponent } from './task-discussion/task-discussion.component';
+import { ReunionsComponent } from './reunions/reunions.component';
 
 
 const routes: Routes = [
@@ -33,6 +34,7 @@ const routes: Routes = [
   {path : 'veille-concurentielle-admin', component : ProductsVeillecAdminComponent, canActivate : [AuthGuardService]},
   {path : 'taches', component : TasksComponent, canActivate : [AuthGuardService]},
   {path : 'discussion/:id', component : TaskDiscussionComponent, canActivate : [AuthGuardService]},
+  {path : 'reunions', component : ReunionsComponent, canActivate : [AuthGuardService]},
   {path : 'login' , component : LoginComponent},
   { path: '', component: DashboardComponent, canActivate : [AuthGuardService] },
   {path : '**', redirectTo : ''}

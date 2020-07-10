@@ -367,7 +367,7 @@
                                             <span [ngClass]="online(user.status)">{{user.status}}</span></td>
                                         <td class="text-center"><button (click)="setEditableUser(user)" class="btn btn-pill btn-primary"><i
                                                     class="fas fa-info"></i></button>
-                                                    <button class="btn btn-pill btn-danger ml-2" data-toggle="modal" (click)="selectedUser = user"
+                                                    <button *ngIf="connectedUser.role === 'admin' && user.role != 'admin' " class="btn btn-pill btn-danger ml-2" data-toggle="modal" (click)="selectedUser = user"
                                                 data-target="#sizedModalSm"><i class="fas fa-times"></i></button>
 
                                     </tr>

@@ -35,6 +35,11 @@ import localeFr from '@angular/common/locales/fr';
 import { TasksComponent } from './tasks/tasks.component';
 import { TaskElementComponent } from './task-element/task-element.component';
 import { TaskDiscussionComponent } from './task-discussion/task-discussion.component';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { ReunionsComponent } from './reunions/reunions.component';
+
 registerLocaleData(localeFr, 'fr');
 @NgModule({
   declarations: [
@@ -62,7 +67,8 @@ registerLocaleData(localeFr, 'fr');
     ProductsVeillecAdminComponent,
     TasksComponent,
     TaskElementComponent,
-    TaskDiscussionComponent
+    TaskDiscussionComponent,
+    ReunionsComponent
   ],
   imports: [
     BrowserModule,
@@ -71,6 +77,9 @@ registerLocaleData(localeFr, 'fr');
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    LoadingBarRouterModule,
+    LoadingBarModule,
+    LoadingBarHttpClientModule,
   ],
   providers: [AuthGuardService],
   bootstrap: [AppComponent]

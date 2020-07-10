@@ -1,0 +1,37 @@
+<main class="content">
+    <div class="container-fluid p-0">
+
+        <h1 class="h3 mb-3">Ajouter un PV de réunion</h1>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Le {{date | date:'medium'}}</h5>
+                    </div>
+                    <div class="card-body">
+                        <form #rform="ngForm">
+                            <label>Objet</label>
+                            <input minlength="6" #obj="ngModel" [(ngModel)]="reunion.objet" class="form-control mb-2" type="text" name="obj"/>
+                            <label >Membres presents</label>
+                            <textarea [(ngModel)]="reunion.membres" name="membres" data-provide="markdown" rows="5"></textarea>
+                            <label class="mt-2">Volet medical</label>
+                            <textarea [(ngModel)]="reunion.volet_medical" name="medic" data-provide="markdown" rows="16"></textarea>
+                            <label class="mt-2">Volet commercial</label>
+                            <textarea [(ngModel)]="reunion.volet_commercial" name="comm" data-provide="markdown" rows="16"></textarea>        
+                            <label class="mt-2">Conclusion generale</label>
+                            <textarea [(ngModel)]="reunion.conclusion_generale" name="comm" data-provide="markdown" rows="5"></textarea>                                              
+                        </form>
+                    </div>
+                </div>
+            </div>           
+</div>
+<div class="row">
+    <div class="col-12 float-right">
+        <button [disabled]="rform.invalid" type="submit" class="btn btn-primary float-right ml-2" (click)="submit()">Valider</button>
+        <button type="reset" class="btn btn-danger float-right" (click)="submit()">Réinitialiser</button>
+
+    </div>
+</div>
+</div>
+</main>
