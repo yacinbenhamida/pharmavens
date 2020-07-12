@@ -8,7 +8,7 @@
             <a data-target="#sizedModalSm"  data-toggle="modal" (click)="deleteProduct()"><i class="fas fa-times-circle"></i></a>
         </div>
     </div>
-    <img class="card-img-top" [src]="product.image_url">
+    <img class="card-img-top" [src]="product.image_url ? product.image_url : 'assets/img/F.png'">
 
     <div class="card-header px-4 pt-4">
         <h5 class="card-title mb-0">{{product.libelle}}</h5>
@@ -20,10 +20,13 @@
         <a *ngIf="product.fiche_poso" [href]="product.fiche_poso" target="_blank"><i class="fas fa-file-alt"></i> posologie </a> <br />
         <a *ngIf="product.etude_cliniques" [href]="product.etude_cliniques" target="_blank"><i class="fas fa-file-medical-alt"></i> etudes cliniques</a>
     </div>
+    <div class="card-body px-4 pt-2" *ngIf="product.times_sold">
+        <h6 class="card-title mb-0"> {{product.times_sold}} unités Vendues.</h6>
+    </div>
     <hr class="mb-2">
     <ul class="list-group list-group-flush">
         <li class="list-group-item px-4 pb-4">
-            <p class="mb-2 font-weight-bold"><span class="float-right">PRIX : {{product.prix}} TND</span></p>
+            <p class="mb-2 font-weight-bold"><span class="float-right">PRIX TTC : {{product.prix.toFixed(3)}} TND</span></p>
         </li>
     </ul>
 </div>

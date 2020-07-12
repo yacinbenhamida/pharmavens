@@ -140,7 +140,7 @@
                                 <th *ngIf="user.role == 'admin'">Délégué</th>
                                 <th>type client</th>
                                 <th>nombre produits</th>
-                                <th>total remise</th>
+                                <th>Date</th>
                                 <th>prix total</th>
                                 <th></th>
                               </tr>
@@ -150,12 +150,12 @@
                                     <td>FC{{c.id}}</td>                          
                                    <td>{{c.client.nom_client}}</td>
                                    <td  *ngIf="user.role == 'admin'">{{c.emetteur.nom}} {{c.emetteur.prenom}}</td>
-                                   <td>{{c.client.type_client}}</td>
+                                   <td class="text-center"><span [ngClass]="c.client.type_client == 'grossiste'? 'badge badge-warning' : 'badge badge-info'">{{c.client.type_client}}</span></td>
                                    <td>{{c.nb_produits}}</td>
-                                   <td>{{c.total_remise}} %</td>
+                                   <td>Le {{c.createdAt | date : 'short'}}</td>
                                    <td>{{c.prix_total}} TND</td>
-                                   <td class="text-center"><button (click)="loadInvoice(c)" class="btn btn-success">détails</button>
-                                    <button (click)="deletableInvoice = c" data-toggle="modal" data-target="#sizedModalSm" class="btn btn-danger ml-2">X</button></td>
+                                   <td class="text-center"><button (click)="loadInvoice(c)" class="btn btn-success btn-sm">détails</button>
+                                    <button (click)="deletableInvoice = c" data-toggle="modal" data-target="#sizedModalSm" class="btn btn-danger  btn-sm ml-2">X</button></td>
                                </tr>
                             </tbody>
                           </table>
@@ -182,7 +182,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">annuler</button>
-                <button type="button"  (click)="deleteReview()" class="btn btn-danger">supprimer</button>
+                <button type="button"  (click)="deleteInvoice()" class="btn btn-danger">supprimer</button>
             </div>
         </div>
     </div>

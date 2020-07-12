@@ -1,23 +1,26 @@
 module.exports = (sequelize, Sequelize) => {
-    const Reunion = sequelize.define("reunions", {
+    const Contact = sequelize.define("contacts", {
         id: {
             primaryKey: true,
             type: Sequelize.INTEGER,
             autoIncrement: true
         },
-        objet : {
+        nom : {
             type : Sequelize.STRING
         },
-        membres : {
-            type : Sequelize.TEXT
+        type : {
+            type : Sequelize.STRING
         },
-        volet_medical : {
-            type : Sequelize.TEXT
+        activite : {
+            type : Sequelize.STRING
         },
-        volet_commercial : {
-            type : Sequelize.TEXT
+        numtel : {
+            type : Sequelize.STRING
         },
-        conclusion_generale : {
+        email : {
+            type : Sequelize.STRING
+        },
+        addresse : {
             type : Sequelize.TEXT
         },
         added_by : {
@@ -26,5 +29,5 @@ module.exports = (sequelize, Sequelize) => {
         createdAt: {type : Sequelize.DATE , default : Date.now()},
         updatedAt: {type : Sequelize.DATE , default : Date.now()}
     });
-    return Reunion;
+    return Contact;
 };

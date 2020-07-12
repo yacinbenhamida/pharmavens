@@ -1,0 +1,402 @@
+<main class="content">
+    <div class="container-fluid p-0">
+
+        <h1 class="h3 mb-3">Evaluations</h1>
+        <div class="row" *ngIf="(ajout || modification) && selectedDelegue">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Evaluer {{selectedDelegue.nom}} {{selectedDelegue.prenom}}</h5>
+                        <button *ngIf="ajout || modification" (click)="cancelEditionOrAdd()" class="btn btn-round btn-danger float-right">Annuler</button>
+                    </div>
+                     <!--    alert message    -->
+                     <div *ngIf="addError" class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <div class="alert-message">
+                            <strong>Ajout echoué</strong> Veuillez réessayer ultérieurement, ou vérifiez vos
+                            champs.
+                        </div>
+                    </div>
+                    <!--end alert-->
+                    <div class="card-body">
+                        <form #grForm="ngForm">
+                            <div class="row">
+                                <div class="col-12 col-lg-12">  
+                                    <div class="form-row mb-2">
+                                        <div class="col-md-3">
+                                        <label>Nom</label>
+                                        <input #nom="ngModel" required minlength="3"
+                                            [(ngModel)]="evalToAdd.nom_sortie" name="nom_sortie" type="text"
+                                            class="form-control" placeholder="sortie 1,sortie 2...">
+                                        <span class="msg font-11" *ngIf="nom.touched && nom.errors">Nom
+                                            invalide*</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Date de sortie</label>
+                                            <input #date_sortie="ngModel" required minlength="3"
+                                                [(ngModel)]="evalToAdd.date_sortie" name="date_sortie" type="date"
+                                                class="form-control" >
+                                            <span class="msg font-11" *ngIf="date_sortie.touched && date_sortie.errors">Date
+                                                invalide*</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Secteur</label>
+                                            <input #secteur="ngModel" required minlength="3"
+                                            [(ngModel)]="evalToAdd.secteur" name="secteur" type="text"
+                                            class="form-control" placeholder="nord, centre...">
+                                        <span class="msg font-11" *ngIf="secteur.touched && secteur.errors">secteur
+                                            invalide*</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Note globale</label> 
+                                            <input #noteg="ngModel" required min="0" max="10"
+                                            [(ngModel)]="evalToAdd.note_globale" name="noteg" type="number"
+                                            class="form-control" placeholder="/10">
+                                        <span class="msg font-11" *ngIf="noteg.touched && noteg.errors">Note
+                                            invalide*</span>
+                                        </div>
+                                    </div>    
+                                    <div class="form-row mt-2 ml-2">
+                                        <i class="fas fa-fw fa-user"></i><h5>Qualités personelles</h5>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-3">
+                                        <label>Presentation</label>
+                                        <input #presentation="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                            [(ngModel)]="evalToAdd.presentation" name="presentation" type="number"
+                                            class="form-control" placeholder="/10">
+                                        <span class="msg font-11" *ngIf="presentation.touched && presentation.errors">note
+                                            invalide*</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Expressions orales</label>
+                                            <input #exp_orale="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                                [(ngModel)]="evalToAdd.exp_orale" name="exp_orale" type="number"
+                                                class="form-control" placeholder="/10">
+                                            <span class="msg font-11" *ngIf="exp_orale.touched && exp_orale.errors">note
+                                                invalide*</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Gestuelle</label>
+                                            <input #gestuelle="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                                [(ngModel)]="evalToAdd.gestuelle" name="gestuelle" type="number"
+                                                class="form-control" placeholder="/10">
+                                            <span class="msg font-11" *ngIf="gestuelle.touched && gestuelle.errors">note
+                                                invalide*</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Propreté voiture</label>
+                                            <input #prop_voiture="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                                [(ngModel)]="evalToAdd.prop_voiture" name="prop_voiture" type="number"
+                                                class="form-control" placeholder="/10">
+                                            <span class="msg font-11" *ngIf="prop_voiture.touched && prop_voiture.errors">note
+                                                invalide*</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-row mt-2 ml-2">
+                                        <i class="fas fa-fw fa-university"></i><h5>Connaissances scientifiques</h5>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                        <label>Conaissance produit</label>
+                                        <input #conaissance_produit="ngModel" required min="0" max="10"
+                                            [(ngModel)]="evalToAdd.conaissance_produit" name="conaissance_produit" type="number" (change)="calculMoy()"
+                                            class="form-control" placeholder="/10">
+                                        <span class="msg font-11" *ngIf="conaissance_produit.touched && conaissance_produit.errors">note
+                                            invalide*</span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Conaissance concurrence</label>
+                                            <input #conaissance_concurrence="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                                [(ngModel)]="evalToAdd.conaissance_concurrence" name="conaissance_concurrence" type="number"
+                                                class="form-control" placeholder="/10">
+                                            <span class="msg font-11" *ngIf="conaissance_concurrence.touched && conaissance_concurrence.errors">note
+                                                invalide*</span>
+                                        </div>
+                                    </div>   
+                                    <div class="form-row mt-2 ml-2">
+                                        <i class="fas fa-fw fa-briefcase-medical"></i><h5>Technique de visite médicale</h5>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-2">
+                                        <label>Etablir la sécurité</label>
+                                        <input #etablir_securite="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                            [(ngModel)]="evalToAdd.etablir_securite" name="etablir_securite" type="number"
+                                            class="form-control" placeholder="/10">
+                                        <span class="msg font-11" *ngIf="etablir_securite.touched && etablir_securite.errors">note
+                                            invalide*</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Mise en place</label>
+                                            <input #mise_en_place="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                                [(ngModel)]="evalToAdd.mise_en_place" name="mise_en_place" type="number"
+                                                class="form-control" placeholder="/10">
+                                            <span class="msg font-11" *ngIf="mise_en_place.touched && mise_en_place.errors">note
+                                                invalide*</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Négotiation</label>
+                                            <input #nego_pack="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                                [(ngModel)]="evalToAdd.nego_pack" name="nego_pack" type="number"
+                                                class="form-control" placeholder="/10">
+                                            <span class="msg font-11" *ngIf="nego_pack.touched && nego_pack.errors">note
+                                                invalide*</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Ecoute</label>
+                                            <input #ecoute="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                                [(ngModel)]="evalToAdd.ecoute" name="ecoute" type="number"
+                                                class="form-control" placeholder="/10">
+                                            <span class="msg font-11" *ngIf="ecoute.touched && ecoute.errors">note
+                                                invalide*</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Observation</label>
+                                            <input #observation="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                                [(ngModel)]="evalToAdd.observation" name="observation" type="number"
+                                                class="form-control" placeholder="/10">
+                                            <span class="msg font-11" *ngIf="observation.touched && observation.errors">note
+                                                invalide*</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Questionnement</label>
+                                            <input #questionnement="ngModel" required min="0" max="10" (change)="calculMoy()" 
+                                                [(ngModel)]="evalToAdd.questionnement" name="questionnement" type="number"
+                                                class="form-control" placeholder="/10">
+                                            <span class="msg font-11" *ngIf="questionnement.touched && questionnement.errors">note
+                                                invalide*</span>
+                                        </div>
+                                    </div>  
+                                    <div class="form-row mt-2">
+                                        <div class="col-md-3">
+                                        <label>Feedback prescription</label>
+                                        <input #feedback_prescrip="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                            [(ngModel)]="evalToAdd.feedback_prescrip" name="feedback_prescrip" type="number"
+                                            class="form-control" placeholder="/10">
+                                        <span class="msg font-11" *ngIf="feedback_prescrip.touched && feedback_prescrip.errors">note
+                                            invalide*</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Traitement des objections</label>
+                                            <input #traitement_objections="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                                [(ngModel)]="evalToAdd.traitement_objections" name="traitement_objections" type="number"
+                                                class="form-control" placeholder="/10">
+                                            <span class="msg font-11" *ngIf="traitement_objections.touched && traitement_objections.errors">note
+                                                invalide*</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Conclusion/engagement</label>
+                                            <input #conclusion="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                                [(ngModel)]="evalToAdd.conclusion" name="conclusion" type="number"
+                                                class="form-control" placeholder="/10">
+                                            <span class="msg font-11" *ngIf="conclusion.touched && conclusion.errors">note
+                                                invalide*</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Utilisation MP</label> 
+                                            <input #utilisation_mp="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                                [(ngModel)]="evalToAdd.utilisation_mp" name="utilisation_mp" type="number"
+                                                class="form-control" placeholder="/10">
+                                            <span class="msg font-11" *ngIf="utilisation_mp.touched && utilisation_mp.errors">note
+                                                invalide*</span>
+                                        </div>
+                                    </div>  
+                                    <div class="form-row mt-2 ml-2">
+                                        <i class="fas fa-fw fa-external-link-square-alt"></i><h5>Organisation / Administratif</h5> 
+                                    </div>
+                                    <div class="form-row mb-2">
+                                        <div class="col-md-3">
+                                        <label>Plan journée</label>
+                                        <input #plan_journee="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                            [(ngModel)]="evalToAdd.plan_journee" name="plan_journee" type="number"
+                                            class="form-control" placeholder="/10">
+                                        <span class="msg font-11" *ngIf="plan_journee.touched && plan_journee.errors">note
+                                            invalide*</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Ciblage</label>
+                                            <input #ciblage="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                                [(ngModel)]="evalToAdd.ciblage" name="ciblage" type="number"
+                                                class="form-control" placeholder="/10">
+                                            <span class="msg font-11" *ngIf="ciblage.touched && ciblage.errors">note
+                                                invalide*</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Administratif</label> 
+                                            <input #administratif="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                                [(ngModel)]="evalToAdd.administratif" name="administratif" type="number"
+                                                class="form-control" placeholder="/10">
+                                            <span class="msg font-11" *ngIf="administratif.touched && administratif.errors">note
+                                                invalide*</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Maitrise clients</label>
+                                            <input #maitrise_clients="ngModel" required min="0" max="10" (change)="calculMoy()"
+                                                [(ngModel)]="evalToAdd.maitrise_clients" name="maitrise_clients" type="number"
+                                                class="form-control" placeholder="/10">
+                                            <span class="msg font-11" *ngIf="maitrise_clients.touched && maitrise_clients.errors">note
+                                                invalide*</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Maitrise terrain</label>
+                                            <input (change)="calculMoy()" #maitrise_terrain="ngModel" required min="0" max="10"
+                                                [(ngModel)]="evalToAdd.maitrise_terrain" name="maitrise_terrain" type="number"
+                                                class="form-control" placeholder="/10">
+                                            <span class="msg font-11" *ngIf="maitrise_terrain.touched && maitrise_terrain.errors">note
+                                                invalide*</span>
+                                        </div>
+                                    </div> 
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                        <label><i class="fas fa-fw fa-thumbtack"></i>Objectifs</label>
+                                        <textarea [(ngModel)]="evalToAdd.objectifs" name="objectifs" class="form-control" rows="5"></textarea>
+                                        </div>
+                                    </div>                           
+                                </div>                                                                                                             
+                                
+                            </div> 
+                            <div class="form-row mt-4 float-right">
+                                <div class="">
+                                    <button type="submit" *ngIf="ajout" [disabled]="grForm.invalid"
+                                        (click)="addReview(grForm)"
+                                        class="btn btn-primary btn-lg ">Ajouter</button>
+                                        <button type="submit" *ngIf="modification" [disabled]="grForm.invalid"
+                                        (click)="updateReview(grForm)"
+                                        class="btn btn-warning btn-lg ">Enregistrer</button>
+                                    <button type="reset"
+                                        class="btn btn-danger btn-lg ml-2">Réinitialiser</button>
+                                </div>
+                            </div>                       
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div [ngClass]="selectedDelegue ? 'col-xl-8' : 'col-xl-12'">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Liste des délégués / animatrices</h5>
+                    </div>
+                    <div class="card-body">
+                        <div *ngIf="loadUsers == true" class="col-12 text-center mt-5 mb-5 ">
+                            <div class="px-4 d-none d-md-block">
+                                <div class="spinner-border text-primary mr-2" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <table  id="datatables-clients"  [dtOptions]="options" [dtTrigger]="trigger" datatable class="table table-striped" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>Nom complet</th>
+                                    <th>adresse mail</th>
+                                    <th>N° telephone</th>                                    
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let c of users; let i=index">
+                                    <td>{{c.nom}} {{c.prenom}}</td>
+                                    <td>{{c.email}}</td>
+                                    <td>{{c.telephone ? c.telephone : 'aucun'}}</td>
+                                    <td><button (click)="showDetails(c)" class="btn btn-success btn-sm">evaluations</button></td>
+                                </tr>
+                            </tbody>                               
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4" *ngIf="selectedDelegue">
+                <div class="card">
+                    <div *ngIf="loading" class="col-12 text-center mt-5 mb-5 ">
+                        <div class="px-4 d-none d-md-block">
+                            <div class="spinner-border text-primary mr-2" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!loading && selectedDelegue">
+                    <div class="card-header">       
+                        <h5 class="card-title mb-0">{{selectedDelegue.nom}} {{selectedDelegue.prenom}}</h5>                    
+                    </div>
+                    <div class="card-body">
+                        
+                        <div class="row no-gutters">
+                            <div class="col-sm-3 col-xl-12 col-xxl-3 text-center mb-3 mt-2">
+                                <img [src]="selectedDelegue.imageUrl ? selectedDelegue.imageUrl :  'assets/img/default.png'" width="64" height="64" class="rounded-circle mt-2" alt="Angelica Ramos">
+                                <span class="badge badge-pill badge-primary ml-2">{{noteDelegeTotal? noteDelegeTotal.toFixed(1) : 0}}/10</span>
+                            </div>
+                            <div class="col-sm-9 col-xl-12 col-xxl-9" *ngIf="selectedDelegue.about">
+                                <strong>Bio</strong>
+                                <p>{{selectedDelegue.about}}</p>
+                            </div>
+                        </div>
+                        <div class="text-center" *ngIf="evaluations.length == 0">
+                            <strong>Aucune evaluation enregistrée</strong>
+                        </div>
+                        <table class="table table-striped table-sm text-center" *ngIf="evaluations.length > 0">
+                            <thead>
+                                <tr>
+                                    <th>evaluation</th>
+                                    <th>date</th>
+                                    <th>score</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>                                                             
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ev of evaluations"> 
+                                    <td>{{ev.nom_sortie}}</td>
+                                    <td><span class="badge badge-primary">{{ev.date_sortie}}</span></td>
+                                    <td>{{ev.note_globale.toFixed(1)}}/10</td>
+                                    <td><button (click)="editEval(ev)" class="btn btn-warning btn-sm"><i class="align-middle fas fa-fw fa-star"></i></button></td>
+                                    <td><button data-toggle="modal"  data-target="#sizedModalSm" (click)="evalToDelete = ev"  class="btn btn-danger btn-sm">X</button></td>
+                                </tr>   
+                            </tbody>
+                        </table>
+                        <div style="display: block;">
+                            <canvas baseChart width="400" height="400"
+                            [datasets]="lineChartData"
+                            [labels]="lineChartLabels"     
+                            [options]="lineChartOptions" 
+                            [colors]="lineChartColors"  
+                            [legend]="true"                   
+                            [chartType]="'line'" 
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"></canvas>
+                        </div>
+                        <hr />
+                    </div>
+                </div>
+                <button (click)="evaluer()" class="btn btn-primary btn-sm">Nouvelle evaluation</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<div class="modal fade" *ngIf="evalToDelete" id="sizedModalSm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Supprimer l'evaluation</h5>
+                <button (click)="evalToDelete = null" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body m-3">
+                <p class="mb-0">Etes vous sûr(e) de vouloir supprimer {{evalToDelete.nom_sortie}} ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="evalToDelete = null" class="btn btn-secondary" data-dismiss="modal">annuler</button>
+                <button type="button"  (click)="deleteEval()" class="btn btn-danger">supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END  modal -->

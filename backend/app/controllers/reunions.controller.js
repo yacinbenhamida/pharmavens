@@ -1,6 +1,8 @@
 const Reunion = require('../models').reunions
 const User = require('../models').users
-exports.addReunion = (req,res)=>{
+const db = require('../models').sequelize
+const { QueryTypes } = require('sequelize');
+exports.addReunion =  (req,res)=>{
     let reun = req.body.reunions
     const email = req.body.email
     User.findOne({where : {email : email}}).then(user=>{
@@ -17,7 +19,7 @@ exports.getAll = (req,res) => {
 }
 
 exports.delete = (req,res) => {
-    Reunion.destroy({where : {id : req.body.id}}).then(d=>res.send(d)).catch((e)=>res.send({message : 'err'}))
+    Reunion.destroy({where : {id : req.body.id}}).then(d=>res.status(200)).catch((e)=>res.send({message : 'err'}))
 }
 exports.edit = (req,res) => {
     Reunion.update(req.body.reun,{where : {id : req.body.reun.id }}).then(d=>{

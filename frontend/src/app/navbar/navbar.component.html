@@ -61,11 +61,21 @@
                     <i class="align-middle" data-feather="edit-2"></i> <span class="align-middle">Taches</span>
                 </a>
             </li>  
-            <li [ngClass]="isActiveTab('/reunions')">
+            <li *ngIf="user.role === 'admin'" [ngClass]="isActiveTab('/contacts')">
+                <a routerLink="/contacts" class="sidebar-link" >
+                    <i class="align-middle" data-feather="message-circle"></i> <span class="align-middle">Contacts</span>
+                </a>
+            </li>  
+            <li *ngIf="user.role === 'admin'" [ngClass]="isActiveTab('/reunions')">
                 <a routerLink="/reunions" class="sidebar-link" >
                     <i class="align-middle" data-feather="cast"></i> <span class="align-middle">Reunions</span>
                 </a>
-            </li>  
+            </li> 
+            <li *ngIf="user.role === 'admin'" [ngClass]="isActiveTab('/evaluations')">
+                <a routerLink="/evaluations" class="sidebar-link" >
+                    <i class="align-middle" data-feather="star"></i> <span class="align-middle">Evaluations</span>
+                </a>
+            </li>   
             <li [ngClass]="isActiveTab('/profile')">
                 <a routerLink="/profile" class="sidebar-link" >
                     <i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>

@@ -54,7 +54,7 @@ export class CommandesHistoriqueComponent implements OnInit {
   }
   deleteInvoice(){
     if(this.deletableInvoice){
-      this.comserv.delete(this.deletableInvoice.id).subscribe(()=>{
+      this.comserv.delete(this.deletableInvoice.id).subscribe((r)=>{
         window.location.reload()
       })
     }

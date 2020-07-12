@@ -1,0 +1,220 @@
+<main class="content">
+    <div class="container-fluid p-0">
+
+        <h1 class="h3 mb-3">Contacts</h1>
+        <div class="row" *ngIf="ajout || modification">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Ajouter un contact</h5>
+                        <button *ngIf="ajout || modification" (click)="cancelEditionOrAdd()" class="btn btn-round btn-danger float-right">Annuler</button>
+                    </div>
+                     <!--    alert message    -->
+                     <div *ngIf="addError" class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <div class="alert-message">
+                            <strong>Ajout echoué</strong> Veuillez réessayer ultérieurement, ou vérifiez vos
+                            champs.
+                        </div>
+                    </div>
+                    <!--end alert-->
+                    <div class="card-body">
+                        <form #grForm="ngForm">
+                            <div class="row">
+                                <div class="col-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label>Nom du contact</label>
+                                            <input #nomg="ngModel" minlength="2" required
+                                                [(ngModel)]="contactToAdd.nom" name="nom_client" type="text"
+                                                class="form-control" placeholder="neoxam, seller...">
+                                            <span class="msg font-11"
+                                                *ngIf="nomg.touched && nomg.errors">nom
+                                                invalide*</span>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-6">
+                                            <label>Type de contact</label>
+                                            <input #type="ngModel" required minlength="3"
+                                                [(ngModel)]="contactToAdd.type" name="type" type="text"
+                                                class="form-control" placeholder="adresse...">
+                                            <span class="msg font-11" *ngIf="type.touched && type.errors">type
+                                                invalide*</span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>Activité du contact</label>
+                                                <input #activite="ngModel" required minlength="3"
+                                                [(ngModel)]="contactToAdd.activite" name="activite" type="text"
+                                                class="form-control" placeholder="adresse...">
+                                            <span class="msg font-11" *ngIf="activite.touched && activite.errors">activité
+                                                invalide*</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-2">
+                                            <div class="col-md-6">
+                                                <label>N° telephone</label>
+                                                <input required #tel="ngModel" required minlength="3"
+                                                [(ngModel)]="contactToAdd.numtel" name="tel" type="text"
+                                                class="form-control" placeholder="711236547...">
+                                                <span class="msg font-11" *ngIf="tel.touched && tel.errors">N°Tel invalide
+                                                    invalide*</span>
+                                            </div>
+                                            
+                                            
+                                            <div class="col-md-6">
+                                                <label>Email</label>
+                                                <input #email="ngModel" required minlength="3"
+                                                [(ngModel)]="contactToAdd.email" name="email" type="text"
+                                                class="form-control" placeholder="email@entreprise.tn">
+                                                <span class="msg font-11" *ngIf="email.touched && email.errors">email invalide
+                                                    invalide*</span>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label>addresse complete </label>
+                                            <textarea [(ngModel)]="contactToAdd.addresse" name="adr"
+                                                class="form-control"
+                                                placeholder="l'adresse compléte..."
+                                                rows="4"></textarea>
+                                        </div>                                       
+                                        <div class="form-row mt-3 float-right ">
+                                            <div class="">
+                                                <button type="submit" *ngIf="ajout" [disabled]="grForm.invalid"
+                                                    (click)="addContact(grForm)"
+                                                    class="btn btn-primary btn-lg ">Ajouter</button>
+                                                    <button type="submit" *ngIf="modification" [disabled]="grForm.invalid"
+                                                    (click)="updateContact(grForm)"
+                                                    class="btn btn-warning btn-lg ">Enregistrer</button>
+                                                <button type="reset"
+                                                    class="btn btn-danger btn-lg ml-2">Réinitialiser</button>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Liste des contacts</h5>
+                        <button *ngIf="!ajout && !modification" (click)="addNewContact()" class="btn btn-round btn-primary float-right">Ajouter</button>
+                    </div>
+                    <div class="card-body">
+                        <table id="datatables-clients" datatable [dtOptions]="options" [dtTrigger]="trigger" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Contact</th>
+                                    <th>Type</th>
+                                    <th>N° Tel</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let c of contacts; let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>{{c.nom}}</td>
+                                    <td>{{c.type}}</td>
+                                    <td>{{c.numtel}}</td>
+                                    <td><button (click)="showDetails(c)" class="btn btn-success btn-sm">details</button></td>
+                                </tr>                               
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4">
+                <div class="card">
+                    <div *ngIf="loading" class="col-12 text-center mt-5 mb-5 ">
+                        <div class="px-4 d-none d-md-block">
+                            <div class="spinner-border text-primary mr-2" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!loading">
+                    <div class="card-header">   
+                        <button class="btn btn-white btn-sm float-right" (click)="setContactForEdit(contactForDetails)"><i class="align-middle mr-2 far fa-fw fa-edit"></i></button>
+                        <button class="btn btn-white btn-sm float-right" data-toggle="modal"  data-target="#sizedModalSm" (click)="setContact(contactForDetails)">X</button>                    
+                        <h5 class="card-title mb-0">{{contactForDetails.nom}}</h5>
+                       
+                    </div>
+                    <div class="card-body">
+                        
+                        <div class="row no-gutters">
+                            <div class="col-sm-3 col-xl-12 col-xxl-3 text-center">
+                                <img src="assets/img/default.png" width="64" height="64" class="rounded-circle mt-2" alt="Angelica Ramos">
+                            </div>
+                            <div class="col-sm-9 col-xl-12 col-xxl-9">
+                                <strong>Adresse</strong>
+                                <p>{{contactForDetails.addresse}}</p>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm my-2">
+                            <tbody>
+                                <tr>
+                                    <th>Nom</th>
+                                    <td>{{contactForDetails.nom}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Type</th>
+                                    <td>{{contactForDetails.type}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>{{contactForDetails.email}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Telephone</th>
+                                    <td>{{contactForDetails.numtel}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Ajouté par</th>
+                                    <td>{{contactForDetails.added_by}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Ajouté le</th>
+                                    <td><span class="badge badge-success">{{contactForDetails.createdAt | date:'short'}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr />
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<div class="modal fade" *ngIf="contactToDelete" id="sizedModalSm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Supprimer le contact</h5>
+                <button (click)="contactToDelete = null" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body m-3">
+                <p class="mb-0">Etes vous sûr(e) de vouloir supprimer {{contactToDelete.nom}} ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="contactToDelete = null" class="btn btn-secondary" data-dismiss="modal">annuler</button>
+                <button type="button"  (click)="deleteContact()" class="btn btn-danger">supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END  modal -->

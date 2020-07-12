@@ -5,6 +5,7 @@ exports.addPack = (req, res)=> {
     const pack = req.body.pack;
     const packproduits = req.body.produits
     if(pack){
+        pack.times_sold = 0
         Pack.create(pack,{w:1}, { returning: true }).then(respack=>{
             if(respack && packproduits){
                 packproduits.forEach(element => {

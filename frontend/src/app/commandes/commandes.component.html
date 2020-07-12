@@ -90,7 +90,8 @@
                                 <hr>
                             </div>
                             </div>
-                            <div class="row" *ngIf="estimations && totalQte >= 0 && totalReduction >=0 && totalTTC >= 0">
+                            <div class="row" *ngIf="estimations && totalQte >= 0 && totalReduction >=0 
+                                && totalTTC >= 0">
                                 <div class="col-0 col-xl-6">
                                     <div class="form-group">
                                         <span *ngIf="selectedPack">*Prix fixé selon le prix du pack choisit</span>
@@ -113,9 +114,17 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row" *ngIf="estimations && totalQte >= 0 && totalReduction >=0 && totalTTC >= 0 && selectedPack && selectedPack.valeur_bon_achat">
+                                <div class="col-0 col-xl-6">
+                                    <div class="form-group">
+                                        <span *ngIf="selectedPack && selectedPack.valeur_bon_achat">* BON D'ACHAT DE VALEUR : {{selectedPack.valeur_bon_achat}} TND.</span> <br/>
+                                        <span *ngIf="selectedPack && selectedPack.description">* Remarques : {{selectedPack.description}}</span>
+                                    </div>
+                                </div>
+                            </div>
                                 <div class="form-row mt-3 float-right">
                                 <input value="soumettre" type="submit" [disabled]="!targetClient || commandeForm.invalid || products().length == 0" class="btn btn-primary" (click)="submit()">
-                                <button type="reset" class="btn btn-danger ml-2">annuler</button>
+                                <button type="reset" (click)="reset()" class="btn btn-danger ml-2">annuler</button>
                             </div>
                         </form>
                             </div>

@@ -9,6 +9,7 @@ export interface Produit{
     fiche_poso :string
     composition : string
     etude_cliniques :string
+    times_sold: number
     createdAt: Date
     updatedAt: Date
 }

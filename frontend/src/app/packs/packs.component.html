@@ -93,7 +93,6 @@
                                             <input [(ngModel)]="packToadd.prix_total" class="form-control"
                                                 type="number" placeholder="TND." name="prix_p_tot" />
                                         </div>
-                                        
                                     </div>
                                     <form [formGroup]="packForm" >
                                     <div formArrayName="products">
@@ -101,7 +100,8 @@
                                         <div class="col-6 col-xl-4">
                                             <div class="form-group">
                                                 <label>produit</label>
-                                            <select  (change)="qte.value && selectedp.value? pttc.value = loadPrice(selectedp.value,qte.value,i):pttc.value = 0" formControlName="produit" #selectedp class="form-control select2" name="product">
+                                            <select  (change)="qte.value && selectedp.value? pttc.value = loadPrice(selectedp.value,qte.value,i):pttc.value = 0"
+                                             formControlName="produit" #selectedp class="form-control select2" name="product">
                                                 <option *ngFor="let p of produits" [ngValue]="p.id"> {{p.libelle}} BTE {{p.nb_gellules}} PU : {{p.prix}} TND</option>
                                             </select>
                                             </div>
@@ -109,20 +109,21 @@
                                         <div class="col-6 col-xl-3">
                                             <div class="form-group">
                                                 <label class="form-label">prix total TTC</label>
-                                                <input formControlName="prixUnitaire" #pttc class="form-control" type="number" name="prixUnitaire" />
+                                                <input  #pttc class="form-control" type="number" name="prixUnitaire" />
                                             </div>
                                         </div>
                                         <div class="col-6 col-xl-2">
                                             <div class="form-group">
                                                 <label class="form-label">quantité</label>
-                                                <input (change)="qte.value && selectedp.value ? pttc.value = loadPrice(selectedp.value,qte.value,i):pttc.value = 0" formControlName="quantite" #qte  class="form-control" type="number" name="qte" />
+                                                <input (change)="qte.value && selectedp.value ? pttc.value = loadPrice(selectedp.value,qte.value,i):pttc.value = 0"
+                                                 formControlName="quantite" #qte  class="form-control" type="number" name="qte" />
                                             </div>
                                         </div>
                                         <div class="col-6 col-xl-1">
                                             <div class="form-group">                              
                                                 Gratuit          
-                                            <input type="checkbox" formControlName="gratuit" name="grat" (click)="selectedp.value? setProductValue(0,i,selectedp.value):return">
-                                            </div>
+                                            <input type="checkbox" formControlName="gratuit" name="grat" #gr (click)="selectedp.value && qte.value? setProductValue(i,selectedp.value,$event):return">
+                                            </div> 
                                         </div>
                                         <div class="col-6 col-xl-1">
                                             <div class="form-group">                                        
@@ -134,9 +135,13 @@
                                     </div>
                                 </form>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" *ngIf="packToadd.nom_pack">
+                                        <label>Valeur bon d'achat</label>
+                                        <input type="number"  placeholder="TND." [(ngModel)]="packToadd.valeur_bon_achat" name="bon_achat" class="form-control">
+                                    </div>
+                                    <div class="form-group" *ngIf="packToadd.nom_pack">
                                         <label>Autres Remarques</label>
-                                        <textarea [(ngModel)]="packToadd.description" name="remarques" class="form-control" rows="2"></textarea>
+                                        <textarea [(ngModel)]="packToadd.description"  name="remarques" class="form-control" rows="2"></textarea>
                                     </div>
                                     <div class="form-row mt-3 float-right ">
                                         <div>
@@ -168,6 +173,7 @@
                                     <th>Nom pack</th>
                                     <th>Type</th>
                                     <th>Prix</th>
+                                    <th>Unités vendues</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
@@ -176,6 +182,7 @@
                                     <td>{{p.nom_pack}}</td>
                                     <td><span class="badge badge-pill badge-danger" *ngIf="p.type_pack == 'panache'">{{p.type_pack}}</span> <span class="badge badge-pill badge-info" *ngIf="p.type_pack == 'normal'">{{p.type_pack}}</span></td>
                                     <td>{{p.prix_total ? p.prix_total.toFixed(2) : 0}} TND.</td>
+                                    <td>{{p.times_sold}} unités</td>
                                     <td class="text-center"><button (click)="showPackDetails(p)" class="btn btn-success">Details</button>
                                     <button (click)="setPack(p)" data-target="#sizedModalSm" class="btn btn-danger ml-2" data-toggle="modal">X</button></td>
                                 </tr>
@@ -211,7 +218,7 @@
                                 </tr>
                                 <tr>
                                     <th>Prix total TTC</th>
-                                    <td><strong>{{selectedPack.prix_total ? selectedPack.prix_total.toFixed(3) : 0}} TND </strong></td>
+                                    <td><strong>{{selectedPack.prix_total ? selectedPack.prix_total.toFixed(3) : '0'}} TND </strong></td>
                                 </tr>
                             </tbody>
                         </table>

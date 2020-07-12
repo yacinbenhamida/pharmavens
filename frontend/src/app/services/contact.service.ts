@@ -6,32 +6,33 @@ import { Produit } from '../models/produit.model';
 import { Task } from '../models/task.model';
 import { User } from '../models/user.model';
 import { Reunion } from '../models/reunion.model';
+import { Contact } from '../models/contact.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ReunionService {
+export class ContactService {
 
   constructor(private http:HttpClient, private userService : UserService) { }
-  add(reun:Reunion){
+  add(reun:Contact){
     let connnectedUser :any = this.userService.getLoggedOn()
     if(reun &&   connnectedUser){
       let headers = new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/addReun',{reunions : reun , email:connnectedUser.email},options)
+      return this.http.post('/api/addContact',{contact : reun , email:connnectedUser.email},options)
     }       
     return null
   }
-  update(reunion){
+  update(contact){
     let connnectedUser :any = this.userService.getLoggedOn()
-    if(reunion && connnectedUser){
+    if(contact && connnectedUser){
       let headers = new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/updateReun',{reun : reunion},options)
+      return this.http.post('/api/updateContact',{contact : contact},options)
     }       
     return null
   }
@@ -42,7 +43,7 @@ export class ReunionService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.get('/api/getAllReun',options)
+      return this.http.get('/api/getAllContacts',options)
     }
     return null
   }
@@ -53,7 +54,7 @@ export class ReunionService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/deleteReun',{id : id},options)
+      return this.http.post('/api/deleteContact',{id : id},options)
     }
     return null
   }

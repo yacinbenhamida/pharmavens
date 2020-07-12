@@ -14,9 +14,7 @@ import { TopbarComponent } from './topbar/topbar.component';
 import {DataTablesModule} from 'angular-datatables';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UserService } from './services/user.service';
 import { AuthGuardService } from './services/authguard.service';
-import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { FooterComponent } from './footer/footer.component';
 import { SmallModalComponent } from './small-modal/small-modal.component';
 import { AdminUsersEditComponent } from './admin-users-edit/admin-users-edit.component';
@@ -39,7 +37,10 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { ReunionsComponent } from './reunions/reunions.component';
-
+import {NgxPaginationModule} from 'ngx-pagination';
+import { ContactsComponent } from './contacts/contacts.component';
+import { EvaluationsComponent } from './evaluations/evaluations.component'; 
+import { ChartsModule } from 'ng2-charts';
 registerLocaleData(localeFr, 'fr');
 @NgModule({
   declarations: [
@@ -68,7 +69,9 @@ registerLocaleData(localeFr, 'fr');
     TasksComponent,
     TaskElementComponent,
     TaskDiscussionComponent,
-    ReunionsComponent
+    ReunionsComponent,
+    ContactsComponent,
+    EvaluationsComponent
   ],
   imports: [
     BrowserModule,
@@ -80,6 +83,8 @@ registerLocaleData(localeFr, 'fr');
     LoadingBarRouterModule,
     LoadingBarModule,
     LoadingBarHttpClientModule,
+    NgxPaginationModule,
+    ChartsModule
   ],
   providers: [AuthGuardService],
   bootstrap: [AppComponent]

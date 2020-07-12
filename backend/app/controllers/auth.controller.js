@@ -82,8 +82,9 @@ exports.login = (req, res, next) => {
         email: req.body.email,
       },
     }).then(user => {
-      if (user && isValidPassword(user.password, req.body.password)) {
+      if (user && isValidPassword(user.password, req.body.password) && user.isActivated) {
         user.status = 'active'
+        user.last_login = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') 
         user.save()
         const token = jwt.sign({ id: user.email }, jwtSecret.secret);
         res.status(200).send({

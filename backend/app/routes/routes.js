@@ -11,6 +11,8 @@ const tasks = require('../controllers/task.controller')
 const comments = require('../controllers/comment.controller')
 const notifs = require('../controllers/notifications.controller')
 const reunions = require('../controllers/reunions.controller')
+const contacts = require('../controllers/contact.controller')
+const eval = require('../controllers/eval.controller')
 module.exports = app => {
   app.post('/login', auth.login);
   app.use('/logout', passport.authenticate('jwt', {
@@ -156,4 +158,33 @@ module.exports = app => {
   app.use('/updateReun', passport.authenticate('jwt', {
     session: false
   })).post('/updateReun', reunions.edit);
+  // contacts
+  app.use('/addContact', passport.authenticate('jwt', {
+    session: false
+  })).post('/addContact', contacts.addContact);
+  app.use('/getAllContacts', passport.authenticate('jwt', {
+    session: false
+  })).get('/getAllContacts', contacts.getAll);
+  app.use('/deleteContact', passport.authenticate('jwt', {
+    session: false
+  })).post('/deleteContact', contacts.delete);
+  app.use('/updateContact', passport.authenticate('jwt', {
+    session: false
+  })).post('/updateContact', contacts.edit);
+  // evals
+  app.use('/addEval', passport.authenticate('jwt', {
+    session: false
+  })).post('/addEval', eval.addEvaluation);
+  app.use('/getAllEvals', passport.authenticate('jwt', {
+    session: false
+  })).get('/getAllEvals', eval.getAll);
+  app.use('/getEvalsOfdeleg', passport.authenticate('jwt', {
+    session: false
+  })).post('/getEvalsOfdeleg', eval.getEvalsOfdeleg);
+  app.use('/deleteEval', passport.authenticate('jwt', {
+    session: false
+  })).post('/deleteEval', eval.delete);
+  app.use('/editEval', passport.authenticate('jwt', {
+    session: false
+  })).post('/editEval', eval.edit);
 };

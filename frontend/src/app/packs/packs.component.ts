@@ -83,28 +83,39 @@ export class PacksComponent implements OnInit {
     this.calculPrixTotal()
   }
   loadPrice(prod,qte,i){
-    let id = Number(prod.substring(prod.indexOf(':')+1,prod.length))
-    let produit:Produit = this.produits.filter(x=>x.id===id)[0]
-    this.products().at(i).value.prixUnitaire = Number(produit.prix)
-    this.calculPrixTotal()
-    return Number(produit.prix * qte)
+    if(prod && qte && i >= 0){
+        let id = Number(prod.substring(prod.indexOf(':')+1,prod.length))
+        let produit:Produit = this.produits.filter(x=>x.id===id)[0]
+        this.products().at(i).value.prixUnitaire = produit.prix
+        console.log('from loadp')
+        console.log(this.products().at(i).value)
+        this.calculPrixTotal()
+        return Number(produit.prix * qte)
+    }
+    else return 0
   }
-  calculPrixTotal(){
+  calculPrixTotal(){    
     this.packToadd.prix_total = 0
-    this.packForm.value.products.forEach(element => {
-      this.packToadd.prix_total += Number(element.prixUnitaire) * Number(element.quantite)
-    });
-    
+    for (const element of this.packForm.value.products) {
+      console.log(element)
+      if(element.prixUnitaire == undefined && element.gratuit == false){
+        element.prixUnitaire = this.produits.filter(x=>x.id===element.produit)[0].prix
+      }
+      if(element.prixUnitaire >= 0 && element.quantite >= 0){
+        this.packToadd.prix_total += Number(element.prixUnitaire) * Number(element.quantite)
+      }
+    }
   }
-  setProductValue(val,i,prod){
-    if(this.products().at(i).value.prixUnitaire > val){
-      this.products().at(i).value.prixUnitaire = val
+ 
+  setProductValue(i,prod,event){
+    if(event.target.checked == true){
+      this.products().at(i).value.prixUnitaire = 0
       this.products().at(i).value.gratuit = true
     }
-    else {
+    else if (event.target.checked == false){
       let id = Number(prod.substring(prod.indexOf(':')+1,prod.length))
       let produit:Produit = this.produits.filter(x=>x.id===id)[0]
-      this.products().at(i).value.prixUnitaire = Number(produit.prix)
+      this.products().at(i).value.prixUnitaire = produit.prix
       this.products().at(i).value.gratuit = false
     }
     this.calculPrixTotal()

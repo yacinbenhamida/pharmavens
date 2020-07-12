@@ -2,36 +2,45 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { UserService } from './user.service';
-import { Produit } from '../models/produit.model';
-import { Task } from '../models/task.model';
-import { User } from '../models/user.model';
-import { Reunion } from '../models/reunion.model';
+
+import { Evaluation } from '../models/evaluation.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ReunionService {
+export class EvalService {
 
   constructor(private http:HttpClient, private userService : UserService) { }
-  add(reun:Reunion){
+  getEvalsOfdeleg(id){
     let connnectedUser :any = this.userService.getLoggedOn()
-    if(reun &&   connnectedUser){
+    if(connnectedUser){
       let headers = new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/addReun',{reunions : reun , email:connnectedUser.email},options)
+      return this.http.post('/api/getEvalsOfdeleg',{id : id},options)
+    }
+    return null
+  }
+  add(evaluation:Evaluation,email){
+    let connnectedUser :any = this.userService.getLoggedOn()
+    if(eval &&   connnectedUser){
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "JWT "+connnectedUser.token });
+      let options = { headers: headers };
+      return this.http.post('/api/addEval',{eval : evaluation , email: email},options)
     }       
     return null
   }
-  update(reunion){
+  update(evaluation){
     let connnectedUser :any = this.userService.getLoggedOn()
-    if(reunion && connnectedUser){
+    if(evaluation && connnectedUser){
       let headers = new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/updateReun',{reun : reunion},options)
+      return this.http.post('/api/editEval',{evaluation : evaluation},options)
     }       
     return null
   }
@@ -42,7 +51,7 @@ export class ReunionService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.get('/api/getAllReun',options)
+      return this.http.get('/api/getAllEvals',options)
     }
     return null
   }
@@ -53,7 +62,7 @@ export class ReunionService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/deleteReun',{id : id},options)
+      return this.http.post('/api/deleteEval',{id : id},options)
     }
     return null
   }

@@ -18,6 +18,8 @@ import { ProductsVeillecAdminComponent } from './products-veillec-admin/products
 import { TasksComponent } from './tasks/tasks.component';
 import { TaskDiscussionComponent } from './task-discussion/task-discussion.component';
 import { ReunionsComponent } from './reunions/reunions.component';
+import { ContactsComponent } from './contacts/contacts.component';
+import { EvaluationsComponent } from './evaluations/evaluations.component';
 
 
 const routes: Routes = [
@@ -35,6 +37,8 @@ const routes: Routes = [
   {path : 'taches', component : TasksComponent, canActivate : [AuthGuardService]},
   {path : 'discussion/:id', component : TaskDiscussionComponent, canActivate : [AuthGuardService]},
   {path : 'reunions', component : ReunionsComponent, canActivate : [AuthGuardService]},
+  {path : 'contacts', component : ContactsComponent, canActivate : [AuthGuardService]},
+  {path : 'evaluations', component : EvaluationsComponent, canActivate : [AuthGuardService]},
   {path : 'login' , component : LoginComponent},
   { path: '', component: DashboardComponent, canActivate : [AuthGuardService] },
   {path : '**', redirectTo : ''}

@@ -41,7 +41,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         times_sold : {
             type: Sequelize.INTEGER,
-            default : 0
+            defaultValue : 0
         },
         createdAt: {type : Sequelize.DATE , default : Date.now()},
         updatedAt: {type : Sequelize.DATE, default : null},

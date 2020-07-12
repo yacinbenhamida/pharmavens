@@ -33,6 +33,8 @@ db.usertask =  require('./usertask.model')(sequelize,Sequelize)
 db.comments = require('./comments.model')(sequelize,Sequelize)
 db.notifications = require('./notification.model')(sequelize,Sequelize)
 db.reunions =  require('./reunion.model')(sequelize,Sequelize)
+db.contacts = require('./contact.model')(sequelize,Sequelize)
+db.evaluations = require('./evaluation.model')(sequelize,Sequelize)
 // relations
 
 db.users.hasOne(db.vehicules)
@@ -48,7 +50,7 @@ db.comments.belongsTo(db.task, {as : 'targetTask'})
 db.notifications.belongsTo(db.users , {as : 'sender' , foreignKey : 'senderId'})
 db.notifications.belongsTo(db.users , {as : 'reciever' , foreignKey : 'recieverId'})
 db.notifications.belongsTo(db.task , {as : 'subject', foreignKey : 'taskId'})
-
+db.evaluations.belongsTo(db.users , {as : 'delegue_evaluee', foreignKey : 'idDelegue'})
 // join tbl commande produit
 db.produits.belongsToMany(db.commandes,{
     through: 'commandeProduit',

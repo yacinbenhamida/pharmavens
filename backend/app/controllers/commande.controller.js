@@ -17,9 +17,7 @@ exports.addCommande = (req,res) => {
                 cmd.setEmetteur(user)
                 cmd.save()
             }) 
-            }else{
-                return res.status(403).send({message : 'UNOTHORIZED'})
-            } 
+            }
             // affectation client
             const cli = commande.client
             if(cli){
@@ -48,8 +46,9 @@ exports.addCommande = (req,res) => {
                             else console.log({message : 'failed to add products'})       
                         })
                         Produit.increment('times_sold', { by: 1, where: { id: prod.id }}).then(r=>{
-                            return res.send({message : 'done'})
+                            console.log({message : 'incremented successfuly'})
                         })
+                        return res.send({message : 'added succ'})
                     } 
                 })
             });
@@ -77,7 +76,7 @@ exports.getProduitsOfCommande = (req,res)=>{
           attributes: ['quantite','remise','prixTTC'],
         }
       }]}).then(cmd=>{
-        res.send(cmd)
+        return res.send(cmd)
     })
 }
 exports.deleteCommande = (req,res) => {
@@ -91,9 +90,9 @@ exports.deleteCommande = (req,res) => {
                     id : commandeId
                 }
             }).then(exec=>{
-                res.send({message : 'done'})
+                return res.send({message : 'done'})
             })
         }
-        else res.status(404)
+        else return res.status(404)
     })
 }

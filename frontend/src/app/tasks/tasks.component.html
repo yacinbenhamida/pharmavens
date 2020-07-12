@@ -67,7 +67,7 @@
                                         </div>
                                         <form [formGroup]="usersForm">
                                             <div formArrayName="users">
-                                                <div class="row" *ngFor="let d of users().controls; let i=index" [formGroupName]="i">
+                                                <div class="row" *ngFor="let d of users().controls; let i=index " [formGroupName]="i">
                                                     <div class="col-10 col-xl-10">
                                                         <div class="form-group">
                                                             <label>Délégué / animatrice </label>
@@ -155,7 +155,7 @@
                 </div>
             </div>
             
-                <div class="col-12 col-lg-6 col-xl-3" *ngFor="let t of tasks">
+                <div class="col-12 col-lg-6 col-xl-3" *ngFor="let t of tasks | paginate: { itemsPerPage: 8, currentPage: p }">
                     <div class="row" *ngIf="connectedUser.role === 'admin'">
                         <app-task-element (handleDeletion)="deleteIncomingTask($event)" [task]="t"></app-task-element>
                     </div>
@@ -163,6 +163,11 @@
                         <app-task-element [task]="t.ut_tasks[0]"></app-task-element>
                     </div>
                 </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-12">
+                <pagination-controls nextLabel="Suivant" previousLabel="Précedant" (pageChange)="p = $event"></pagination-controls>
+            </div>
             </div>
         </div>
     </main>
