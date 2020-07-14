@@ -35,6 +35,8 @@ db.notifications = require('./notification.model')(sequelize,Sequelize)
 db.reunions =  require('./reunion.model')(sequelize,Sequelize)
 db.contacts = require('./contact.model')(sequelize,Sequelize)
 db.evaluations = require('./evaluation.model')(sequelize,Sequelize)
+db.rapports = require('./rapport.model')(sequelize,Sequelize)
+db.rapportsdelege = require('./rapportdelege.model')(sequelize,Sequelize)
 // relations
 
 db.users.hasOne(db.vehicules)
@@ -51,6 +53,7 @@ db.notifications.belongsTo(db.users , {as : 'sender' , foreignKey : 'senderId'})
 db.notifications.belongsTo(db.users , {as : 'reciever' , foreignKey : 'recieverId'})
 db.notifications.belongsTo(db.task , {as : 'subject', foreignKey : 'taskId'})
 db.evaluations.belongsTo(db.users , {as : 'delegue_evaluee', foreignKey : 'idDelegue'})
+db.rapports.belongsTo(db.users , {as : 'rapporteur', foreignKey : 'ownerId'})
 // join tbl commande produit
 db.produits.belongsToMany(db.commandes,{
     through: 'commandeProduit',
@@ -115,6 +118,25 @@ db.usertask.belongsToMany(db.task, {
   as: 'ut_tasks',
   foreignKey: 'id',
   otherKey: 'idTache',
+  unique : false
+});
+
+// join tbl rapport delege
+db.rapports.belongsToMany(db.users,{
+  through: 'rapport_delegue',
+  foreignKey: 'idRapport',
+  otherKey: 'idDelegue',
+})
+db.users.belongsToMany(db.rapports,{
+  through: 'rapport_delegue',
+  foreignKey: 'idDelegue',
+  otherKey: 'idRapport',
+})
+db.rapportsdelege.belongsToMany(db.users, {
+  through: 'rapport_delegue',
+  as: 'rapport_delege',
+  foreignKey: 'id',
+  otherKey: 'idDelegue',
   unique : false
 });
 module.exports = db;

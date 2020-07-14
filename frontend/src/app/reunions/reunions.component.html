@@ -10,17 +10,28 @@
                         <h5 class="card-title">Le {{date | date:'medium'}}</h5>
                     </div>
                     <div class="card-body">
+                        <div class="col-lg-12">
                         <form #rform="ngForm">
+                            <div class="form-row">
                             <label>Objet</label>
-                            <input minlength="6" #obj="ngModel" [(ngModel)]="reunion.objet" class="form-control mb-2" type="text" name="obj"/>
+                            <input minlength="6"  #obj="ngModel" [(ngModel)]="reunion.objet" class="form-control mb-2" type="text" name="obj"/>
+                            </div>
+                            <div class="form-row">
                             <label >Membres presents</label>
-                            <textarea [(ngModel)]="reunion.membres" name="membres" data-provide="markdown" rows="5"></textarea>
+                            <textarea [(ngModel)]="reunion.membres" class="form-control" name="membres" rows="5"></textarea>
+                            </div>
+                            <div class="form-row">
                             <label class="mt-2">Volet medical</label>
-                            <textarea [(ngModel)]="reunion.volet_medical" name="medic" data-provide="markdown" rows="16"></textarea>
+                            <textarea [(ngModel)]="reunion.volet_medical"  class="form-control" name="medic" rows="16"></textarea>
+                            </div>
+                            <div class="form-row">
                             <label class="mt-2">Volet commercial</label>
-                            <textarea [(ngModel)]="reunion.volet_commercial" name="comm" data-provide="markdown" rows="16"></textarea>        
+                            <textarea [(ngModel)]="reunion.volet_commercial" class="form-control" name="comm"  rows="16"></textarea> 
+                            </div>     
+                            <div class="form-row"> 
                             <label class="mt-2">Conclusion generale</label>
-                            <textarea [(ngModel)]="reunion.conclusion_generale" name="comm" data-provide="markdown" rows="5"></textarea>                                              
+                            <textarea [(ngModel)]="reunion.conclusion_generale" class="form-control" name="comm"  rows="5"></textarea>    
+                        </div>                                           
                             <div class="row mt-2" >
                                 <div class="col-12 float-right">
                                     <button *ngIf="edition" [disabled]="rform.invalid" type="submit" class="btn btn-warning float-right ml-2" (click)="edit()">Modifier</button>
@@ -29,6 +40,7 @@
                                 </div>
                             </div>
                         </form>
+                    </div>
                     </div>
                 </div>
             </div>           

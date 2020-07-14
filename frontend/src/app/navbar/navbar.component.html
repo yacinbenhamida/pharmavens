@@ -75,7 +75,12 @@
                 <a routerLink="/evaluations" class="sidebar-link" >
                     <i class="align-middle" data-feather="star"></i> <span class="align-middle">Evaluations</span>
                 </a>
-            </li>   
+            </li>  
+            <li *ngIf="user.role === 'admin'" [ngClass]="isActiveTab('/rapports')">
+                <a routerLink="/rapports" class="sidebar-link" >
+                    <i class="align-middle" data-feather="info"></i> <span class="align-middle">Rapports</span>
+                </a>
+            </li>  
             <li [ngClass]="isActiveTab('/profile')">
                 <a routerLink="/profile" class="sidebar-link" >
                     <i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>
@@ -83,4 +88,5 @@
             </li>  
         </ul>
     </div>
+    
 </nav>

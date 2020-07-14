@@ -28,26 +28,38 @@ export class EvaluationsComponent implements OnInit {
   noteDelegeTotal : number
   // chart
   public lineChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' ,backgroundColor: "transparent" , fill:true },
+    {},
   ];
   public lineChartColors: Color[] = [
-    { // grey
-      backgroundColor: 'transparent',
-      borderColor: '#adb5bd',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    {   
+      borderColor: '#1269cb"',
+      pointBackgroundColor: '#1269cb',
+      pointBorderColor: '#1269cb',
+      backgroundColor : 'white',
+      pointHoverBackgroundColor: '#1269cb',
+      pointHoverBorderColor: '#1269cb'
     },
   ];
   public lineChartOptions: (ChartOptions & { annotation: any }) = {
     responsive: true,
+    maintainAspectRatio : true,  
     scales: {
-      // We use this empty structure as a placeholder for dynamic theming.
       xAxes: [{}],
-      yAxes: [
-        {}
-      ]
+      yAxes: [ {}]
+    },
+    legend: {
+      display: false
+    },
+    tooltips: {
+      intersect: false
+    },
+    hover: {
+      intersect: true
+    },
+    plugins: {
+      filler: {
+        propagate: false
+      }
     },
     annotation: {
       annotations: [
@@ -67,8 +79,7 @@ export class EvaluationsComponent implements OnInit {
       ],
     },
   };
-  public lineChartLabels: Label[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  
+  public lineChartLabels: Label[] = [];
   @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;
   constructor(private userv:UserService, private evalserv:EvalService) { }
 
@@ -148,13 +159,23 @@ export class EvaluationsComponent implements OnInit {
   showDetails(c){
     this.loading = true
     this.noteDelegeTotal = 0
+    let marks = []
+    let labels = []
+    this.lineChartData = []
+    this.lineChartLabels = []
     this.evalserv.getEvalsOfdeleg(c.id).subscribe((res:Evaluation[])=>{
         this.selectedDelegue = c 
         if(res.length > 0){
-          let n = 0
+          let n = 0        
           res.forEach(element => {
               n += element.note_globale
+              marks.push(element.note_globale)
+              labels.push(element.nom_sortie)
           });
+          this.lineChartData =  [
+            { data: marks, label: 'Note', fill : true},
+          ];
+          this.lineChartLabels = labels
           this.noteDelegeTotal = n / res.length
         }  
         this.evaluations = res

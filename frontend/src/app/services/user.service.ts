@@ -99,4 +99,15 @@ export class UserService {
     }
     return null
   }
+  updateUserPW(pw:string){
+    let connnectedUser :any = this.getLoggedOn()
+    if(pw && connnectedUser){
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "JWT "+connnectedUser.token });
+      let options = { headers: headers };
+      return this.http.post('/api/update-pw',{password : pw, email : connnectedUser.email },options)
+    }
+    return null
+  }
 }

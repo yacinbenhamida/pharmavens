@@ -24,7 +24,7 @@ export class PacksComponent implements OnInit {
   selectedPack : Pack
   PPOfselectedPack : PackProduit [] = []
   selectedPackForDelete : Pack
-  constructor(   private fb:FormBuilder, private produitserv: ProductService,private packserv:PackService) {
+  constructor(private fb:FormBuilder, private produitserv: ProductService,private packserv:PackService) {
     this.packForm = this.fb.group({
       products: this.fb.array([]) ,
     });

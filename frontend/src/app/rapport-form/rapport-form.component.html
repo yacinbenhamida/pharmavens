@@ -1,0 +1,311 @@
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Synthése des rapports</h5>
+        </div>
+         <!--    alert message    -->
+         <div *ngIf="addError" class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            <div class="alert-message">
+                <strong>Ajout echoué</strong> Veuillez réessayer ultérieurement, ou vérifiez vos
+                champs.
+            </div>
+        </div>
+        <!--end alert-->
+        <div class="card-body">
+            <form #grForm="ngForm">
+                <div class="row">
+                    <div class="col-12 col-lg-12">  
+                        <div class="form-row mb-2">
+                            <div class="col-md-3">
+                            <label>Du</label>
+                            <input #date_debut_rapport="ngModel" required 
+                                [(ngModel)]="rapportToAdd.date_debut_rapport" name="date_debut_rapport" type="date"
+                                class="form-control" placeholder="sortie 1,sortie 2...">
+                            <span class="msg font-11" *ngIf="date_debut_rapport.touched && date_debut_rapport.errors">Date
+                                invalide*</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Au</label>
+                                <input #date_fin_rapport="ngModel" required 
+                                    [(ngModel)]="rapportToAdd.date_fin_rapport" name="date_fin_rapport" type="date"
+                                    class="form-control" >
+                                <span class="msg font-11" *ngIf="date_fin_rapport.touched && date_fin_rapport.errors">Date
+                                    invalide*</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Semaine</label>
+                                <input #semaine_rapport="ngModel" required min="0"
+                                [(ngModel)]="rapportToAdd.semaine_rapport" name="semaine_rapport" type="number"
+                                class="form-control" placeholder="nord, centre...">
+                            <span class="msg font-11" *ngIf="semaine_rapport.touched && semaine_rapport.errors">secteur
+                                invalide*</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Type rapport</label> 
+                                <select #type_rapport="ngModel" [(ngModel)]="rapportToAdd.type_rapport" name="tp_r" class="form-control">
+                                    <option value="null" selected disabled>Type</option>
+                                    <option value="VM">VM</option>
+                                    <option value="VP">VP</option>
+                                    <option value="A">Animation</option>
+                                </select>
+                            <span class="msg font-11" *ngIf="type_rapport.touched && type_rapport.errors">Type
+                                requis*</span>
+                            </div>
+                        </div> 
+                        <div class="form-row mb-2">
+                            <div class="col-md-6">
+                                <label>Jour ferie</label> 
+                                <select #jf="ngModel" [(ngModel)]="rapportToAdd.jour_ferie" name="j_fr" class="form-control">
+                                    <option value="true">oui</option>
+                                    <option value="false">non</option>
+                                </select>
+                            <span class="msg font-11" *ngIf="jf.touched && jf.errors">requis *</span>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Reunion</label> 
+                                <select #reun="ngModel" [(ngModel)]="rapportToAdd.reunion" name="reun" class="form-control">
+                                    <option value="true">oui</option>
+                                    <option value="false">non</option>
+                                </select>
+                            <span class="msg font-11" *ngIf="reun.touched && reun.errors">requis *</span>
+                            </div>
+                        </div>   
+                        <div class="form-row" *ngIf="type_rapport && (type_rapport.value === 'VP' || type_rapport.value === 'VM')">
+                            <div class="col-md-3">
+                            <label *ngIf="type_rapport.value === 'VM'">Objectif spécialité P</label>
+                            <label *ngIf="type_rapport.value === 'VP'">Pharmacies jour</label>
+                            <input #objectif_1="ngModel" required min="0" (change)="calculTotalObj()"
+                                [(ngModel)]="rapportToAdd.objectif_1" name="objectif_1" type="number"
+                                class="form-control">
+                            <span class="msg font-11" *ngIf="objectif_1.touched && objectif_1.errors">objectif
+                                invalide*</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label *ngIf="type_rapport.value === 'VM'">Objectif spécialité H</label>
+                                <label *ngIf="type_rapport.value === 'VP'">Pharmacies nuit</label>
+                                <input #objectif_2="ngModel" required min="0" (change)="calculTotalObj()"
+                                    [(ngModel)]="rapportToAdd.objectif_2" name="objectif_2" type="number"
+                                    class="form-control">
+                                <span class="msg font-11" *ngIf="objectif_2.touched && objectif_2.errors">Objectif
+                                    invalide*</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Total</label>
+                                <input #objectif_total="ngModel" required min="0" disabled
+                                    [(ngModel)]="rapportToAdd.objectif_total" name="objectif_total" type="number"
+                                    class="form-control" >
+                                <span class="msg font-11" *ngIf="objectif_total.touched && objectif_total.errors">total
+                                    invalide*</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label *ngIf="type_rapport.value === 'VM'">Objectif pharmacies</label>
+                                <label *ngIf="type_rapport.value === 'VP'">Objectif Grossistes</label>
+                                <input #objectif_pharmacies_grossiste="ngModel" required min="0"
+                                    [(ngModel)]="rapportToAdd.objectif_pharmacies_grossiste" name="objectif_pharmacies_grossiste" type="number"
+                                    class="form-control">
+                                <span class="msg font-11" *ngIf="objectif_pharmacies_grossiste.touched && objectif_pharmacies_grossiste.errors">objectif
+                                    invalide*</span>
+                            </div>
+                        </div>
+                        <div class="form-row" *ngIf="type_rapport && type_rapport.value === 'A'">
+                            <div class="col-md-4">
+                            <label>Pharmacies (cachets)</label>
+                            <input #objectif_1="ngModel" required min="0" (change)="calculTotalObj()"
+                                [(ngModel)]="rapportToAdd.objectif_1" name="objectif_1" type="number"
+                                class="form-control">
+                            <span class="msg font-11" *ngIf="objectif_1.touched && objectif_1.errors">objectif
+                                invalide*</span>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Ventes </label>
+                                <input #objectif_2="ngModel" required min="0" (change)="calculTotalObj()"
+                                    [(ngModel)]="rapportToAdd.objectif_2" name="objectif_2" type="number"
+                                    class="form-control">
+                                <span class="msg font-11" *ngIf="objectif_2.touched && objectif_2.errors">objectif
+                                    invalide*</span>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Total</label>
+                                <input #objectif_total="ngModel" required min="0" disabled
+                                    [(ngModel)]="rapportToAdd.objectif_total" name="objectif_total" type="number"
+                                    class="form-control" >
+                                <span class="msg font-11" *ngIf="objectif_total.touched && objectif_total.errors">total
+                                    invalide*</span>
+                            </div>
+                        </div>
+                        <div *ngIf="type_rapport.value">
+                            <div class="form-row mt-4 mb-2">
+                                <div class="col-md-6">
+                                    <h5><i class="fas fa-fw fa-university"></i>Qualité du rapport</h5>               
+                                </div>
+                                <div class="col-md-6">
+                                    <button (click)="addRow()" *ngIf="rapportToAdd.objectif_total > 0" class="btn btn-primary btn-sm ml-2 float-right">+ Délégué</button>
+                                </div>
+                            </div>
+                            
+                            <form [formGroup]="reviewForm">
+                            <div formArrayName="row">
+                                <div *ngFor="let p of report().controls; let i=index" [formGroupName]="i">
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <h2>Délégué / animatrice n°{{i+1}}</h2>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-5">
+                                        <label>Délégué / animatrice</label>
+                                        <select formControlName="idDelegue" name="delegue" class="form-control"> 
+                                            <option *ngFor="let d of delegues" [ngValue]="d.id">{{d.nom}} {{d.prenom}}</option>                                                                       
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Manifestation</label>
+                                        <select formControlName="manifestation" name="manif" class="form-control">
+                                            <option value="AUCUNE" selected>Aucune</option>
+                                            <option value="STAFF" >Staff</option>
+                                            <option value="FORMATION" >Formation</option>
+                                            <option value="EPU">Epu</option>    
+                                            <option value="CONGRES">Congrés</option>                                      
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 text-center">
+                                        <label class="custom-control custom-checkbox mt-4">
+                                            <input formControlName="conges" #cong name="conges"  type="checkbox" class="custom-control-input">
+                                            <span class="custom-control-label">Congés</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Nb jour congés</label>
+                                        <input formControlName="nb_jours_conges" name="conges_val" [disabled]="cong.value == false" min="0" type="number" class="form-control">
+                                    </div>
+                                </div> 
+                                <div class="form-row mt-3">
+                                    <div class="form-row" *ngIf="type_rapport && (type_rapport.value === 'VM' || type_rapport.value === 'VP')"> 
+                                    <div class="col-md-2">
+                                        <label *ngIf="type_rapport && type_rapport.value === 'VM'" >Réalisé SP</label>
+                                        <label *ngIf="type_rapport && type_rapport.value === 'VP'" >Réalisé P Jour</label>
+                                        <input formControlName="realise_obj_1" required
+                                        (change)="rapportToAdd.objectif_1 && obj1_r.value? p_rsp1.value = ((obj1_r.value / rapportToAdd.objectif_1 )* 100):return" 
+                                        #obj1_r name="realise_obj_1" type="number" class="form-control">
+                                        <span class="msg font-11" *ngIf="obj1_r.touched && obj1_r.value > rapportToAdd.objectif_1">dépasse l'objectif</span>
+                                    </div>
+                                    
+                                    <div class="col-md-2" >
+                                        <label *ngIf="type_rapport && type_rapport.value === 'VM'" >% Réalisé SP</label>
+                                        <label *ngIf="type_rapport && type_rapport.value === 'VP'" >% Réalisé P Jour</label>
+                                        <input #p_rsp1 disabled name="p_obj_1_val" type="number" class="form-control">
+                                    </div>
+                                    <div class="col-md-2" >
+                                        <label *ngIf="type_rapport && type_rapport.value === 'VM'">Réalisé SH</label>
+                                        <label *ngIf="type_rapport && type_rapport.value === 'VP'">Réalisé P Nuit</label>
+                                        <input #obj2_r formControlName="realise_obj_2" 
+                                        (change)="rapportToAdd.objectif_2 && obj2_r.value? p_rsp2.value = ((obj2_r.value / rapportToAdd.objectif_2 )* 100):return" 
+                                        name="realise_obj_2" type="number" class="form-control">
+                                        <span class="msg font-11" *ngIf="obj2_r.touched && obj2_r.value > rapportToAdd.objectif_2">dépasse l'objectif</span>
+                                    </div>
+                                    <div class="col-md-2" >
+                                        <label *ngIf="type_rapport && type_rapport.value === 'VM'">% Réalisé SH</label>
+                                        <label *ngIf="type_rapport && type_rapport.value === 'VP'">% Réalisé P Nuit</label>
+                                        <input #p_rsp2 disabled name="p_obj_2_val" type="number" class="form-control">
+                                    </div>
+                                    <div class="col-md-4" >
+                                        <label *ngIf="type_rapport && type_rapport.value === 'VM'">Pharmacies</label>
+                                        <label *ngIf="type_rapport && type_rapport.value === 'VP'">Grossiste</label>
+                                        <input formControlName="pharma_gro_realisees" name="pharma_gro_realisees" type="number" class="form-control">
+                                    </div>
+                                    </div>
+                                    <div class="col-md-4" *ngIf="type_rapport && type_rapport.value === 'A'">
+                                        <label>Ventes realisees</label>
+                                        <input #rv formControlName="realise_ventes" name="realise_ventes" type="number" class="form-control">
+                                        <span class="msg font-11" *ngIf="rv.touched && rv.value > rapportToAdd.realise_ventes">dépasse l'objectif</span>
+                                    </div>                                   
+                                </div>
+                                <div class="form-row mb-2">
+                                    <div class="col-md-2">
+                                        <label class="custom-control custom-checkbox  mt-3">
+                                            <input formControlName="rapport_envoye" name="rapport_temps"  type="checkbox" class="custom-control-input">
+                                            <span class="custom-control-label">Rapport envoyé à temps</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="custom-control custom-checkbox  mt-3">
+                                            <input formControlName="respect_plan_tournee" name="respect_plan"  type="checkbox" class="custom-control-input">
+                                            <span class="custom-control-label">Respect du plan de tournée</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="custom-control custom-checkbox  mt-3">
+                                            <input formControlName="visite_detail" name="visites_detail"  type="checkbox" class="custom-control-input">
+                                            <span class="custom-control-label">Visites détaillées</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2  mt-3"  *ngIf="type_rapport && type_rapport.value === 'VM'">
+                                        <label class="custom-control custom-checkbox">
+                                            <input formControlName="respect_plan_charge" name="respect_plan_charge"  type="checkbox" class="custom-control-input">
+                                            <span class="custom-control-label">Respect du plan de charge</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2  mt-3"  *ngIf="type_rapport && type_rapport.value === 'A'">
+                                        <label class="custom-control custom-checkbox">
+                                            <input formControlName="promesse_packs" name="promesse_pack"  type="checkbox" class="custom-control-input">
+                                            <span class="custom-control-label">Promesse de packs</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2  mt-3">
+                                        <label class="custom-control custom-checkbox">
+                                            <input  formControlName="remarques_pertinentes" name="remarques_per"  type="checkbox" class="custom-control-input">
+                                            <span class="custom-control-label">Remarques pertinentes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2  mt-3">
+                                        <label class="custom-control custom-checkbox">
+                                            <input formControlName="veille_c" name="veille_concur"  type="checkbox" class="custom-control-input">
+                                            <span class="custom-control-label">Veille concurrencielle</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2  mt-3" *ngIf="type_rapport && type_rapport.value === 'A'">
+                                        <label class="custom-control custom-checkbox">
+                                            <input formControlName="capture_ecran" name="stat_jour"  type="checkbox" class="custom-control-input">
+                                            <span class="custom-control-label">Capture d'écran statistique du jour</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>% satisfaction</label>
+                                        <input formControlName="pourcentage_satisfaction"  name="satisfaction" placeholder="%" type="number" class="form-control">
+                                    </div>
+                                    <button (click)="removeRow(i)" class="btn btn-white btn-sm mt-2">X</button>
+                                   
+                                </div>
+                                <hr class="my-4">
+                            </div>
+                            </div>
+                        </form>
+                        </div>     
+                        <div class="form-row">
+                            <div class="col-md-12">
+                            <label><i class="fas fa-fw fa-thumbtack"></i>Remarques et suggestions</label>
+                            <textarea [(ngModel)]="rapportToAdd.remarques" name="objectifs" class="form-control" rows="5"></textarea>
+                            </div>
+                        </div>                           
+                    </div>                                                                                                             
+                    
+                </div> 
+                <div class="form-row mt-4 float-right">
+                    <div class="">
+                        <button type="submit" *ngIf="ajout" [disabled]="grForm.invalid || !rapportToAdd || report().value.length === 0"
+                            (click)="addReport(grForm)"
+                            class="btn btn-primary btn-lg ">Ajouter</button>
+                            <button type="submit" *ngIf="modif" [disabled]="grForm.invalid || !rapportToAdd || report().value.length === 0"
+                            (click)="editReport(grForm)"
+                            class="btn btn-warning btn-lg ">Enregistrer</button>
+                        <button type="reset"
+                            class="btn btn-danger btn-lg ml-2">Réinitialiser</button>
+                    </div>
+                </div>                       
+            </form>
+        </div>
+    </div>
+</div>

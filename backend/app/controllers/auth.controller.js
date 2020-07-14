@@ -189,3 +189,16 @@ exports.editUser = (req,res) => {
     else res.sendStatus(403) // already registered
   });
 }
+exports.updateUserPassword = (req,res)=>{
+    const newpw = req.body.password
+    const userid = req.body.email
+    if(userid && newpw){
+      User.findOne({where : {email : userid}}).then(user=>{
+        if(user){
+          user.password = generateHash(newpw)
+          user.save()
+          return res.send({message : 'password updated'})
+        }else return res.status(404).send({message : 'user not found'})
+      })
+    }
+}

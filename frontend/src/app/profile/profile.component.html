@@ -28,32 +28,31 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-actions float-right">
-                                    <div class="dropdown show">
-                                        <a href="#" data-toggle="dropdown" data-display="static">
-                                            <i class="align-middle" data-feather="more-horizontal"></i>
-                                        </a>
-
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
                                 <h5 class="card-title mb-0">Informations publiques</h5>
                             </div>
                             <div class="card-body">
-                                <form>
+                                <div *ngIf="updateInfoError" class="alert alert-danger alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    <div class="alert-message">
+                                        <strong>Modification echouée</strong> Veuillez réessayer ultérieurement, ou vérifiez vos
+                                        champs.
+                                    </div>
+                                </div>
+                                <form #pubForm="ngForm">
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <label for="inputUsername">Email</label>
-                                                <input type="text" [(ngModel)]="user.email" name="email" class="form-control" id="inputUsername" placeholder="Username">
+                                                <label for="inputUsername">Email de connexion</label>
+                                                <input #email="ngModel" required pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+                                                 type="text" [(ngModel)]="user.email" name="email" class="form-control" placeholder="email@farmavans.tn">
+                                                <span class="msg font-11" *ngIf="email.touched && email.errors">email
+                                                    invalide*</span>
                                             </div>
                                             <div class="form-group">
                                                 <label for="inputUsername">A propos</label>
-                                                <textarea rows="2"  [(ngModel)]="user.about" name="about" class="form-control" id="inputBio"
+                                                <textarea rows="2" #bio="ngModel" [(ngModel)]="user.about" name="about" class="form-control" id="inputBio"
                                                     placeholder="Tell something about yourself"></textarea>
                                             </div>
                                         </div>
@@ -69,7 +68,7 @@
                                         </div>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                                    <button (click)="updateInfoPublique()" [disabled]="pubForm.disabled" type="submit" class="btn btn-primary">Sauvegarder</button>
                                 </form>
 
                             </div>
@@ -77,53 +76,64 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-actions float-right">
-                                    <div class="dropdown show">
-                                        <a href="#" data-toggle="dropdown" data-display="static">
-                                            <i class="align-middle" data-feather="more-horizontal"></i>
-                                        </a>
-
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
                                 <h5 class="card-title mb-0">Informations personelles</h5>
                             </div>
                             <div class="card-body">
-                                <form>
+                                <div *ngIf="updateInfoPError" class="alert alert-danger alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    <div class="alert-message">
+                                        <strong>Modification echouée</strong> Veuillez réessayer ultérieurement, ou vérifiez vos
+                                        champs.
+                                    </div>
+                                </div>
+                                <form #persForm="ngForm">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="inputFirstName">Nom</label>
-                                            <input type="text"  [(ngModel)]="user.nom" name="nom" class="form-control" id="inputFirstName" placeholder="First name">
+                                            <input type="text" #nom="ngModel"  minlength="3"  [(ngModel)]="user.nom" name="nom" class="form-control" id="inputFirstName" placeholder="First name">
+                                            <span class="msg font-11" *ngIf="nom.touched && nom.errors">nom
+                                                invalide*</span>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="inputLastName">Prenom</label>
-                                            <input type="text" class="form-control"  [(ngModel)]="user.prenom" name="prenom" id="inputLastName" placeholder="Last name">
+                                            <input type="text" #prenom="ngModel" minlength="3" class="form-control"  [(ngModel)]="user.prenom" name="prenom" id="inputLastName" placeholder="Last name">
+                                            <span class="msg font-11" *ngIf="prenom.touched && prenom.errors">prenom
+                                                invalide*</span>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputEmail4">Email attribué</label>
-                                        <input type="text"  [(ngModel)]="user.emailPerso" name="emailp" class="form-control" id="inputEmail4" placeholder="Email">
+                                        <input type="text" #emailp="ngModel" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+                                         [(ngModel)]="user.emailPerso" name="emailp" class="form-control" id="inputEmail4" placeholder="Email">
+                                         <span class="msg font-11" *ngIf="emailp.touched && emailp.errors">email
+                                            invalide*</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputAddress">Addresse</label>
-                                        <input type="text" [(ngModel)]="user.adresse" name="adr" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                                        <input type="text" #adr1="ngModel" [(ngModel)]="user.adresse" name="adr" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                                        <span class="msg font-11" *ngIf="adr1.touched && adr1.errors">addresse
+                                            invalide*</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputAddress2">Address actuelle</label>
-                                        <input type="text" class="form-control" [(ngModel)]="user.adresse_actuelle" name="adra"  id="inputAddress2" placeholder="Apartment, studio, or floor">
+                                        <input type="text" #adr2="ngModel" class="form-control" [(ngModel)]="user.adresse_actuelle" name="adra"  id="inputAddress2" placeholder="Apartment, studio, or floor">
+                                        <span class="msg font-11" *ngIf="adr2.touched && adr2.errors">addresse
+                                            invalide*</span>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-4">
                                             <label for="inputZip">Date naissance</label>
-                                            <input type="date" [(ngModel)]="user.date_naissance" name="date_naissance" class="form-control" id="inputZip">
+                                            <input type="date" #date_naiss [(ngModel)]="user.date_naissance" name="date_naissance" class="form-control" id="inputZip">
+                                            <span class="msg font-11" *ngIf="date_naiss.touched && date_naiss.errors">Date
+                                                invalide*</span>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="inputCity">telephone</label>
-                                            <input type="text"  [(ngModel)]="user.telephone" name="telephone" class="form-control" id="inputCity">
+                                            <input type="text" #tel1="ngModel"  [(ngModel)]="user.telephone" name="telephone" class="form-control" id="inputCity">
+                                            <span class="msg font-11" *ngIf="tel1.touched && tel1.errors">N°Tel
+                                                invalide*</span>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="inputCity22">telephone attribué</label>
@@ -131,7 +141,7 @@
                                         </div>
                                         
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                    <button (click)="updateInfoPublique()" [disabled]="persForm.invalid" type="submit" class="btn btn-primary">Save changes</button>
                                 </form>
 
                             </div>
@@ -141,23 +151,39 @@
                     <div class="tab-pane fade" id="password" role="tabpanel">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Password</h5>
+                                <div *ngIf="updatePwError" class="alert alert-danger alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    <div class="alert-message">
+                                        <strong>Modification echouée</strong> Veuillez réessayer ultérieurement, ou vérifiez vos
+                                        champs.
+                                    </div>
+                                </div>
+                                <h5 class="card-title">Mot de passe</h5>
 
-                                <form>
+                                <form #mdpForm="ngForm">
                                     <div class="form-group">
-                                        <label for="inputPasswordCurrent">Current password</label>
-                                        <input type="password" class="form-control" id="inputPasswordCurrent">
-                                        <small><a href="#">Forgot your password?</a></small>
+                                        <label for="inputPasswordCurrent">Mot de passe actuel</label>
+                                        <input required pattern="^[A-Z]+[a-zA-Z0-9]*" type="password" #old="ngModel" [(ngModel)]="oldMdp" name="mdp1" class="form-control" id="inputPasswordCurrent">
+                                        <span class="msg font-11" *ngIf="old.touched && old.errors">Mot de passe invalide*</span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputPasswordNew">New password</label>
-                                        <input type="password" class="form-control" id="inputPasswordNew">
+                                        <label for="inputPasswordNew">Nouveau mot de passe</label>
+                                        <input required pattern="^[A-Z]+[a-zA-Z0-9]*" type="password" #new="ngModel" [(ngModel)]="newMdp" name="mdp2" class="form-control" id="inputPasswordNew">
+                                        <span class="msg font-11" *ngIf="new.touched && new.errors 
+                                         || (confirm.touched && confirm.errors && confirm != new) || 
+                                        (new.touched && new.errors && confirm != new) ||
+                                         (confirm.touched && confirm.errors)">Mot de passes incompatibles *</span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputPasswordNew2">Verify password</label>
-                                        <input type="password" class="form-control" id="inputPasswordNew2">
+                                        <label for="inputPasswordNew2">Confirmer le mot de passe</label>
+                                        <input required pattern="^[A-Z]+[a-zA-Z0-9]*" type="password" #confirm="ngModel" [(ngModel)]="confirmMdp" name="mdp3" class="form-control" id="inputPasswordNew2">
+                                        <span class="msg font-11" *ngIf="(confirm.touched && confirm.errors)
+                                         || (new.touched && new.errors) || (confirm.touched && confirm.value != new.value)">
+                                         Mot de passes incompatibles *</span>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                    <button [disabled]="mdpForm.invalid" (click)="updatePw()" type="submit" class="btn btn-primary">Sauvegarder</button>
                                 </form>
 
                             </div>

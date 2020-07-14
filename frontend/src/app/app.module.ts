@@ -41,6 +41,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { ContactsComponent } from './contacts/contacts.component';
 import { EvaluationsComponent } from './evaluations/evaluations.component'; 
 import { ChartsModule } from 'ng2-charts';
+import { RapportsComponent } from './rapports/rapports.component';
+import { RapportFormComponent } from './rapport-form/rapport-form.component';
 registerLocaleData(localeFr, 'fr');
 @NgModule({
   declarations: [
@@ -71,7 +73,9 @@ registerLocaleData(localeFr, 'fr');
     TaskDiscussionComponent,
     ReunionsComponent,
     ContactsComponent,
-    EvaluationsComponent
+    EvaluationsComponent,
+    RapportsComponent,
+    RapportFormComponent
   ],
   imports: [
     BrowserModule,

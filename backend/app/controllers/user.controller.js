@@ -5,20 +5,9 @@ exports.loggedOn = (req, res , next) => {
       User.findOne({
         where: {
           email: req.query.email,
-        },
-      }).then(user => {
+        },attributes : {exclude :['password']}}).then(user => {
         if(user) {
-        res.status(200).send({
-          auth: true,
-          id : user.id,
-          prenom: user.prenom,
-          nom: user.nom,
-          email: user.email,
-          role : user.role,
-          status : user.status,
-          imageUrl : user.imageUrl,
-          about : user.about
-        });
+        res.status(200).send(user);
       }
       else res.sendStatus(401)
       })

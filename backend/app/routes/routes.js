@@ -13,6 +13,11 @@ const notifs = require('../controllers/notifications.controller')
 const reunions = require('../controllers/reunions.controller')
 const contacts = require('../controllers/contact.controller')
 const eval = require('../controllers/eval.controller')
+const rapports = require('../controllers/rapport.controller')
+const stats = require('../controllers/stat.controller')
+
+
+
 module.exports = app => {
   app.post('/login', auth.login);
   app.use('/logout', passport.authenticate('jwt', {
@@ -21,6 +26,9 @@ module.exports = app => {
   app.use('/register', passport.authenticate('jwt', {
     session: false
   })).post('/register', auth.register);
+  app.use('/update-pw', passport.authenticate('jwt', {
+    session: false
+  })).post('/update-pw', auth.updateUserPassword);
   app.use('/connected', passport.authenticate('jwt', {
     session: false
   })).get('/connected', users.loggedOn);
@@ -187,4 +195,26 @@ module.exports = app => {
   app.use('/editEval', passport.authenticate('jwt', {
     session: false
   })).post('/editEval', eval.edit);
+
+  // rapports
+  app.use('/addRapport', passport.authenticate('jwt', {
+    session: false
+  })).post('/addRapport', rapports.addRapport);
+  app.use('/deleteRapport', passport.authenticate('jwt', {
+    session: false
+  })).post('/deleteRapport', rapports.delete);
+  app.use('/editRapport', passport.authenticate('jwt', {
+    session: false
+  })).post('/editRapport', rapports.edit);
+  app.use('/getAllRapports', passport.authenticate('jwt', {
+    session: false
+  })).get('/getAllRapports', rapports.getAll);
+  app.use('/getRDOfrapport', passport.authenticate('jwt', {
+    session: false
+  })).post('/getRDOfrapport', rapports.getRDOfReport);
+
+  //stats 
+  app.use('/getStats', passport.authenticate('jwt', {
+    session: false
+  })).get('/getStats', stats.getStats);
 };
