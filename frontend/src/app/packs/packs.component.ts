@@ -6,6 +6,8 @@ import { Produit } from '../models/produit.model';
 import { ProductService } from '../services/product.service';
 import { PackService } from '../services/pack.service';
 import { PackProduit } from '../models/packproduit.model';
+import { User } from '../models/user.model';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-packs',
@@ -24,15 +26,21 @@ export class PacksComponent implements OnInit {
   selectedPack : Pack
   PPOfselectedPack : PackProduit [] = []
   selectedPackForDelete : Pack
-  constructor(private fb:FormBuilder, private produitserv: ProductService,private packserv:PackService) {
+  user:User
+  constructor(private fb:FormBuilder, private produitserv: ProductService,private packserv:PackService,
+   private userv:UserService) {
     this.packForm = this.fb.group({
       products: this.fb.array([]) ,
     });
     this.produitserv.getAll().subscribe((resl:Produit[])=>{
       this.produits = resl
       packserv.getAll().subscribe((packs:Pack[])=>{
-        this.listPacks = packs
-        this.trigger.next()
+        userv.getCurrentUser().subscribe((u:User)=>{
+          this.user = u
+          this.listPacks = packs
+          this.trigger.next()
+        })
+       
       })
     })
    }

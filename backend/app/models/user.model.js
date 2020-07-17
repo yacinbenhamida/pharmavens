@@ -84,8 +84,14 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue : null
         },
         type_contrat: {
-            type: Sequelize.ENUM('CDI', 'CDD', 'SIVP', 'autres'),
+            type: Sequelize.ENUM('CDI', 'CDD', 'SIVP','KARAMA', 'autres'),
             defaultValue: 'autres'
+        },
+        date_debut_contrat : {
+            type : Sequelize.DATEONLY
+        },
+        date_fin_contrat : {
+            type : Sequelize.DATEONLY
         },
         salaire : {
             type: Sequelize.INTEGER

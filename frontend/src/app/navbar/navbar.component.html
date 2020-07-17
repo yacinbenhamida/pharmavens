@@ -16,7 +16,12 @@
                 <a routerLink="/products" class="sidebar-link"  >
                     <i class="align-middle" data-feather="tag"></i> <span class="align-middle">Produits</span>
                 </a>
-            </li> 
+            </li>
+            <li *ngIf="user.role === 'admin'" [ngClass]="isActiveTab('/comparateur')" >
+                <a routerLink="/comparateur" class="sidebar-link"  >
+                    <i class="align-middle" data-feather="cpu"></i> <span class="align-middle">Comparateur</span>
+                </a>
+            </li>  
             <li [ngClass]="isActiveTab('/veille-concurentielle')" >
                 <a routerLink="/veille-concurentielle" class="sidebar-link">
                     <i class="align-middle" data-feather="activity"></i> <span class="align-middle">Analyse concurrentielle</span>
@@ -27,7 +32,7 @@
                     <i class="align-middle" data-feather="list"></i> <span class="align-middle">Veilles concurrentielles</span>
                 </a>
             </li> 
-            <li *ngIf="user.role === 'admin'" [ngClass]="isActiveTab('/packs')" >
+            <li [ngClass]="isActiveTab('/packs')" >
                 <a routerLink="/packs" class="sidebar-link"  >
                     <i class="align-middle" data-feather="layers"></i> <span class="align-middle">Packs</span>
                 </a>
@@ -71,7 +76,7 @@
                     <i class="align-middle" data-feather="cast"></i> <span class="align-middle">Reunions</span>
                 </a>
             </li> 
-            <li *ngIf="user.role === 'admin'" [ngClass]="isActiveTab('/evaluations')">
+            <li *ngIf="user.role === 'admin' || user.role === 'superviseur' " [ngClass]="isActiveTab('/evaluations')">
                 <a routerLink="/evaluations" class="sidebar-link" >
                     <i class="align-middle" data-feather="star"></i> <span class="align-middle">Evaluations</span>
                 </a>

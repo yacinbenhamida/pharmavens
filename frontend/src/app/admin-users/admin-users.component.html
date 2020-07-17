@@ -110,6 +110,7 @@
                                                     <option>CDI</option>
                                                     <option>CDD</option>
                                                     <option>SIVP</option>
+                                                    <option>KARAMA</option>
                                                     <option>autres</option>
                                                 </select>
                                                 <span class="msg font-11"
@@ -131,6 +132,16 @@
                                                 <span class="msg font-11"
                                                     *ngIf="(frais.touched && frais.errors) || (frais.touched && frais.value <= 0)">frais
                                                     invalides*</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-row" *ngIf="userToAdd.type_contrat === 'SIVP' || userToAdd.type_contrat === 'CDD'">
+                                            <div class="form-group col-md-6">
+                                                <label>date debut contrat</label>
+                                                <input type="date" [(ngModel)]="userToAdd.date_debut_contrat" class="form-control" name="date_d_c"/>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>date fin contrat</label>
+                                                <input type="date" [(ngModel)]="userToAdd.date_fin_contrat" class="form-control" name="date_f_c"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -269,6 +280,7 @@
                                                     <option selected value="Role">Role</option>
                                                     <option value="admin">Administrateur</option>
                                                     <option value="delege">Délegué / Animatrice</option>
+                                                    <option value="superviseur">Superviseur</option>
                                                 </select>
                                                 <span class="msg font-11"
                                                     *ngIf="role.touched && role.value === 'Role'">Role non
@@ -369,9 +381,9 @@
                                         <td class="text-center"><span
                                                 [ngClass]="etatCompte(user.isActivated)">{{user.isActivated == true ? 'activé' : 'desactivé'}}</span>
                                             <span [ngClass]="online(user.status)">{{user.status}}</span></td>
-                                        <td class="text-center"><button (click)="setEditableUser(user)" class="btn btn-pill btn-primary"><i
+                                        <td class="text-center"><button (click)="setEditableUser(user)" class="btn btn-pill btn-primary btn-sm"><i
                                                     class="fas fa-info"></i></button>
-                                                    <button *ngIf="connectedUser.role === 'admin' && user.role != 'admin' " class="btn btn-pill btn-danger ml-2" data-toggle="modal" (click)="selectedUser = user"
+                                                    <button *ngIf="connectedUser.role === 'admin' && user.role != 'admin' " class="btn btn-pill btn-danger btn-sm" data-toggle="modal" (click)="selectedUser = user"
                                                 data-target="#sizedModalSm"><i class="fas fa-times"></i></button>
 
                                     </tr>

@@ -25,7 +25,22 @@ exports.addVeille = (req,res) => {
         })
     }
     else res.status(403)
-} 
+}
+
+exports.getVeillesOfProduct = (req,res) => {
+    const id = req.body.id
+    Produit.findOne({where : {id : id}}).then(prod=>{
+        if(prod){
+           Veille.findAll({where : {produitCibleId : prod.id}}).then(veille=>{
+        if(veille){
+            return res.send(veille)
+        }
+    }) 
+        }
+        else return res.send({message : 'no data'})
+    })
+    
+}
 exports.getAll = (req,res) => {
     Veille.findAll({include: ['analyseur','produitCible']}).then(result=>{
         res.send(result)

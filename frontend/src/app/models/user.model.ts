@@ -25,6 +25,8 @@ export interface User{
     role:string
     telephone : string
     telephone_perso : string
+    date_debut_contrat : Date
+    date_fin_contrat :Date
     last_login:Date
     status: string
     about:string

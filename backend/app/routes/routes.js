@@ -108,6 +108,9 @@ module.exports = app => {
   app.use('/deleteVeille', passport.authenticate('jwt', {
     session: false
   })).post('/deleteVeille', veilles.delete);
+  app.use('/getVeillesOfProduct', passport.authenticate('jwt', {
+    session: false
+  })).post('/getVeillesOfProduct', veilles.getVeillesOfProduct);
   // tasks
   app.use('/addTask', passport.authenticate('jwt', {
     session: false

@@ -43,6 +43,7 @@ import { EvaluationsComponent } from './evaluations/evaluations.component';
 import { ChartsModule } from 'ng2-charts';
 import { RapportsComponent } from './rapports/rapports.component';
 import { RapportFormComponent } from './rapport-form/rapport-form.component';
+import { ProductsComparatorComponent } from './products-comparator/products-comparator.component';
 registerLocaleData(localeFr, 'fr');
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ registerLocaleData(localeFr, 'fr');
     ContactsComponent,
     EvaluationsComponent,
     RapportsComponent,
-    RapportFormComponent
+    RapportFormComponent,
+    ProductsComparatorComponent
   ],
   imports: [
     BrowserModule,

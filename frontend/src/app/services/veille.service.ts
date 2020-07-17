@@ -24,6 +24,17 @@ export class VeilleService {
     }       
     return null
   }
+  getVeillesOfProduct(idp){
+    let connnectedUser :any = this.userService.getLoggedOn()
+    if(idp && connnectedUser){
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "JWT "+connnectedUser.token });
+      let options = { headers: headers };
+      return this.http.post('/api/getVeillesOfProduct',{id : idp},options)
+    }       
+    return null
+  }
   edit(product:Produit){
     let connnectedUser :any = this.userService.getLoggedOn()
     if(product && connnectedUser){

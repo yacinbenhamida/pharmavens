@@ -1,0 +1,141 @@
+
+<main class="content">
+    <div class="container-fluid p-0">
+
+        <h1 class="h3 mb-3">Comparateur de produits</h1>
+    <div class="row">
+<div class="col-12 col-lg-12 col-xxl-6 d-flex">
+    <div class="card flex-fill">
+        <div class="card-header">
+            <h5 class="card-title">Comparaison entre les produits farmavans et la concurrence</h5>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <div class="col-12 col-xl-12 mb-3">
+                    <label>Nom du produit</label>
+            <input type="text"         
+            (ngModelChange)="filterItem($event)" 
+            [(ngModel)]="targetMedic" class="form-control" placeholder="recherche">
+                </div>
+                <div class="col-12 col-xl-12">
+        <select 
+             #selectList
+             [(ngModel)]="myProduct" 
+            (ngModelChange)="onChangeofOptions($event)" class="custom-select mb-3">
+            <option value="empty" selected disabled>Veuillez selectionner un produit</option>
+            <option *ngFor="let item of items" [ngValue]="item">         
+                {{item.libelle}}
+            </option>    
+        </select>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="myProduct">
+    <div class="col-4" >
+        <div class="card">
+            <div class="card-header">
+            <div class="media float-right">
+                <img class="rounded-circle mr-2" width="80" height="80" [src]="myProduct.image_url" >
+            </div>
+            <h5 class="card-title">{{myProduct.libelle}}</h5>
+            </div>
+            <div class="card-body">
+                <p>{{myProduct.description}}</p>
+                <table class="table table-sm my-2">
+                    <tbody>
+                        <tr>
+                            <th>Nom complet</th>
+                            <td>{{myProduct.libelle}} BTE {{myProduct.nb_gellules}}</td>
+                        </tr>
+                        <tr>
+                            <th>Prix</th>
+                            <td>{{myProduct.prix}} TND.</td>
+                        </tr>
+                        <tr *ngIf="myProduct.fiche_poso">
+                            <th>Posologie</th>
+                            <td  class="text-center"><a  [href]="myProduct.fiche_poso" 
+                                target="_blank">
+                                <i class="fas fa-file-alt"></i> </a> <br />
+                            </td>
+                        </tr>
+                        <tr *ngIf="myProduct.composition">
+                            <th>Composition</th>
+                            <td  class="text-center"><a  [href]="myProduct.composition"
+                                target="_blank">
+                                <i class="fas fa-wrench"></i> </a> <br />
+                            </td>
+                        </tr>
+                        <tr *ngIf="myProduct.etude_cliniques">
+                            <th>Etudes cliniques</th>
+                            <td class="text-center"><a  [href]="myProduct.etude_cliniques"
+                                target="_blank">
+                                <i class="fas fa-file-medical-alt"></i> </a> <br />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-4" *ngFor="let selectedVeille of veilles">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">{{selectedVeille.lib_prod}}</h5>
+            </div>
+            <div class="card-body">
+                <p>{{selectedVeille.presentation}}</p>
+                <table class="table table-sm my-2">
+                    <tbody>
+                        <tr>
+                            <th>Nom complet</th>
+                            <td>{{selectedVeille.lib_prod}}</td>
+                        </tr>
+                        <tr>
+                            <th>Laboratoire concurrent</th>
+                            <td>{{selectedVeille.labo}}</td>
+                        </tr>
+                        <tr>
+                            <th>Prix</th>
+                            <td>{{selectedVeille.prix}} TND.</td>
+                        </tr>
+                        <tr *ngIf="selectedVeille.posologie">
+                            <th>Posologie</th>
+                            <td>{{selectedVeille.posologie}}
+                            </td>
+                        </tr>
+                        <tr *ngIf="selectedVeille.composition">
+                            <th>Composition</th>
+                            <td >{{selectedVeille.composition}}
+                            </td>
+                        </tr>
+                        <tr *ngIf="selectedVeille.nb_boites_vendues">
+                            <th>Boites totales vendues</th>
+                            <td>{{selectedVeille.nb_boites_vendues}}</td>
+                        </tr>
+                        <tr *ngIf="selectedVeille.actions">
+                            <th>Actions</th>
+                            <td>{{selectedVeille.actions}}</td>
+                        </tr>
+                        <tr *ngIf="selectedVeille.partenaires">
+                            <th>partenaires</th>
+                            <td>{{selectedVeille.partenaires}}</td>
+                        </tr>
+                        <tr *ngIf="selectedVeille.commentaires">
+                            <th>commentaires</th>
+                            <td>{{selectedVeille.commentaires}}</td>
+                        </tr>
+                        <tr *ngIf="selectedVeille.createdAt">
+                            <th>Date analyse</th>
+                            <td>{{selectedVeille.createdAt | date:'medium'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</main>

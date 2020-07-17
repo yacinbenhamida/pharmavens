@@ -32,7 +32,6 @@ export class AdminUsersComponent implements OnInit {
     this.userToAdd.type_contrat = 'type'
     this.userToAdd.role='Role'
     this.userToAdd.sexe = 'homme'
-    this.userToAdd.possede_vehicule = false
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 5,

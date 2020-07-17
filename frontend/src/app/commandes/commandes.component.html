@@ -104,25 +104,31 @@
                                 <hr>
                             </div>
                             </div>
-                            <div class="row" *ngIf="estimations && totalQte >= 0 && totalReduction >=0 
+                            <div class="row text-center" *ngIf="estimations && totalQte >= 0 && totalReduction >=0 
                                 && totalTTC >= 0">
-                                <div class="col-0 col-xl-6">
+                                <div class="col-0 col-xl-6"  *ngIf="selectedPack">
                                     <div class="form-group">
-                                        <span *ngIf="selectedPack"> <i class="fas fa-fw fa-angle-right"></i> Prix fixé selon le prix du pack choisit <strong *ngIf="isPanache && prixpanacheActuel >= 0">il vous reste {{selectedPack.prix_total - prixpanacheActuel}} TND.</strong></span>
+                                        <span> <i class="fas fa-fw fa-angle-right"></i> Prix fixé selon le prix du pack choisit <strong *ngIf="isPanache && prixpanacheActuel >= 0">il vous reste {{selectedPack.prix_total - prixpanacheActuel}} TND.</strong></span>
                                     </div>
                                 </div>
-
-                                <div class="col-4 col-xl-2">
+                                <div class="col-3 col-xl-4" *ngIf="!selectedPack"></div>
+                                <div class="col-3 col-xl-2">
                                     <div class="form-group">
                                         <label class="form-label">{{totalQte}} produits</label>
                                     </div>
                                 </div>
-                                <div class="col-4 col-xl-2">
+                                <div class="col-3 col-xl-2">
                                     <div class="form-group">
                                         <label class="form-label"> {{totalReduction}} % de remise</label>
                                     </div>
                                 </div>
-                                <div class="col-4 col-xl-2">
+                                <div class="col-2 col-xl-2" *ngIf="targetClient.type_client == 'grossiste'">
+                                    <div class="form-group">
+                                       <input type="number" class="form-control" [(ngModel)]="commandeToAdd.remise_total_grossite" 
+                                       placeholder="reduction (%)" (change)="estimationTotal()" [ngModelOptions]="{standalone: true}" name="rem_tot" >
+                                    </div>
+                                </div>
+                                <div class="col-3 col-xl-2">
                                     <div class="form-group">
                                         <label class="form-label">total : {{totalTTC.toFixed(2)}} TND</label>
                                     </div>
@@ -140,7 +146,7 @@
                                 </div>
                             </div>
                                 <div class="form-row mt-3 float-right">
-                                <input value="soumettre" type="submit" [disabled]="!targetClient || commandeForm.invalid || products().length == 0" class="btn btn-primary" (click)="submit()">
+                                <input value="soumettre" type="submit" [disabled]="!targetClient || commandeForm.invalid || products().length == 0 || totalTTC <= 0" class="btn btn-primary" (click)="submit()">
                                 <button type="reset" (click)="reset()" class="btn btn-danger ml-2">annuler</button>
                             </div>
                         </form>

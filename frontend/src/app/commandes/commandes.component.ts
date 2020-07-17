@@ -138,7 +138,7 @@ export class CommandesComponent implements OnInit {
       this.commandeToAdd.total_remise = this.totalReduction
       this.commandeToAdd.nb_produits = this.totalQte
       this.commandeToAdd.client = this.targetClient
-      this.commandeToAdd.selectedPackId = this.selectedPack.id
+      if (this.selectedPack) this.commandeToAdd.selectedPackId = this.selectedPack.id
       console.log(this.commandeToAdd.grossiteIntermediareId)
       this.comserv.add(this.commandeToAdd, this.products().value).subscribe((res) => {
         if (this.selectedPack) {
@@ -200,7 +200,11 @@ export class CommandesComponent implements OnInit {
         let produitu: Produit = this.produits.filter(x => x.id === element.produit)[0]
         const nprixu = Number(produitu.prix - (produitu.prix * (element.reduction / 100)))
         this.totalTTC += Number(nprixu * element.quantite)
+        
       });
+      if(this.commandeToAdd.remise_total_grossite >=0 && this.targetClient.type_client === 'grossiste'){
+        this.totalTTC = this.totalTTC - (this.totalTTC * (this.commandeToAdd.remise_total_grossite / 100))
+      } 
       this.totalReduction = (Number(this.totalReduction) / nbprod)
     }
 
@@ -232,6 +236,7 @@ export class CommandesComponent implements OnInit {
       this.totalQte = 0
       this.totalReduction = 0
       this.totalTTC = 0
+      this.commandeToAdd.remise_total_grossite = 0
     }
   }
 }

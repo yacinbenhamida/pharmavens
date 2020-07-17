@@ -24,7 +24,7 @@
                             <div class="col-md-6">
                                 <div class="text-muted">Commande No.</div>
                                 <strong>FC{{selectedCommande.id}}</strong>
-                                <div class="text-muted">Type : {{selectedCommande.type}} <span class="text-muted" *ngIf="selectedCommande.type === 'grossiste'"> par l'intérmediaire de {{selectedCommande.grossiste_intermediare.nom_client}}.</span></div>
+                                <div *ngIf="selectedCommande.client.type_client === 'pharmacie'" class="text-muted">Type : {{selectedCommande.type}} <span class="text-muted" *ngIf="selectedCommande.type === 'grossiste'"> par l'intérmediaire de {{selectedCommande.grossiste_intermediare.nom_client}}.</span></div>
                                 
                             </div>
                             <div class="col-md-6 text-md-right">
@@ -105,19 +105,26 @@
                                     <td>{{l.remise}} %</td>
                                     <td class="text-right">{{l.prixTTC.toFixed(3)}} TND.</td>
                                 </tr>
-                                <tr>
+                                <tr *ngIf="selectedCommande.total_remise > 0">
                                     <th>&nbsp;</th>
                                     <th>&nbsp;</th>
                                     <th>&nbsp;</th>
                                     <th>Total remise </th>
                                     <th class="text-right">{{selectedCommande.total_remise}} %</th>
-                                </tr>
+                                </tr>            
                                 <tr>
                                     <th>&nbsp;</th>
                                     <th>&nbsp;</th>
                                     <th>&nbsp;</th>
-                                    <th>Nombre de produits </th>
+                                    <th>Nombre d'unités </th>
                                     <th class="text-right">{{selectedCommande.nb_produits}}</th>
+                                </tr>
+                                <tr *ngIf="selectedCommande.client.type_client === 'grossiste' && selectedCommande.remise_total_grossite > 0">
+                                    <th>&nbsp;</th>
+                                    <th>&nbsp;</th>
+                                    <th>&nbsp;</th>
+                                    <th>Remise sur commande </th>
+                                    <th class="text-right">{{selectedCommande.remise_total_grossite}} %</th>
                                 </tr>
                                 <tr>
                                     <th>&nbsp;</th>
@@ -163,10 +170,10 @@
                                 <th>#</th>
                                 <th>Client</th>
                                 <th *ngIf="user.role == 'admin'">Délégué</th>
-                                <th>type client</th>
-                                <th>nombre produits</th>
+                                <th>Type client</th>
+                                <th>Type vente</th>
                                 <th>Date</th>
-                                <th>prix total</th>
+                                <th>Prix total</th>
                                 <th></th>
                               </tr>
                             </thead>
@@ -176,7 +183,7 @@
                                    <td>{{c.client.nom_client}}</td>
                                    <td  *ngIf="user.role == 'admin'">{{c.emetteur.nom}} {{c.emetteur.prenom}}</td>
                                    <td class="text-center"><span [ngClass]="c.client.type_client == 'grossiste'? 'badge badge-warning' : 'badge badge-info'">{{c.client.type_client}}</span></td>
-                                   <td>{{c.nb_produits}}</td>
+                                   <td>{{c.type}}</td>
                                    <td>Le {{c.createdAt | date : 'dd/MM/yyyy hh:mm'}}</td>
                                    <td>{{c.prix_total}} TND</td>
                                    <td class="text-center"><button (click)="loadInvoice(c)" class="btn btn-success btn-sm">détails</button>

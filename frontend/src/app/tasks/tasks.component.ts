@@ -34,14 +34,15 @@ export class TasksComponent implements OnInit {
       if(user){
         this.loading = true
         this.connectedUser = user
-        if(this.connectedUser.role === 'admin'){
+        if(this.connectedUser.role === 'admin' || this.connectedUser.role === 'superviseur' ){
+          setTimeout(()=>{
           this.taskserv.getAll().subscribe((task:Task[])=>{
               this.userv.getAllDeleges().subscribe((d:User[])=>{
                 this.deleges = d
                 this.tasks = task
                 this.loading = false
               })
-            })
+            })},5000)
         }else {
           setTimeout(()=>{
             this.taskserv.getTasksOfUser(user.id).subscribe((tasks : Task[])=>{

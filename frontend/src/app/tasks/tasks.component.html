@@ -2,9 +2,9 @@
     <main class="content">
         <div class="container-fluid p-0">
 
-            <button *ngIf="!showForm && connectedUser.role === 'admin'" (click)="showPanel()" class="btn btn-primary float-right mt-n1"><i
+            <button *ngIf="!showForm && (connectedUser.role === 'admin' || connectedUser.role === 'superviseur')" (click)="showPanel()" class="btn btn-primary float-right mt-n1"><i
                     class="fas fa-plus"></i> Nouvelle tache</button>
-            <button *ngIf="showForm && connectedUser.role === 'admin'" (click)="hidePanel()" class="btn btn-danger float-right mt-n1"><i
+            <button *ngIf="showForm && (connectedUser.role === 'admin' || connectedUser.role === 'superviseur')" (click)="hidePanel()" class="btn btn-danger float-right mt-n1"><i
                     class="fas fa-times"></i> Annuler</button>
             <h1 class="h3 mb-3">Taches</h1>
             <!--form-->
@@ -156,10 +156,10 @@
             </div>
             
                 <div *ngFor="let t of tasks | paginate: { itemsPerPage: 8, currentPage: p }">
-                    <div class="row" *ngIf="connectedUser.role === 'admin'">
+                    <div class="row" *ngIf="connectedUser.role === 'admin' || connectedUser.role === 'superviseur'">
                         <app-task-element (handleDeletion)="deleteIncomingTask($event)" [task]="t"></app-task-element>
                     </div>
-                    <div class="row" *ngIf="connectedUser.role !== 'admin'">
+                    <div class="row" *ngIf="connectedUser.role === 'delege'">
                         <app-task-element [task]="t.ut_tasks[0]"></app-task-element>
                     </div>
                 </div>

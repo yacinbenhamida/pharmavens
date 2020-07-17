@@ -25,6 +25,9 @@ module.exports = (sequelize, Sequelize) => {
         nb_produits : {
             type : Sequelize.DOUBLE
         },
+        remise_total_grossite : {
+            type : Sequelize.INTEGER // pour le grossiste seulement
+        },
         createdAt: {type : Sequelize.DATEONLY , default : Date.now()},
         updatedAt: {type : Sequelize.DATEONLY, default : null},
     });

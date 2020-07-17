@@ -21,6 +21,7 @@ import { ReunionsComponent } from './reunions/reunions.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { EvaluationsComponent } from './evaluations/evaluations.component';
 import { RapportsComponent } from './rapports/rapports.component';
+import { ProductsComparatorComponent } from './products-comparator/products-comparator.component';
 
 
 const routes: Routes = [
@@ -41,6 +42,8 @@ const routes: Routes = [
   {path : 'contacts', component : ContactsComponent, canActivate : [AuthGuardService]},
   {path : 'evaluations', component : EvaluationsComponent, canActivate : [AuthGuardService]},
   {path : 'rapports', component : RapportsComponent, canActivate : [AuthGuardService]},
+  {path : 'comparateur', component : ProductsComparatorComponent, canActivate : [AuthGuardService]},
+
   {path : 'login' , component : LoginComponent},
   { path: '', component: DashboardComponent, canActivate : [AuthGuardService] },
   {path : '**', redirectTo : ''}

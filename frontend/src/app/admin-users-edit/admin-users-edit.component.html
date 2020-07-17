@@ -119,6 +119,7 @@
                                             <option>CDI</option>
                                             <option>CDD</option>
                                             <option>SIVP</option>
+                                            <option>KARAMA</option>
                                             <option>autres</option>
                                         </select>
                                         <span class="msg font-11"
@@ -143,6 +144,16 @@
                                             invalides*</span>
                                     </div>
                                 </div>
+                                <div class="form-row" *ngIf="targetUser.type_contrat === 'SIVP' || targetUser.type_contrat === 'CDD'">
+                                    <div class="form-group col-md-6">
+                                        <label>date debut contrat</label>
+                                        <input type="date" [(ngModel)]="targetUser.date_debut_contrat" class="form-control" name="date_d_c"/>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>date fin contrat</label>
+                                        <input type="date" [(ngModel)]="targetUser.date_fin_contrat" class="form-control" name="date_f_c"/>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <div class="form-group custom-control custom-switch">
                                         <input [(ngModel)]="cartToEdit.vehicule_societe" name="vehicule" type="checkbox" class="custom-control-input"
@@ -152,9 +163,9 @@
                                     </div>
                                     <div *ngIf="cartToEdit">
                                         <div class="form-row">
-                                            <div class="form-group col-md-4">
+                                            <div *ngIf="cartToEdit.vehicule_societe" class="form-group col-md-4">
                                                 <label>modele</label>
-                                                <input *ngIf="cartToEdit.vehicule_societe" #modele="ngModel" [(ngModel)]="cartToEdit.modele"
+                                                <input  #modele="ngModel" [(ngModel)]="cartToEdit.modele"
                                                      name="modele"
                                                     type="text" class="form-control" placeholder="Peugeot,VW...">
                                             </div>
@@ -289,12 +300,13 @@
                                             <option selected value="Role">Role</option>
                                             <option value="admin">Administrateur</option>
                                             <option value="delege">Délegué / Animatrice</option>
+                                            <option value="superviseur">Superviseur</option>
                                         </select>
                                         <span class="msg font-11" *ngIf="role.touched && role.value === 'Role'">Role non
                                             choisit</span>
                                     </div>
                                 </div>
-
+                                
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>N° Tel personnel</label>
