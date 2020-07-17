@@ -136,4 +136,20 @@ export class PacksComponent implements OnInit {
   setPack(p){
     this.selectedPackForDelete = p
   }
+  calculPourcentage(){
+    if(this.packToadd.pourcentage_unite_gratuites_grossiste >= 0 && this.packToadd.prix_total >= 0){
+      this.packToadd.valeur_unite_gratuites_grossiste_ttc = ((this.packToadd.prix_total * (this.packToadd.pourcentage_unite_gratuites_grossiste /100)) )
+    }else{
+      this.packToadd.pourcentage_unite_gratuites_grossiste = 0
+      alert('pourcentage > 0')
+    } 
+  }
+  calculPourcentageVD(){
+    if(this.packToadd.pourcentage_unite_gratuites_vd >= 0 && this.packToadd.prix_total >= 0){
+      this.packToadd.valeur_unite_gratuites_vd_ttc = ((this.packToadd.prix_total * (this.packToadd.pourcentage_unite_gratuites_vd /100)) )
+    }else{
+      this.packToadd.pourcentage_unite_gratuites_vd = 0
+      alert('pourcentage > 0')
+    } 
+  }
 }

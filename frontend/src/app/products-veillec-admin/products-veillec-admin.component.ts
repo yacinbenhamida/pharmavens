@@ -17,8 +17,15 @@ export class ProductsVeillecAdminComponent implements OnInit {
   selectedVeille : Veille
   selectedReview : Veille // delete
   user:User = {} as User
+  resTable  = {}
   constructor(private veilleserv:VeilleService,private userservice:UserService) { }
-
+  group(xs, key) {
+    return xs.reduce(function(rv, x) {
+      (rv[x[key]] = rv[x[key]] || []).push(x);
+      return rv;
+    }, {});
+  };
+  
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -36,7 +43,7 @@ export class ProductsVeillecAdminComponent implements OnInit {
         }
       this.trigger.next()
     })
-
+      console.log(this.group(this.veilles,(v)=>v.produitCible.libelle))
       })
     }
   }

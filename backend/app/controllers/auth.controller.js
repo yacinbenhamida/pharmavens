@@ -31,7 +31,7 @@ exports.register = (req, res, next) => {
             rib_bancaire :req.body.user.rib_bancaire,
             diplome : req.body.user.diplome,
             matricule_cnss : req.body.user.matricule_cnss,
-            possede_vehicule:req.body.user.possede_vehicule,
+            vehicule_societe:req.body.user.vehicule_societe,
             password: generateHash(req.body.user.password),
             isActivated: req.body.user.isActivated,
             about : req.body.user.about,
@@ -52,17 +52,9 @@ exports.register = (req, res, next) => {
             console.log(result)
             if(result && req.body.vehicule){
               let car = req.body.vehicule
-              Vehicule.create({
-              modele: car.modele,
-              immatriculation : car.immatriculation,
-              carte_grise:  car.carte_grise,
-              date_echeance_assurance : car.date_echeance_assurance,
-              numero_carte_essence : car.numero_carte_essence,
-              code_carte_essence : car.code_carte_essence,
-              date_derniere_vidange : car.date_derniere_vidange,
-              kilometrage : car.kilometrage,
-              amortissement_vehicule : car.amortissement_vehicule
-              }).then(v => {
+              Vehicule.create(
+              car
+              ,{w:1},{returning : true}).then(v => {
                 v.setUser(result)
                 v.save()
               })
@@ -129,7 +121,6 @@ exports.editUser = (req,res) => {
           rib_bancaire :req.body.user.rib_bancaire,
           diplome : req.body.user.diplome,
           matricule_cnss : req.body.user.matricule_cnss,
-          possede_vehicule:req.body.user.possede_vehicule,
           password: req.body.user.password?generateHash(req.body.user.password) : user.password,
           isActivated: req.body.user.isActivated,
           about : req.body.user.about,
@@ -148,39 +139,20 @@ exports.editUser = (req,res) => {
         .then((result) => {
           if(result && req.body.user.vehicule){
             let car = req.body.user.vehicule
-            if(req.body.user.possede_vehicule){
-            console.log(result)
             Vehicule.update({
-            modele: car.modele,
-            immatriculation : car.immatriculation,
-            carte_grise:  car.carte_grise,
-            date_echeance_assurance : car.date_echeance_assurance,
-            numero_carte_essence : car.numero_carte_essence,
-            code_carte_essence : car.code_carte_essence,
-            date_derniere_vidange : car.date_derniere_vidange ,
-            kilometrage : car.kilometrage,
-            amortissement_vehicule : car.amortissement_vehicule
+              modele: car.modele,
+              vehicule_societe:car.vehicule_societe,
+              immatriculation : car.immatriculation,
+              carte_grise:  car.carte_grise,
+              date_echeance_assurance : car.date_echeance_assurance,
+              numero_carte_essence : car.numero_carte_essence,
+              code_carte_essence : car.code_carte_essence,
+              date_derniere_vidange : car.date_derniere_vidange ,
+              kilometrage : car.kilometrage,
+              amortissement_vehicule : car.amortissement_vehicule
             },{ where : {userId : user.id}}).then(v => {
               console.log('user car updated in db');
-            })
-            }
-            else{
-              Vehicule.create({
-                modele: car.modele,
-                immatriculation : car.immatriculation,
-                carte_grise:  car.carte_grise,
-                date_echeance_assurance : car.date_echeance_assurance,
-                numero_carte_essence : car.numero_carte_essence,
-                code_carte_essence : car.code_carte_essence,
-                date_derniere_vidange : car.date_derniere_vidange,
-                kilometrage : car.kilometrage,
-                amortissement_vehicule : car.amortissement_vehicule
-                }).then(v => {
-                  v.setUser(result)
-                  v.save()
-                  console.log('user car added in db');
-                })
-            }        
+            })          
           }
           console.log('user updated in db');
           res.status(200).send({ message: 'user updated' });

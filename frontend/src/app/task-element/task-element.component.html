@@ -1,5 +1,5 @@
 
-        <div class="card">
+      <div class="card mr-3 ml-3">
             <div class="card-header">
                 <div class="card-actions float-right">
                     <div class="float-right mr-n2">
@@ -10,7 +10,7 @@
                     </div>
                 </div>
                 <h5 class="card-title">{{task.nom_tache}}</h5>
-                <h6 class="card-subtitle badge badge-white">date d'échéance : {{task.date_echance}} <br/> rappel : {{task.date_rappel}} <br>
+                <h6 class="card-subtitle badge badge-white">date d'échéance : {{task.date_echance | date : 'dd/MM/yyyy'}} <br/> rappel : {{task.date_rappel | date : 'dd/MM/yyyy'}} <br>
                </h6> <br/>
                
             </div>
@@ -36,4 +36,3 @@
         </div>
             </div>
         </div>
-

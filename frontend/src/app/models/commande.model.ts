@@ -9,6 +9,8 @@ export interface Commande{
     client : Client
     emetteur : User
     nb_produits : number
+    selectedPackId : number
+    grossiteIntermediareId : number
     createdAt:Date
     updatedAt: Date
 }

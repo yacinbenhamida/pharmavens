@@ -3,12 +3,13 @@ const CommandeProduit = require('../models').commandeproduits
 const Produit = require('../models').produits
 const Client = require('../models').clients
 const User = require('../models').users
-
+const Pack = require('../models').packs
 exports.addCommande = (req,res) => {
     const commande = req.body.commande
     const produits = req.body.produits
     const emetteur = req.body.emetteur
-    if(commande && produits){
+    if(commande && produits && emetteur){
+        commande.nb_produits = produits.length
         Commande.create(commande, {w: 1}, { returning: true }).then(cmd=>{
         if(cmd){
             // finding the user
@@ -26,10 +27,12 @@ exports.addCommande = (req,res) => {
                 cmd.save()
             })
             }
+            
             produits.forEach(element => {
                 Produit.findOne({where : {id : element.produit}}).then(prod=>{
                     if(prod){
                         let pttc = 0
+                        
                         if(element.reduction){
                             pttc = ((prod.prix) - (prod.prix*(element.reduction/100)))* element.quantite
                         }
@@ -48,10 +51,11 @@ exports.addCommande = (req,res) => {
                         Produit.increment('times_sold', { by: 1, where: { id: prod.id }}).then(r=>{
                             console.log({message : 'incremented successfuly'})
                         })
-                        return res.send({message : 'added succ'})
+                       
                     } 
                 })
             });
+            return res.status(200).send({message : 'added commande succefully'})
         }
     })
     }
@@ -59,7 +63,7 @@ exports.addCommande = (req,res) => {
     
 }
 exports.getAllCommandes = (req,res) => {
-    Commande.findAll({include: ['client','emetteur']}).then(result=>{
+    Commande.findAll({include: ['client','emetteur','pack_choisit','grossiste_intermediare']}).then(result=>{
         res.send(result)
     })
 }

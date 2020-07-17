@@ -14,6 +14,7 @@ export interface Veille {
     posologie :string,
     commentaires :string,
     produit : Produit
+    produitCible:Produit
     analyseur : User
     createdAt: Date
     updatedAt: Date

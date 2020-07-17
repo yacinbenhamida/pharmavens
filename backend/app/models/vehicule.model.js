@@ -36,6 +36,9 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             defaultValue : 0
         },  
+        date_vignette : {
+            type : Sequelize.DATEONLY
+        },
         createdAt: {type : Sequelize.DATE , default : Date.now()},
         updatedAt: {type : Sequelize.DATE, default : null},
     });

@@ -134,7 +134,7 @@
                             <th>Produit farmavans</th>
                             <th>Concurrent</th>
                             <th>Laboratoire</th>
-                            <th>Prix</th>
+                            <th>Date</th>
                             <th *ngIf="user.role =='admin'">Délégué</th>
                             <th></th>
                         </tr>
@@ -142,14 +142,14 @@
                     <tbody>
                         <tr *ngFor="let g of veilles">
                             <td>
-                                <img [src]="g.produitCible.image_url" width="48" height="48" class="rounded-circle mr-2" >  
+                                <img [src]="g.produitCible.image_url" width="24" height="24" class="rounded-circle mr-2" >  
                             {{g.produitCible.libelle}}</td>
                             <td>{{g.lib_prod}}</td>
                             <td>{{g.labo}}</td>
-                            <td>{{g.prix}} TND.</td>
+                            <td>{{g.createdAt | date : 'dd/MM/yyyy hh:mm'}}</td>
                             <td *ngIf="user.role =='admin'">{{g.analyseur? g.analyseur.nom+' '+g.analyseur.prenom : ''}}</td>
-                        <td class="text-center"><button (click)="showDetails(g)" class="btn btn-pill btn-primary">details</button>
-                                    <button class="btn btn-pill btn-danger ml-2" data-toggle="modal" (click)="selectedReview = g"
+                        <td class="text-center"><button (click)="showDetails(g)" class="btn btn-pill btn-primary btn-sm">details</button>
+                                    <button class="btn btn-pill btn-danger btn-sm ml-2 " data-toggle="modal" (click)="selectedReview = g"
                                 data-target="#sizedModalSm"><i class="fas fa-times"></i></button>
 
                         </tr>

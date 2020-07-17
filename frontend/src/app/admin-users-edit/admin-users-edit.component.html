@@ -145,50 +145,53 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="form-group custom-control custom-switch">
-                                        <input #vehicule="ngModel" [(ngModel)]="targetUser.possede_vehicule"
-                                            name="vehicule" type="checkbox" class="custom-control-input"
-                                            id="customSwitch3">
-                                        <label for="customSwitch3"
-                                            class="custom-control-label">{{vehicule.value == true ? 'posséde une voiture' : 'ne posséde pas de voiture'}}
+                                        <input [(ngModel)]="cartToEdit.vehicule_societe" name="vehicule" type="checkbox" class="custom-control-input"
+                                            id="customSwitch2">
+                                        <label for="customSwitch2" class="custom-control-label">Vehicule farmavans
                                         </label>
                                     </div>
-                                    <div *ngIf="vehicule.value == true && cartToEdit">
+                                    <div *ngIf="cartToEdit">
                                         <div class="form-row">
                                             <div class="form-group col-md-4">
                                                 <label>modele</label>
-                                                <input #modele="ngModel" [(ngModel)]="cartToEdit.modele"
-                                                    required="targetUser.possede_vehicule == true" name="modele"
+                                                <input *ngIf="cartToEdit.vehicule_societe" #modele="ngModel" [(ngModel)]="cartToEdit.modele"
+                                                     name="modele"
                                                     type="text" class="form-control" placeholder="Peugeot,VW...">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>amortissement</label>
-                                                <input #amortissement="ngModel"
+                                                <input  #amortissement="ngModel"
                                                     [(ngModel)]="cartToEdit.amortissement_vehicule"
-                                                    required="targetUser.possede_vehicule == true" min="1"
+                                                     min="1"
                                                     name="amortissementTND" type="number" class="form-control"
                                                     placeholder="valeur en TND.">
                                             </div>
-                                            <div class="form-group col-md-4">
+                                            <div *ngIf="cartToEdit.vehicule_societe" class="form-group col-md-4">
                                                 <label>kilométrage</label>
                                                 <input [(ngModel)]="cartToEdit.kilometrage" name="km"
-                                                    required="targetUser.possede_vehicule == true" minlength="1"
+                                                     minlength="1"
                                                     type="number" placeholder="km." class="form-control">
                                             </div>
                                         </div>
-                                        <div class="form-row">
+                                        <div *ngIf="cartToEdit.vehicule_societe" class="form-row">
                                             <div class="form-group col-md-4">
                                                 <label>immatriculation</label>
                                                 <input name="carm" maxlength="9"
                                                     [(ngModel)]="cartToEdit.immatriculation" minlength="8" type="text"
                                                     class="form-control" placeholder="XXXTUXXXX">
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-3">
                                                 <label>n° carte grise</label>
                                                 <input name="cg" [(ngModel)]="cartToEdit.carte_grise" minlength="1"
                                                     type="text" class="form-control" placeholder="XQKLMCODSDS...">
                                             </div>
+                                            <div class="form-group col-md-5">
+                                                <label>Date vignette</label>
+                                                <input name="dv"  [(ngModel)]="cartToEdit.date_vignette" minlength="1"
+                                                    type="date" class="form-control" placeholder="XQKLMCODSDS...">
+                                            </div>
                                         </div>
-                                        <div class="form-row">
+                                        <div *ngIf="cartToEdit.vehicule_societe" class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label>date échénace assurance</label>
                                                 <input name="assurc" [(ngModel)]="cartToEdit.date_echeance_assurance"
@@ -201,7 +204,7 @@
                                                     type="date" class="form-control">
                                             </div>
                                         </div>
-                                        <div class="form-row">
+                                        <div *ngIf="cartToEdit.vehicule_societe" class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label>numero carte essence</label>
                                                 <input name="numero_carte_essence"
@@ -215,6 +218,7 @@
                                                     type="password" class="form-control" placeholder="*****">
                                             </div>
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>

@@ -54,6 +54,9 @@ db.notifications.belongsTo(db.users , {as : 'reciever' , foreignKey : 'recieverI
 db.notifications.belongsTo(db.task , {as : 'subject', foreignKey : 'taskId'})
 db.evaluations.belongsTo(db.users , {as : 'delegue_evaluee', foreignKey : 'idDelegue'})
 db.rapports.belongsTo(db.users , {as : 'rapporteur', foreignKey : 'ownerId'})
+db.commandes.belongsTo(db.packs , {as : 'pack_choisit', foreignKey : 'selectedPackId'})
+db.commandes.belongsTo(db.clients , {as : 'grossiste_intermediare', foreignKey : 'grossiteIntermediareId' , unique : false})
+
 // join tbl commande produit
 db.produits.belongsToMany(db.commandes,{
     through: 'commandeProduit',
@@ -65,6 +68,7 @@ db.commandes.belongsToMany(db.produits,{
   otherKey: 'idproduit',
   foreignKey: 'idcommande'
 })
+
 db.commandeproduits.belongsToMany(db.produits, {
   through: 'commandeProduit',
   as: 'produits',

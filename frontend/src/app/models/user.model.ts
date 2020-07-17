@@ -12,7 +12,6 @@ export interface User{
     rib_bancaire :string
     diplome : string
     matricule_cnss : string
-    possede_vehicule:boolean
     vehicule : Vehicule
     imageUrl : string
     email:string

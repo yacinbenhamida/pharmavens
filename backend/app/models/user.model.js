@@ -36,7 +36,7 @@ module.exports = (sequelize, Sequelize) => {
         matricule_cnss : {
             type: Sequelize.STRING
         },
-        possede_vehicule:{
+        vehicule_societe:{
             type : Sequelize.BOOLEAN,
             defaultValue : false
         },

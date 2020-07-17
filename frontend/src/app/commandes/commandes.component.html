@@ -10,7 +10,8 @@
                     <div class="card flex-fill">
                         <div class="card-header">
                             <h5 class="card-title">Choix du client</h5>
-                            <h6 class="card-subtitle text-muted">client acheteur</h6>
+
+                            <h3 class="text-muted float-right"><span class="badge badge-success"><i class="align-middle mr-2 fas fa-fw fa-calendar-alt"></i>{{today | date :'dd/MM/yyyy hh:mm:ss'}}</span></h3>
                         </div>
                         <div class="card-body">
                             <div class="mb-3">
@@ -29,8 +30,15 @@
                                 <label>type de vente</label>
                                 <select [required]="targetClient.type_client == 'pharmacie'" [(ngModel)]="commandeToAdd.type" class="form-control select2"  name="typev" data-toggle="select2">
                                     <option selected disabled value="0">Veuillez Selectionner un type de vente</option>
-                                    <option value="grossiste">vente directe</option>
-                                    <option value="direct">vente grossiste</option>
+                                    <option value="direct">vente directe</option>
+                                    <option value="grossiste">vente grossiste</option>
+                                </select>
+                            </div>
+                            <div class="mb-3" *ngIf="targetClient && targetClient.type_client == 'pharmacie' && commandeToAdd.type == 'grossiste'">
+                                <label>Choisir un grossiste intermediare</label>
+                                <select  [(ngModel)]="commandeToAdd.grossiteIntermediareId"  class="form-control select2"  name="grossisteinterm">
+                                    <option selected disabled value="0">Veuillez Selectionner un grossiste intermediare</option>
+                                    <option *ngFor="let g of grossistes" [ngValue]="g.id">{{g.nom_client}}</option>
                                 </select>
                             </div>
                             <div class="mb-3" *ngIf="targetClient && targetClient.type_client == 'pharmacie' && commandeToAdd.type">
@@ -49,7 +57,12 @@
                 <div class="col-12 col-lg-12 col-xxl-6 d-flex" *ngIf="targetClient">
                     <div class="card flex-fill">
                         <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-12">
                             <h5 class="card-title">Détails de la commande</h5><button class="btn btn-primary" (click)="addProduct()">Ajouter produit</button>
+                            <h1 class="text-muted float-right" *ngIf="isPanache && prixpanacheActuel >= 0">SOLDE : {{ (selectedPack.prix_total - prixpanacheActuel).toFixed(2)}} TND.</h1>
+                        </div>
+                        </div>
                         </div>
                         <div class="card-body">
                             <form [formGroup]="commandeForm" >
@@ -58,7 +71,7 @@
                                 <div class="col-12 col-xl-5">
                                     <div class="form-group">
                                         <label>produit</label>
-                                    <select (change)="red.value && qte.value ? pttc.value = calculRed(selectedp.value,qte.value,red.value):return" formControlName="produit" #selectedp class="form-control select2" name="product">
+                                    <select (change)="calculRed(i,pttc)" formControlName="produit" #selectedp class="form-control select2" name="product">
                                         <option *ngFor="let p of produits" [ngValue]="p.id"> {{p.libelle}} BTE {{p.nb_gellules}} PU : {{p.prix}}</option>
                                     </select>
                                     </div>
@@ -67,18 +80,19 @@
                                 <div class="col-6 col-xl-2">
                                     <div class="form-group">
                                         <label class="form-label">quantité</label>
-                                        <input formControlName="quantite" #qte (change)="red.value && qte.value ? pttc.value = calculRed(selectedp.value,qte.value,red.value):return"  class="form-control" type="number" name="qte" />
+                                        <input formControlName="quantite" #qte (change)="calculRed(i,pttc)"  class="form-control" type="number" name="qte" />
                                     </div>
                                 </div>
                                 <div class="col-6 col-xl-2">
-                                    <div class="form-group">
+                                    <div class="form-group" >
                                         <label class="form-label">remise (%)</label>
-                                        <input formControlName="reduction" (change)="red.value && qte.value ? pttc.value = calculRed(selectedp.value,qte.value,red.value):return" #red class="form-control" type="number" placeholder="%" name="reduction" />
+                                        <input formControlName="reduction" (change)="calculRed(i,pttc)"
+                                         #red class="form-control" type="number" placeholder="%" name="reduction" />
                                     </div>
                                 </div>
                                 <div class="col-6 col-xl-2">
                                     <div class="form-group">
-                                        <label class="form-label">total TTC</label>
+                                        <label class="form-label">total</label>
                                         <input formControlName="prixTTC" #pttc class="form-control" type="number" name="prixTTC" />
                                     </div>
                                 </div>
@@ -94,7 +108,7 @@
                                 && totalTTC >= 0">
                                 <div class="col-0 col-xl-6">
                                     <div class="form-group">
-                                        <span *ngIf="selectedPack">*Prix fixé selon le prix du pack choisit</span>
+                                        <span *ngIf="selectedPack"> <i class="fas fa-fw fa-angle-right"></i> Prix fixé selon le prix du pack choisit <strong *ngIf="isPanache && prixpanacheActuel >= 0">il vous reste {{selectedPack.prix_total - prixpanacheActuel}} TND.</strong></span>
                                     </div>
                                 </div>
 
@@ -110,15 +124,18 @@
                                 </div>
                                 <div class="col-4 col-xl-2">
                                     <div class="form-group">
-                                        <label class="form-label">total TTC : {{totalTTC}} TND</label>
+                                        <label class="form-label">total : {{totalTTC.toFixed(2)}} TND</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="row" *ngIf="estimations && totalQte >= 0 && totalReduction >=0 && totalTTC >= 0 && selectedPack && selectedPack.valeur_bon_achat">
                                 <div class="col-0 col-xl-6">
                                     <div class="form-group">
-                                        <span *ngIf="selectedPack && selectedPack.valeur_bon_achat">* BON D'ACHAT DE VALEUR : {{selectedPack.valeur_bon_achat}} TND.</span> <br/>
-                                        <span *ngIf="selectedPack && selectedPack.description">* Remarques : {{selectedPack.description}}</span>
+                                        <ul>
+                                            <li *ngIf="selectedPack && selectedPack.valeur_bon_achat">BON D'ACHAT DE VALEUR : {{selectedPack.valeur_bon_achat}} TND.</li>
+                                            <li *ngIf="selectedPack && selectedPack.description">Remarques : {{selectedPack.description}}</li>
+                                        </ul>
+                                     
                                     </div>
                                 </div>
                             </div>

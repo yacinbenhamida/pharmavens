@@ -155,7 +155,7 @@
                 </div>
             </div>
             
-                <div class="col-12 col-lg-6 col-xl-3" *ngFor="let t of tasks | paginate: { itemsPerPage: 8, currentPage: p }">
+                <div *ngFor="let t of tasks | paginate: { itemsPerPage: 8, currentPage: p }">
                     <div class="row" *ngIf="connectedUser.role === 'admin'">
                         <app-task-element (handleDeletion)="deleteIncomingTask($event)" [task]="t"></app-task-element>
                     </div>

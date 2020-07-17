@@ -11,6 +11,7 @@
                             <button class="btn btn-danger" (click)="detailsCommande = []" id="x" *ngIf="isPrinting == false">X</button>
                         </div>
                         <div class="mb-4">
+                           <div class="mb-2"><img src="assets/img/logo23.png" /></div> 
                            <span *ngIf="selectedCommande.client.type_client == 'pharmacie'">Facture au compte de la pharmacie <strong>{{selectedCommande.client.nom_client}}</strong></span>
                            <span *ngIf="selectedCommande.client.type_client == 'grossiste'">Facture au compte du grossiste <strong>{{selectedCommande.client.nom_client}}</strong></span>
 
@@ -23,10 +24,13 @@
                             <div class="col-md-6">
                                 <div class="text-muted">Commande No.</div>
                                 <strong>FC{{selectedCommande.id}}</strong>
+                                <div class="text-muted">Type : {{selectedCommande.type}} <span class="text-muted" *ngIf="selectedCommande.type === 'grossiste'"> par l'intérmediaire de {{selectedCommande.grossiste_intermediare.nom_client}}.</span></div>
+                                
                             </div>
                             <div class="col-md-6 text-md-right">
                                 <div class="text-muted">Date d'emission</div>
                                 <strong>{{selectedCommande.createdAt}}</strong>
+                                <div class="text-muted">{{selectedCommande.emetteur.nom}} {{selectedCommande.emetteur.prenom}}</div>
                             </div>
                         </div>
 
@@ -40,7 +44,7 @@
                                 </strong>
                                 <p>
                                     {{selectedCommande.client.addresse}} <br>
-                                    <a href="#">
+                                    <a>
                                         {{selectedCommande.client.Localite}}
                                     </a>
                                 </p>
@@ -61,7 +65,28 @@
                                 </p>
                             </div>
                         </div>
-
+                        <table class="table table-sm" *ngIf="selectedCommande.pack_choisit">
+                            <thead>
+                                <tr>
+                                    <th>Nom pack</th>
+                                    <th class="text-right">Prix pack</th>
+                                </tr>
+                               
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{selectedCommande.pack_choisit.nom_pack}}</td>
+                                    <td class="text-right">{{selectedCommande.pack_choisit.prix_total}} TND.</td>
+                                </tr>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th class="text-right">Gratuites : Bon D'achat de {{selectedCommande.pack_choisit.valeur_bon_achat}}TND.</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="text-right">Modalités : {{selectedCommande.pack_choisit.description}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <table class="table table-sm">
                             <thead>
                                 <tr>
@@ -69,7 +94,7 @@
                                     <th>Prix unitaire</th>
                                     <th>Quantité</th>
                                     <th>Reduction</th>
-                                    <th class="text-right">Prix TTC</th>
+                                    <th class="text-right">Prix total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -152,7 +177,7 @@
                                    <td  *ngIf="user.role == 'admin'">{{c.emetteur.nom}} {{c.emetteur.prenom}}</td>
                                    <td class="text-center"><span [ngClass]="c.client.type_client == 'grossiste'? 'badge badge-warning' : 'badge badge-info'">{{c.client.type_client}}</span></td>
                                    <td>{{c.nb_produits}}</td>
-                                   <td>Le {{c.createdAt | date : 'short'}}</td>
+                                   <td>Le {{c.createdAt | date : 'dd/MM/yyyy hh:mm'}}</td>
                                    <td>{{c.prix_total}} TND</td>
                                    <td class="text-center"><button (click)="loadInvoice(c)" class="btn btn-success btn-sm">détails</button>
                                     <button (click)="deletableInvoice = c" data-toggle="modal" data-target="#sizedModalSm" class="btn btn-danger  btn-sm ml-2">X</button></td>

@@ -38,45 +38,50 @@
                                     </div>
                                     <div *ngIf="packToadd && packToadd.type_pack == 'panache'">
                                         <strong>Pack panaché</strong>
+                                        <form #form1="ngForm">
                                         <div class="form-row mt-2">
                                             <div class="form-group col-md-6">
                                                 <label>intitulé du pack</label>
-                                                <input [(ngModel)]="packToadd.nom_pack" class="form-control"
+                                                <input #name="ngModel" minlength="5" required [(ngModel)]="packToadd.nom_pack" class="form-control"
                                                     type="text" placeholder="pack panaché 1" name="nom_pack" />
+                                                    <span class="msg font-11" *ngIf="name.touched && name.errors">nom
+                                                        invalide*</span>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>prix pack</label>
-                                                <input [(ngModel)]="packToadd.prix_total" class="form-control"
+                                                <input #prixp="ngModel" required [(ngModel)]="packToadd.prix_total" class="form-control"
                                                     type="number" placeholder="TND." name="prix_pack" />
+                                                    <span class="msg font-11" *ngIf="prixp.touched && prixp.errors">prix
+                                                        invalide*</span>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>pourcentage unité gratuite</label>
-                                                <input [(ngModel)]="packToadd.pourcentage_unite_gratuites_grossiste"
+                                                <input (change)="calculPourcentage()" required [(ngModel)]="packToadd.pourcentage_unite_gratuites_grossiste"
                                                     class="form-control" type="number" placeholder="%" name="p_vg" />
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Valeur unité gratuite TTC</label>
-                                                <input [(ngModel)]="packToadd.valeur_unite_gratuites_grossiste_ttc"
+                                                <input min="1" required disabled [(ngModel)]="packToadd.valeur_unite_gratuites_grossiste_ttc"
                                                     class="form-control" type="number" placeholder="TND."
                                                     name="p_v_ttc" />
+                                                    
+                                                    
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>pourcentage unité gratuite (VD)</label>
-                                                <input [(ngModel)]="packToadd.pourcentage_unite_gratuites_vd"
+                                                <input #prixvd="ngModel" (change)="calculPourcentageVD()" required  [(ngModel)]="packToadd.pourcentage_unite_gratuites_vd"
                                                     class="form-control" type="number" placeholder="%" name="p_vd" />
+                                                    <span class="msg font-11" *ngIf="prixvd.touched && prixvd.errors">prix
+                                                        invalide*</span>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Valeur unité gratuite TTC(VD)</label>
-                                                <input [(ngModel)]="packToadd.valeur_unite_gratuites_vd"
+                                                <input required disabled [(ngModel)]="packToadd.valeur_unite_gratuites_vd_ttc"
                                                     class="form-control" type="number" placeholder="TND."
                                                     name="p_vd_ttc" />
                                             </div>
-                                            <div class="form-group col-md-12">
-                                                <label>valeur bon d'achat</label>
-                                                <input [(ngModel)]="packToadd.valeur_bon_achat" class="form-control"
-                                                    type="number" placeholder="TND." name="bon_achat" />
-                                            </div>
                                         </div>
+                                    </form>
                                     </div>
                                     <div *ngIf="packToadd && packToadd.type_pack == 'normal'">
                                         <strong>pack normal</strong> &nbsp;
@@ -135,9 +140,11 @@
                                     </div>
                                 </form>
                                     </div>
-                                    <div class="form-group" *ngIf="packToadd.nom_pack">
+                                    <div class="form-group">
                                         <label>Valeur bon d'achat</label>
-                                        <input type="number"  placeholder="TND." [(ngModel)]="packToadd.valeur_bon_achat" name="bon_achat" class="form-control">
+                                        <input type="number" #bachat="ngModel"  placeholder="TND." [(ngModel)]="packToadd.valeur_bon_achat" name="bon_achat" class="form-control">
+                                        <span class="msg font-11" *ngIf="bachat.touched && bachat.errors">bon d'achat
+                                            invalide*</span>  
                                     </div>
                                     <div class="form-group" *ngIf="packToadd.nom_pack">
                                         <label>Autres Remarques</label>
@@ -145,7 +152,7 @@
                                     </div>
                                     <div class="form-row mt-3 float-right ">
                                         <div>
-                                            <button type="submit" [disabled]="grForm.invalid" (click)="submit(grForm)"
+                                            <button type="submit" [disabled]="grForm.invalid || form1.invalid" (click)="submit(grForm)"
                                                 class="btn btn-primary btn-lg ">Enregistrer</button>
                                             <button type="reset"
                                                 class="btn btn-danger btn-lg ml-2">Réinitialiser</button>
@@ -183,8 +190,8 @@
                                     <td><span class="badge badge-pill badge-danger" *ngIf="p.type_pack == 'panache'">{{p.type_pack}}</span> <span class="badge badge-pill badge-info" *ngIf="p.type_pack == 'normal'">{{p.type_pack}}</span></td>
                                     <td>{{p.prix_total ? p.prix_total.toFixed(2) : 0}} TND.</td>
                                     <td>{{p.times_sold}} unités</td>
-                                    <td class="text-center"><button (click)="showPackDetails(p)" class="btn btn-success">Details</button>
-                                    <button (click)="setPack(p)" data-target="#sizedModalSm" class="btn btn-danger ml-2" data-toggle="modal">X</button></td>
+                                    <td class="text-center"><button (click)="showPackDetails(p)" class="btn btn-success btn-sm">Details</button>
+                                    <button (click)="setPack(p)" data-target="#sizedModalSm" class="btn btn-danger btn-sm ml-2" data-toggle="modal">X</button></td>
                                 </tr>
                             </tbody>
                         </table>
