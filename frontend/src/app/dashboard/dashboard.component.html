@@ -1,7 +1,7 @@
 <div class="main">
-    
+
     <main class="content">
-      
+
         <div class="container-fluid p-0">
 
             <div class="row mb-2 mb-xl-3">
@@ -20,126 +20,144 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xl-12 col-xxl-5 d-flex">
-                    <div class="w-100">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col mt-0">
-                                                <h5 class="card-title">Produits vendus</h5>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <div class="avatar">
-                                                    <div class="avatar-title rounded-circle bg-primary-light">
-                                                        <i class="align-middle" data-feather="truck"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <h1 class="display-5 mt-1 mb-3">{{stats.nbprod}}</h1>
-                                    </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col mt-0">
+                                    <h5 class="card-title">Ventes {{year | date : 'yyyy'}}</h5>
                                 </div>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col mt-0">
-                                                <h5 class="card-title">Utilisateurs</h5>
-                                            </div>
 
-                                            <div class="col-auto">
-                                                <div class="avatar">
-                                                    <div class="avatar-title rounded-circle bg-primary-light">
-                                                        <i class="align-middle" data-feather="users"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div class="col-auto">
+                                    <div class="avatar">
+                                        <div class="avatar-title rounded-circle bg-primary-light">
+                                            <i class="align-middle" data-feather="dollar-sign"></i>
                                         </div>
-                                        <h1 class="display-5 mt-1 mb-3">{{stats.users}}</h1>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col mt-0">
-                                                <h5 class="card-title">Analyses</h5>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <div class="avatar">
-                                                    <div class="avatar-title rounded-circle bg-primary-light">
-                                                        <i class="align-middle" data-feather="shopping-cart"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <h1 class="display-5 mt-1 mb-3">{{stats.rapports}}</h1>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col mt-0">
-                                                <h5 class="card-title">Packs vendus</h5>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <div class="avatar">
-                                                    <div class="avatar-title rounded-circle bg-primary-light">
-                                                        <i class="align-middle" data-feather="dollar-sign"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <h1 class="display-5 mt-1 mb-3">{{stats.nbpacks}}</h1>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col mt-0">
-                                                <h5 class="card-title">Commandes</h5>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <div class="avatar">
-                                                    <div class="avatar-title rounded-circle bg-primary-light">
-                                                        <i class="align-middle" data-feather="shopping-cart"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <h1 class="display-5 mt-1 mb-3">{{stats.cmd}}</h1>
-                                    </div>
-                                </div>
-                            
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col mt-0">
-                                                <h5 class="card-title">Taches</h5>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <div class="avatar">
-                                                    <div class="avatar-title rounded-circle bg-primary-light">
-                                                        <i class="align-middle" data-feather="shopping-cart"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <h1 class="display-5 mt-1 mb-3">{{stats.tasks}}</h1>
-                                    </div>
-                                </div>
+                            <h1 class="display-5 mt-1 mb-3" *ngIf="stats.income">{{stats.income.sum}} TND</h1>
+                            <div class="mb-0">
+                                <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 3.65% </span>
+                                <span class="text-muted">Since last week</span>
                             </div>
-                        </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col mt-0">
+                                    <h5 class="card-title">Commandes</h5>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="avatar">
+                                        <div class="avatar-title rounded-circle bg-primary-light">
+                                            <i class="align-middle" data-feather="shopping-bag"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h1 class="display-5 mt-1 mb-3">{{stats.cmd}}</h1>
+                            <div class="mb-0">
+                                <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -5.25% </span>
+                                <span class="text-muted">Since last week</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col mt-0">
+                                    <h5 class="card-title">Rapports</h5>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="avatar">
+                                        <div class="avatar-title rounded-circle bg-primary-light">
+                                            <i class="align-middle" data-feather="activity"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h1 class="display-5 mt-1 mb-3">{{stats.rapports}}</h1>
+                            <div class="mb-0">
+                                <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 4.65% </span>
+                                <span class="text-muted">Since last week</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col mt-0">
+                                    <h5 class="card-title">Ventes cette semaine</h5>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="avatar">
+                                        <div class="avatar-title rounded-circle bg-primary-light">
+                                            <i class="align-middle" data-feather="shopping-cart"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h1 class="display-5 mt-1 mb-3" *ngIf="stats.weeklyIncome >=0">{{stats.weeklyIncome}} TND</h1>
+                            <div class="mb-0">
+                                <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -2.35% </span>
+                                <span class="text-muted">Since last week</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-8 d-flex">
+                    <div class="card flex-fill w-100">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Revenues par mois</h5>
+                        </div>
+                        <div class="card-body py-3">
+                            <div class="chart chart-md">
+                                <div *ngIf="lineChartData.length > 0 && lineChartLabels.length > 0" style="display: block;">
+                                    <canvas baseChart width="400" height="400"
+                                    [datasets]="lineChartData"
+                                    [labels]="lineChartLabels"     
+                                    [options]="lineChartOptions" 
+                                    [colors]="lineChartColors"  
+                                    [legend]="true"                   
+                                    [chartType]="'line'" ></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4 d-flex">
+                    <div class="card flex-fill w-100">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Ventes par délégué</h5>
+                        </div>
+                        <div class="card-body px-4">
+                            <div *ngIf="lineChartData.length > 0 && lineChartLabels.length > 0" style="display: block;">
+                                <canvas baseChart width="400" height="400"
+                                [datasets]="barChartData"
+                                [labels]="barChartLabels"     
+                                [options]="lineChartOptions" 
+                                [colors]="barChartColors"  
+                                [legend]="true"                   
+                                [chartType]="'bar'" ></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 </div>

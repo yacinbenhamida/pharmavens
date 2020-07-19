@@ -26,33 +26,37 @@ export class PacksComponent implements OnInit {
   selectedPack : Pack
   PPOfselectedPack : PackProduit [] = []
   selectedPackForDelete : Pack
-  user:User
+  user:User = {} as User
+  initialLoder : boolean
   constructor(private fb:FormBuilder, private produitserv: ProductService,private packserv:PackService,
    private userv:UserService) {
     this.packForm = this.fb.group({
       products: this.fb.array([]) ,
     });
-    this.produitserv.getAll().subscribe((resl:Produit[])=>{
-      this.produits = resl
-      packserv.getAll().subscribe((packs:Pack[])=>{
-        userv.getCurrentUser().subscribe((u:User)=>{
-          this.user = u
-          this.listPacks = packs
-          this.trigger.next()
-        })
-       
-      })
-    })
+    
    }
 
   ngOnInit() {
     this.packToadd.prix_total = 0
+    this.initialLoder = true
     this.options = {
       pagingType: 'full_numbers',
       pageLength: 5,  
       processing: true,
       responsive : true
     };
+    this.produitserv.getAll().subscribe((resl:Produit[])=>{
+      this.produits = resl
+      this.packserv.getAll().subscribe((packs:Pack[])=>{
+        this.userv.getCurrentUser().subscribe((u:User)=>{
+          this.user = u
+          
+        })
+        this.listPacks = packs
+        this.initialLoder = false
+        this.trigger.next()
+      })
+    })
   }
   showPanel(){
     this.showForm = true

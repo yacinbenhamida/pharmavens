@@ -11,10 +11,12 @@ import { UserService } from '../services/user.service';
 export class NavbarComponent implements OnInit {
 
   user : User = {} as User
+  today : Date = new Date()
   constructor(private router: Router, private userv:UserService) {
    
    }
   ngOnInit() {
+    this.tick()
     if(this.userv.getCurrentUser()){
       this.userv.getCurrentUser().subscribe((res:any)=>{
       this.user.nom = res.nom
@@ -22,6 +24,9 @@ export class NavbarComponent implements OnInit {
       this.user.role = res.role
     })
   }
+  }
+  tick(){
+    setInterval(()=>this.today = new Date(),1000)
   }
   isActiveTab(input){
     if(this.router.url === input || this.router.url.endsWith(input)) return 'sidebar-item active'

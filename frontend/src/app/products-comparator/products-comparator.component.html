@@ -4,7 +4,7 @@
 
         <h1 class="h3 mb-3">Comparateur de produits</h1>
     <div class="row">
-<div class="col-12 col-lg-12 col-xxl-6 d-flex">
+<div class="col-12">
     <div class="card flex-fill">
         <div class="card-header">
             <h5 class="card-title">Comparaison entre les produits farmavans et la concurrence</h5>
@@ -32,8 +32,10 @@
         </div>
     </div>
 </div>
-<div class="row" *ngIf="myProduct">
-    <div class="col-4" >
+<div class="col-12 col-lg-12 col-xxl-6 d-flex">
+    
+<div class="row ml-1" *ngIf="myProduct">
+    <div [ngClass]="veilles.length > 0 ? col-md-4 :col-md-12" >
         <div class="card">
             <div class="card-header">
             <div class="media float-right">
@@ -126,15 +128,20 @@
                             <th>commentaires</th>
                             <td>{{selectedVeille.commentaires}}</td>
                         </tr>
+                        <tr *ngIf="selectedVeille.analyseur">
+                            <th>Analysé par</th>
+                            <td>{{selectedVeille.analyseur.nom}} {{selectedVeille.analyseur.prenom}}</td>
+                        </tr>
                         <tr *ngIf="selectedVeille.createdAt">
                             <th>Date analyse</th>
-                            <td>{{selectedVeille.createdAt | date:'medium'}}</td>
+                            <td>{{selectedVeille.createdAt | date: 'dd/MM/yyyy hh:mm'}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
 </div>

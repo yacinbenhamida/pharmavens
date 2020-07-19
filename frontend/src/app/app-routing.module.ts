@@ -22,30 +22,30 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { EvaluationsComponent } from './evaluations/evaluations.component';
 import { RapportsComponent } from './rapports/rapports.component';
 import { ProductsComparatorComponent } from './products-comparator/products-comparator.component';
+import { RoleGuardService } from './services/roleguard.service';
 
 
 const routes: Routes = [
   {path : 'dashboard' , component : DashboardComponent , canActivate : [AuthGuardService]},
-  {path : 'saisie-commandes', component : CommandesComponent, canActivate : [AuthGuardService]},
-  {path : 'historique-commandes', component : CommandesHistoriqueComponent, canActivate : [AuthGuardService]},
+  {path : 'saisie-commandes', component : CommandesComponent, canActivate : [RoleGuardService],data : {role : ['admin','delege']}},
+  {path : 'historique-commandes', component : CommandesHistoriqueComponent, canActivate : [RoleGuardService],data : {role : ['admin','delege']}},
   {path : 'profile', component : ProfileComponent, canActivate : [AuthGuardService]},
-  {path : 'users', component : AdminUsersComponent, canActivate : [AuthGuardService]},
-  {path : 'products', component : ProductsComponent, canActivate : [AuthGuardService]},
-  {path : 'packs', component : PacksComponent, canActivate : [AuthGuardService]},
-  {path : 'pharmacie-clients', component : ClientPharmaciesComponent, canActivate : [AuthGuardService]},
-  {path : 'grossiste-clients', component : ClientGrossistesComponent, canActivate : [AuthGuardService]},
-  {path : 'veille-concurentielle', component : ProductsVeillecComponent, canActivate : [AuthGuardService]},
-  {path : 'veille-concurentielle-admin', component : ProductsVeillecAdminComponent, canActivate : [AuthGuardService]},
+  {path : 'users', component : AdminUsersComponent, canActivate : [RoleGuardService],data : {role : ['admin']}},
+  {path : 'products', component : ProductsComponent, canActivate : [RoleGuardService],data : {role : ['admin']}},
+  {path : 'packs', component : PacksComponent, canActivate : [RoleGuardService],data : {role : ['admin','delege']}},
+  {path : 'pharmacie-clients', component : ClientPharmaciesComponent, canActivate : [RoleGuardService],data : {role : ['admin','delege']}},
+  {path : 'grossiste-clients', component : ClientGrossistesComponent, canActivate :[RoleGuardService],data : {role : ['admin','delege']}},
+  {path : 'veille-concurentielle', component : ProductsVeillecComponent, canActivate : [RoleGuardService],data : {role : ['admin','delege']}},
+  {path : 'veille-concurentielle-admin', component : ProductsVeillecAdminComponent, canActivate :[RoleGuardService],data : {role : ['admin','delege']}},
   {path : 'taches', component : TasksComponent, canActivate : [AuthGuardService]},
   {path : 'discussion/:id', component : TaskDiscussionComponent, canActivate : [AuthGuardService]},
-  {path : 'reunions', component : ReunionsComponent, canActivate : [AuthGuardService]},
+  {path : 'reunions', component : ReunionsComponent, canActivate : [RoleGuardService],data : {role : ['admin']}},
   {path : 'contacts', component : ContactsComponent, canActivate : [AuthGuardService]},
-  {path : 'evaluations', component : EvaluationsComponent, canActivate : [AuthGuardService]},
-  {path : 'rapports', component : RapportsComponent, canActivate : [AuthGuardService]},
-  {path : 'comparateur', component : ProductsComparatorComponent, canActivate : [AuthGuardService]},
-
+  {path : 'evaluations', component : EvaluationsComponent, canActivate : [RoleGuardService],data : {role : ['admin','superviseur']}},
+  {path : 'rapports', component : RapportsComponent, canActivate : [RoleGuardService],data : {role : ['admin','superviseur']}},
+  {path : 'comparateur', component : ProductsComparatorComponent, canActivate : [RoleGuardService],data : {role : ['admin']}},
   {path : 'login' , component : LoginComponent},
-  { path: '', component: DashboardComponent, canActivate : [AuthGuardService] },
+  { path: '', component: DashboardComponent, canActivate :[AuthGuardService] },
   {path : '**', redirectTo : ''}
 ];
 

@@ -82,6 +82,7 @@ exports.login = (req, res, next) => {
         res.status(200).send({
           auth: true,
           token: token,
+          role : user.role,
           message: 'user found & logged in',
         });
       }

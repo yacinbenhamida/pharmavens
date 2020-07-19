@@ -44,6 +44,7 @@ import { ChartsModule } from 'ng2-charts';
 import { RapportsComponent } from './rapports/rapports.component';
 import { RapportFormComponent } from './rapport-form/rapport-form.component';
 import { ProductsComparatorComponent } from './products-comparator/products-comparator.component';
+import { RoleGuardService } from './services/roleguard.service';
 registerLocaleData(localeFr, 'fr');
 @NgModule({
   declarations: [
@@ -92,7 +93,7 @@ registerLocaleData(localeFr, 'fr');
     NgxPaginationModule,
     ChartsModule
   ],
-  providers: [AuthGuardService],
+  providers: [AuthGuardService,RoleGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

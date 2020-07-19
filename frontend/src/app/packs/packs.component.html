@@ -1,4 +1,11 @@
 <main class="content">
+    <div *ngIf="initialLoder" class="col-12 text-center mt-2 mb-2 ">
+        <div class="px-4 d-none d-md-block">
+            <div class="spinner-border text-primary mr-2" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid p-0">
         <button *ngIf="!showForm && user.role === 'admin'" (click)="showPanel()" class="btn btn-primary float-right mt-n1"><i
                 class="fas fa-plus"></i> Nouveau pack</button>
@@ -180,7 +187,7 @@
                                     <th>Nom pack</th>
                                     <th>Type</th>
                                     <th>Prix</th>
-                                    <th>Unités vendues</th>
+                                    <th *ngIf="user.role === 'admin'">Unités vendues</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
@@ -189,7 +196,7 @@
                                     <td>{{p.nom_pack}}</td>
                                     <td><span class="badge badge-pill badge-danger" *ngIf="p.type_pack == 'panache'">{{p.type_pack}}</span> <span class="badge badge-pill badge-info" *ngIf="p.type_pack == 'normal'">{{p.type_pack}}</span></td>
                                     <td>{{p.prix_total ? p.prix_total.toFixed(2) : 0}} TND.</td>
-                                    <td>{{p.times_sold}} unités</td>
+                                    <td *ngIf="user.role === 'admin'">{{p.times_sold}} unités</td>
                                     <td class="text-center"><button (click)="showPackDetails(p)" class="btn btn-success btn-sm">Details</button>
                                     <button *ngIf="user.role === 'admin'" (click)="setPack(p)" data-target="#sizedModalSm" class="btn btn-danger btn-sm ml-2" data-toggle="modal">X</button></td>
                                 </tr>

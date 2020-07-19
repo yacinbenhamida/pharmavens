@@ -5,7 +5,7 @@
         </a>
         <ul class="sidebar-nav">
             <li *ngIf="user" class="sidebar-header">
-                Hello, {{user.nom}}
+                {{today | date : 'EEEE dd/MM/yyyy hh:mm'}}
             </li>         
             <li  [ngClass]="isActiveTab('/dashboard')">
                 <a routerLink="/dashboard"  class="sidebar-link">

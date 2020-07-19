@@ -25,7 +25,8 @@ export class LoginComponent implements OnInit {
         if(res && res.auth){
           let user :any = {
             token : res.token,
-            email : this.email
+            email : this.email,
+            role : res.role
           }
           if(this.always){     
             localStorage.setItem('connected',JSON.stringify(user))

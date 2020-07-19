@@ -31,7 +31,7 @@ exports.getVeillesOfProduct = (req,res) => {
     const id = req.body.id
     Produit.findOne({where : {id : id}}).then(prod=>{
         if(prod){
-           Veille.findAll({where : {produitCibleId : prod.id}}).then(veille=>{
+           Veille.findAll({where : {produitCibleId : prod.id},include: ['analyseur']}).then(veille=>{
         if(veille){
             return res.send(veille)
         }
