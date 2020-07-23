@@ -23,6 +23,7 @@ import { EvaluationsComponent } from './evaluations/evaluations.component';
 import { RapportsComponent } from './rapports/rapports.component';
 import { ProductsComparatorComponent } from './products-comparator/products-comparator.component';
 import { RoleGuardService } from './services/roleguard.service';
+import { CalendrierComponent } from './calendrier/calendrier.component';
 
 
 const routes: Routes = [
@@ -44,6 +45,7 @@ const routes: Routes = [
   {path : 'evaluations', component : EvaluationsComponent, canActivate : [RoleGuardService],data : {role : ['admin','superviseur']}},
   {path : 'rapports', component : RapportsComponent, canActivate : [RoleGuardService],data : {role : ['admin','superviseur']}},
   {path : 'comparateur', component : ProductsComparatorComponent, canActivate : [RoleGuardService],data : {role : ['admin']}},
+  {path : 'calendrier', component : CalendrierComponent, canActivate : [AuthGuardService]}, 
   {path : 'login' , component : LoginComponent},
   { path: '', component: DashboardComponent, canActivate :[AuthGuardService] },
   {path : '**', redirectTo : ''}

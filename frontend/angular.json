@@ -24,6 +24,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/angular-calendar/css/angular-calendar.css",
               "src/styles.css",
               "src/assets/css/app.css"
             ],
@@ -31,7 +32,6 @@
               "node_modules/feather-icons/dist/feather.js",
               "src/assets/js/app.js",
               "src/assets/js/vendor.js"
-              
             ]
           },
           "configurations": {
@@ -96,6 +96,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/angular-calendar/css/angular-calendar.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -127,6 +128,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "pharmavens"
 }

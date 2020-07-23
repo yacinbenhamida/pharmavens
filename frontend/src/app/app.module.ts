@@ -28,7 +28,7 @@ import { CommandesHistoriqueComponent } from './commandes-historique/commandes-h
 import { CommandeProduitItemComponent } from './commande-produit-item/commande-produit-item.component';
 import { ProductsVeillecComponent } from './products-veillec/products-veillec.component';
 import { ProductsVeillecAdminComponent } from './products-veillec-admin/products-veillec-admin.component';
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData, CommonModule } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { TasksComponent } from './tasks/tasks.component';
 import { TaskElementComponent } from './task-element/task-element.component';
@@ -45,6 +45,11 @@ import { RapportsComponent } from './rapports/rapports.component';
 import { RapportFormComponent } from './rapport-form/rapport-form.component';
 import { ProductsComparatorComponent } from './products-comparator/products-comparator.component';
 import { RoleGuardService } from './services/roleguard.service';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendrierComponent } from './calendrier/calendrier.component';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 registerLocaleData(localeFr, 'fr');
 @NgModule({
   declarations: [
@@ -78,7 +83,8 @@ registerLocaleData(localeFr, 'fr');
     EvaluationsComponent,
     RapportsComponent,
     RapportFormComponent,
-    ProductsComparatorComponent
+    ProductsComparatorComponent,
+    CalendrierComponent
   ],
   imports: [
     BrowserModule,
@@ -91,7 +97,11 @@ registerLocaleData(localeFr, 'fr');
     LoadingBarModule,
     LoadingBarHttpClientModule,
     NgxPaginationModule,
-    ChartsModule
+    ChartsModule,
+    NgbModalModule,
+    CommonModule,
+    BrowserAnimationsModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
   providers: [AuthGuardService,RoleGuardService],
   bootstrap: [AppComponent]

@@ -12,6 +12,11 @@
                     <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
                 </a>
             </li>
+            <li [ngClass]="isActiveTab('/calendrier')" >
+                <a routerLink="/calendrier" class="sidebar-link"  >
+                    <i class="align-middle" data-feather="clipboard"></i> <span class="align-middle">Planning</span>
+                </a>
+            </li>
             <li *ngIf="user.role === 'admin'" [ngClass]="isActiveTab('/products')" >
                 <a routerLink="/products" class="sidebar-link"  >
                     <i class="align-middle" data-feather="tag"></i> <span class="align-middle">Produits</span>
