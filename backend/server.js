@@ -6,6 +6,7 @@ const app = express();
 const models = require("./app/models");
 const passport = require('passport')
 const session = require('express-session')
+const http = require('http')
 const corsOptions = {
   origin: "http://"+process.env.HOST_URL+':'+process.env.PORT
 };
@@ -35,6 +36,13 @@ models.sequelize.sync({ alter: true }).then(() => {
   console.log("sync to db.");
 });
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+const server = http.createServer(function(req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  var message = 'It works!\n',
+      version = 'NodeJS ' + process.versions.node + '\n',
+      response = [message, version].join('\n');
+  res.end(response);
+});
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
