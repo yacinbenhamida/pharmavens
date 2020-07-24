@@ -25,6 +25,19 @@ exports.findAll = (req,res) => {
       });
     });
 }
+exports.getData = (req,res) => {
+  User.findAll({
+    attributes: {exclude: ['password']}})
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    });
+}
 exports.findAllDeleges = (req,res) => {
   User.findAll({ where :{
     role : 'delege'

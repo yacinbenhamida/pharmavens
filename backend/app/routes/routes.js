@@ -21,7 +21,7 @@ const stats = require('../controllers/stat.controller')
 module.exports = app => {
   app.get('/', auth.index);
   app.post('/login', auth.login);
-  app.get('/users',users.findAll);
+  app.get('/users',users.getData);
   app.use('/logout', passport.authenticate('jwt', {
     session: false
   })).post('/logout', auth.logout);
