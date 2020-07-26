@@ -5,11 +5,13 @@ import { UserService } from './user.service';
 import { Produit } from '../models/produit.model';
 import { Pack } from '../models/pack.model';
 import { Veille } from '../models/veille.model';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VeilleService {
+  baseUrl : string = environment.backend.baseUrl;
 
   constructor(private http:HttpClient, private userService : UserService) { }
 
@@ -31,7 +33,7 @@ export class VeilleService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/getVeillesOfProduct',{id : idp},options)
+      return this.http.post(this.baseUrl+'/getVeillesOfProduct',{id : idp},options)
     }       
     return null
   }
@@ -42,7 +44,7 @@ export class VeilleService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/editProduct',{produit : product},options)
+      return this.http.post(this.baseUrl+'/editProduct',{produit : product},options)
     }
     return null
   }
@@ -53,7 +55,7 @@ export class VeilleService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/getProdPacks',{pack : id},options)
+      return this.http.post(this.baseUrl+'/getProdPacks',{pack : id},options)
     }
     return null
   }
@@ -64,7 +66,7 @@ export class VeilleService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/incrementPackSold',{pack : id},options)
+      return this.http.post(this.baseUrl+'/incrementPackSold',{pack : id},options)
     }
     return null
   }
@@ -75,7 +77,7 @@ export class VeilleService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.get('/api/getVeilles',options)
+      return this.http.get(this.baseUrl+'/getVeilles',options)
     }
     return null
   }
@@ -86,7 +88,7 @@ export class VeilleService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/deleteVeille',{id : id},options)
+      return this.http.post(this.baseUrl+'/deleteVeille',{id : id},options)
     }
     return null
   }

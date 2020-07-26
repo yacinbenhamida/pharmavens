@@ -16,7 +16,7 @@ export class ClientGrossistesComponent implements OnInit {
   ajout : boolean = false
   modification : boolean =false
   listgr : Client [] = []
-  error : boolean = false
+  addError : boolean = false
   selectedGrossiste : Client = {} as Client
   // dt
   dtOptions: DataTables.Settings = {};
@@ -35,7 +35,6 @@ export class ClientGrossistesComponent implements OnInit {
       if(res){
         this.listgr = res
         this.trigger.next()
-        console.log(res)
       } 
     },err=>this.listgr = [])
     this.userv.getAllDeleges().subscribe((res:User[])=>{
@@ -60,7 +59,7 @@ export class ClientGrossistesComponent implements OnInit {
         if(res) {
           window.location.reload()
         }
-      },err => this.error = true)
+      },err => this.addError = true)
     } 
   }
   editGrossiste(grossite:Client){
@@ -76,7 +75,7 @@ export class ClientGrossistesComponent implements OnInit {
         if(res) {
           window.location.reload()
         }
-      },err => this.error = true)
+      },err => this.addError = true)
     } 
   }
   deleteSeller(){

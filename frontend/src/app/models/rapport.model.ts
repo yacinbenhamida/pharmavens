@@ -11,6 +11,7 @@ export interface Rapport{
     objectif_total : number,
     objectif_pharmacies_grossiste:number,
     objectif_vente_animatrice :number,
+    realise_ventes : any
     jour_ferie : boolean,
     reunion :boolean,
     createdAt: Date

@@ -5,11 +5,13 @@ import { UserService } from './user.service';
 import { Produit } from '../models/produit.model';
 import { Client } from '../models/client.model';
 import { Commande } from '../models/commande.model';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommandeService {
+  baseUrl : string = environment.backend.baseUrl;
 
   constructor(private http:HttpClient, private userService : UserService) { }
 
@@ -20,7 +22,7 @@ export class CommandeService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/addCommande',{commande : commande , produits : produits , emetteur : connnectedUser.email},options)
+      return this.http.post(this.baseUrl+'/addCommande',{commande : commande , produits : produits , emetteur : connnectedUser.email},options)
     }
     return null
   }
@@ -31,7 +33,7 @@ export class CommandeService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/getCommandesProducts',{commande : id },options)
+      return this.http.post(this.baseUrl+'/getCommandesProducts',{commande : id },options)
     }
     return null
   }
@@ -42,7 +44,7 @@ export class CommandeService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/editClient',{client : client},options)
+      return this.http.post(this.baseUrl+'/editClient',{client : client},options)
     }
     return null
   }
@@ -53,7 +55,7 @@ export class CommandeService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.get('/api/getAllCommandes',options)
+      return this.http.get(this.baseUrl+'/getAllCommandes',options)
     }
     return null
   }
@@ -64,7 +66,7 @@ export class CommandeService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/deleteCommande',{commandeId : id},options)
+      return this.http.post(this.baseUrl+'/deleteCommande',{commandeId : id},options)
     }
     return null
   }

@@ -32,8 +32,11 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('connected',JSON.stringify(user))
           }
           else sessionStorage.setItem('connected',JSON.stringify(user))
-          
-          this.router.navigate(['/dashboard'])
+          if(user.role === 'admin'){
+            this.router.navigate(['/dashboard'])
+          }else{
+            this.router.navigate(['/calendrier'])
+          }
           
         }else this.errors = true
       },(err)=>{

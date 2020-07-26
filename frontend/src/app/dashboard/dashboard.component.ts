@@ -9,7 +9,7 @@ import { Color, BaseChartDirective, Label } from 'ng2-charts';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  public stats = {}
+  public stats:any = {}
   year : Date = new Date()
    // chart
    public lineChartData: ChartDataSets[] = [
@@ -83,25 +83,38 @@ export class DashboardComponent implements OnInit {
   constructor(private uservice: UserService,private statserv:StatService) { }
   
   ngOnInit() {
+    if (!localStorage.getItem('foo')) { 
+      localStorage.setItem('foo', 'no reload') 
+      location.reload() 
+    } else {
+    localStorage.removeItem('foo') 
     this.statserv.getAll().subscribe((res:any)=>{
-      console.log(res)
       this.stats = res
-      let lineTab = []
-      for (let index = 0; index < res.bymonth.length; index++) {
-        this.lineChartLabels.push(res.bymonth[index].month)
-        lineTab.push({ data: res.bymonth[index].sum, label: 'Ventes (TND)', fill : true})
+      let lineTab:any = []
+      if(res.bymonth.length > 0){
+        for (let index = 0; index < res.bymonth.length; index++) {
+          this.lineChartLabels.push(res.bymonth[index].month)
+          lineTab.push({ data: res.bymonth[index].sum, label: 'Ventes (TND)', fill : true})
+        }
       }
-      
+      else {
+        this.lineChartLabels.push('mois')
+        lineTab.push({data : 0, label: 'Ventes (TND)', fill : true})
+      }      
       this.lineChartData = lineTab
-      let tabBar = []
-      for (let index = 0; index < res.bydeleg.length; index++) {
-        console.log(res.bydeleg[index])
-        this.barChartLabels.push(res.bydeleg[index].user)
-        tabBar.push({ data: res.bydeleg[index].nbc, label: 'Nombre commandes', fill : true})
-        
+      let tabBar:any = []
+      if (res.bydeleg.length > 0) {
+        for (let index = 0; index < res.bydeleg.length; index++) {
+          this.barChartLabels.push(res.bydeleg[index].user)
+          tabBar.push({ data: res.bydeleg[index].nbc, label: 'Nombre commandes', fill: true })
+        }
+      } else {
+        this.barChartLabels.push('délégué')
+        tabBar.push({ data: 0, label: 'Ventes (TND)', fill: true })
       }
       this.barChartData = tabBar
     })
   }
+}
 
 }

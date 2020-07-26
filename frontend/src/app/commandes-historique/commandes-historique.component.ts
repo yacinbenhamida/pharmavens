@@ -48,7 +48,6 @@ export class CommandesHistoriqueComponent implements OnInit {
   }
   loadInvoice(c:Commande){
     this.selectedCommande = c
-    console.log(this.selectedCommande)
     this.comserv.getProduitsOfCommande(c.id).subscribe((lignec:CommandeProduit[])=>{
         this.detailsCommande = lignec
     })

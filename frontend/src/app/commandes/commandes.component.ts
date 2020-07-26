@@ -139,7 +139,6 @@ export class CommandesComponent implements OnInit {
       this.commandeToAdd.nb_produits = this.totalQte
       this.commandeToAdd.client = this.targetClient
       if (this.selectedPack) this.commandeToAdd.selectedPackId = this.selectedPack.id
-      console.log(this.commandeToAdd.grossiteIntermediareId)
       this.comserv.add(this.commandeToAdd, this.products().value).subscribe((res) => {
         if (this.selectedPack) {
           this.packserv.updatePackSoldCount(this.selectedPack.id).subscribe((res) => {

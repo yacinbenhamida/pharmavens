@@ -27,7 +27,6 @@ export class ProductsComparatorComponent implements OnInit {
   onChangeofOptions(opt){
     if(this.myProduct){
       this.veillecserv.getVeillesOfProduct(this.myProduct.id).subscribe((res:Veille[])=>{
-        console.log(res)
         this.veilles = res
       })
     }

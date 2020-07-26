@@ -7,11 +7,13 @@ import { Task } from '../models/task.model';
 import { User } from '../models/user.model';
 import { Reunion } from '../models/reunion.model';
 import { Contact } from '../models/contact.model';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StatService {
+  baseUrl : string = environment.backend.baseUrl;
 
   constructor(private http:HttpClient, private userService : UserService) { }
 
@@ -22,7 +24,7 @@ export class StatService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.get('/api/getStats',options)
+      return this.http.get(this.baseUrl+'/getStats',options)
     }
     return null
   }

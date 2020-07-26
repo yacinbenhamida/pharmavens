@@ -18,6 +18,7 @@ export class RapportFormComponent implements OnInit {
   modif : boolean
   reviewForm: FormGroup;
   deletableRows : any [] = []
+  addError : boolean = false
   constructor(private fb:FormBuilder,private rapserv:RapportService, private userv:UserService) {
     this.reviewForm = this.fb.group({
       row: this.fb.array([]) ,
@@ -29,7 +30,6 @@ export class RapportFormComponent implements OnInit {
     if(this.inputData && this.inputData.op === 'modif' && this.inputData.rapport_delege){
       this.ajout = false
       this.modif = true
-      console.log(this.inputData.rapport_delege)
       this.inputData.rapport_delege.forEach(elem=>{
         this.report().push(this.newPopulatedRow(elem))
       })
@@ -107,7 +107,6 @@ export class RapportFormComponent implements OnInit {
   removeRow(i:number) {
     if(this.modif){
       this.deletableRows.push(this.report().at(i).value)
-      console.log(this.deletableRows)
     }
     this.report().removeAt(i);
   }
@@ -118,7 +117,7 @@ export class RapportFormComponent implements OnInit {
     });
     this.rapserv.add(this.rapportToAdd,this.report().value).subscribe((res)=>{
       window.location.reload()
-    })
+    },err=>this.addError = true)
     }
     
   }

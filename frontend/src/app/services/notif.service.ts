@@ -5,11 +5,13 @@ import { UserService } from './user.service';
 import { Produit } from '../models/produit.model';
 import { Task } from '../models/task.model';
 import { User } from '../models/user.model';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
+  baseUrl : string = environment.backend.baseUrl;
 
   constructor(private http:HttpClient, private userService : UserService) { }
   get(email){
@@ -19,7 +21,7 @@ export class NotificationService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/getNotificationsOfUser',{email : email},options)
+      return this.http.post(this.baseUrl+'/getNotificationsOfUser',{email : email},options)
     }
     return null
   }
@@ -30,7 +32,7 @@ export class NotificationService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/addNotif',{notif : {content : content , title : title}
+      return this.http.post(this.baseUrl+'/addNotif',{notif : {content : content , title : title}
        , targets : targetsId , sender : sender , taskId : taskId},options)
     }       
     return null
@@ -42,7 +44,7 @@ export class NotificationService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/updateNotif',{email : email},options)
+      return this.http.post(this.baseUrl+'/updateNotif',{email : email},options)
     }       
     return null
   }
@@ -53,7 +55,7 @@ export class NotificationService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/getAllTasks',{email : connnectedUser.email},options)
+      return this.http.post(this.baseUrl+'/getAllTasks',{email : connnectedUser.email},options)
     }
     return null
   }
@@ -64,7 +66,7 @@ export class NotificationService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/deleteNotif',{id : id},options)
+      return this.http.post(this.baseUrl+'/deleteNotif',{id : id},options)
     }
     return null
   }

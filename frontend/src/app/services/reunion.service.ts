@@ -6,11 +6,13 @@ import { Produit } from '../models/produit.model';
 import { Task } from '../models/task.model';
 import { User } from '../models/user.model';
 import { Reunion } from '../models/reunion.model';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReunionService {
+  baseUrl : string = environment.backend.baseUrl;
 
   constructor(private http:HttpClient, private userService : UserService) { }
   add(reun:Reunion){
@@ -20,7 +22,7 @@ export class ReunionService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/addReun',{reunions : reun , email:connnectedUser.email},options)
+      return this.http.post(this.baseUrl+'/addReun',{reunions : reun , email:connnectedUser.email},options)
     }       
     return null
   }
@@ -31,7 +33,7 @@ export class ReunionService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/updateReun',{reun : reunion},options)
+      return this.http.post(this.baseUrl+'/updateReun',{reun : reunion},options)
     }       
     return null
   }
@@ -42,7 +44,7 @@ export class ReunionService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.get('/api/getAllReun',options)
+      return this.http.get(this.baseUrl+'/getAllReun',options)
     }
     return null
   }
@@ -53,7 +55,7 @@ export class ReunionService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/deleteReun',{id : id},options)
+      return this.http.post(this.baseUrl+'/deleteReun',{id : id},options)
     }
     return null
   }

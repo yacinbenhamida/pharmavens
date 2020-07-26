@@ -22,6 +22,7 @@ export class TasksComponent implements OnInit {
   oldArray : Task[] = []
   connectedUser : User = {} as User
   loading : boolean = true
+  p:number = 1
   constructor(private fb:FormBuilder,private userv:UserService, private taskserv:TaskService) { 
     this.usersForm = this.fb.group({
       users: this.fb.array([]) ,
@@ -115,8 +116,6 @@ export class TasksComponent implements OnInit {
     this.users().removeAt(i)
   }
   submit(f:NgForm){
-    console.log(f.value)
-    console.log(this.users().value)
     this.taskserv.add(this.taskToAdd,this.users().value).subscribe((done)=>{
       window.location.reload()
     },error=>this.addError = true)

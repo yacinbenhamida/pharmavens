@@ -134,7 +134,7 @@
                                         <div class="col-6 col-xl-1">
                                             <div class="form-group">                              
                                                 Gratuit          
-                                            <input type="checkbox" formControlName="gratuit" name="grat" #gr (click)="selectedp.value && qte.value? setProductValue(i,selectedp.value,$event):return">
+                                            <input type="checkbox" formControlName="gratuit" name="grat" #gr (click)="selectedp.value && qte.value? setProductValue(i,selectedp.value,$event):'0'">
                                             </div> 
                                         </div>
                                         <div class="col-6 col-xl-1">
@@ -159,7 +159,7 @@
                                     </div>
                                     <div class="form-row mt-3 float-right ">
                                         <div>
-                                            <button type="submit" [disabled]="grForm.invalid || form1.invalid" (click)="submit(grForm)"
+                                            <button type="submit" [disabled]="grForm.invalid || packForm.invalid" (click)="submit(grForm)"
                                                 class="btn btn-primary btn-lg ">Enregistrer</button>
                                             <button type="reset"
                                                 class="btn btn-danger btn-lg ml-2">Réinitialiser</button>

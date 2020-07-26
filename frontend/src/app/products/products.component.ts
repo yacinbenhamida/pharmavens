@@ -16,6 +16,7 @@ export class ProductsComponent implements OnInit {
   modification : boolean = false
   ajout : boolean = true
   selectedProduct : Produit
+  p:number = 1
   constructor(private prodServ : ProductService) { }
 
   loadProducts(){

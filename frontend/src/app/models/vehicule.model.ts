@@ -10,6 +10,7 @@ export interface Vehicule{
     date_derniere_vidange :Date
     kilometrage : number
     amortissement_vehicule :number
+    immatriculation : string
     vehicule_societe:boolean
     date_vignette : Date
     user : User

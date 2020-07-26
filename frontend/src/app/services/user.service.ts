@@ -4,19 +4,21 @@ import { HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from '../models/user.model';
 import { Vehicule } from '../models/vehicule.model';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
+  baseUrl : string = environment.backend.baseUrl;
   constructor(private http:HttpClient) { }
 
   getLoggedOn(){
     return localStorage.getItem('connected') ? JSON.parse(localStorage.getItem('connected')) : JSON.parse(sessionStorage.getItem('connected'))
   }
   login(email,password){
-    return this.http.post('/api/login',{email : email,password : password})
+    return this.http.post(this.baseUrl+'/login',{email : email,password : password})
   }
   logout(){
     let user :any = this.getLoggedOn()
@@ -25,7 +27,7 @@ export class UserService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+user.token });
       let options = { headers: headers };
-      return this.http.post('/api/logout',{email : user.email},options)
+      return this.http.post(this.baseUrl+'/logout',{email : user.email},options)
     }
     return null
   }
@@ -36,7 +38,7 @@ export class UserService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+user.token });
       let options = { headers: headers };
-      return this.http.get('/api/connected?email='+user.email,options)
+      return this.http.get(this.baseUrl+'/connected?email='+user.email,options)
     }
     return null
   }
@@ -47,7 +49,7 @@ export class UserService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+user.token });
       let options = { headers: headers };
-      return this.http.get('/api/allDeleges',options)
+      return this.http.get(this.baseUrl+'/allDeleges',options)
     }
     return null
   }
@@ -58,7 +60,7 @@ export class UserService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+user.token });
       let options = { headers: headers };
-      return this.http.get('/api/allUsers',options)
+      return this.http.get(this.baseUrl+'/allUsers',options)
     }
     return null
   }
@@ -69,7 +71,7 @@ export class UserService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/register',{user : user , vehicule : vehicule},options)
+      return this.http.post(this.baseUrl+'/register',{user : user , vehicule : vehicule},options)
     }
     return null
   }
@@ -84,7 +86,7 @@ export class UserService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/deleteUser',{id : id},options)
+      return this.http.post(this.baseUrl+'/deleteUser',{id : id},options)
     }
     return null
   }
@@ -95,7 +97,7 @@ export class UserService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/updateUser',{user : user },options)
+      return this.http.post(this.baseUrl+'/updateUser',{user : user },options)
     }
     return null
   }
@@ -106,7 +108,7 @@ export class UserService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/update-pw',{password : pw, email : connnectedUser.email },options)
+      return this.http.post(this.baseUrl+'/update-pw',{password : pw, email : connnectedUser.email },options)
     }
     return null
   }

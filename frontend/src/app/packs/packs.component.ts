@@ -99,8 +99,6 @@ export class PacksComponent implements OnInit {
         let id = Number(prod.substring(prod.indexOf(':')+1,prod.length))
         let produit:Produit = this.produits.filter(x=>x.id===id)[0]
         this.products().at(i).value.prixUnitaire = produit.prix
-        console.log('from loadp')
-        console.log(this.products().at(i).value)
         this.calculPrixTotal()
         return Number(produit.prix * qte)
     }
@@ -109,7 +107,6 @@ export class PacksComponent implements OnInit {
   calculPrixTotal(){    
     this.packToadd.prix_total = 0
     for (const element of this.packForm.value.products) {
-      console.log(element)
       if(element.prixUnitaire == undefined && element.gratuit == false){
         element.prixUnitaire = this.produits.filter(x=>x.id===element.produit)[0].prix
       }

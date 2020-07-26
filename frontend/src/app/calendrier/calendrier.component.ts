@@ -26,6 +26,8 @@ import {
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TaskService } from '../services/task.service';
 import { Task } from '../models/task.model';
+import { UserService } from '../services/user.service';
+import { User } from '../models/user.model';
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -50,7 +52,7 @@ const colors: any = {
 export class CalendrierComponent implements OnInit {
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
-  view: CalendarView = CalendarView.Week;
+  view: CalendarView = CalendarView.Month;
 
   CalendarView = CalendarView;
   loading : boolean 
@@ -67,7 +69,7 @@ export class CalendrierComponent implements OnInit {
   events : CalendarEvent[] = []
   activeDayIsOpen: boolean = false;
 
-  constructor(private modal: NgbModal, private taskserv:TaskService) {}
+  constructor(private modal: NgbModal, private taskserv:TaskService,private userv:UserService) {}
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -96,22 +98,45 @@ export class CalendrierComponent implements OnInit {
     this.activeDayIsOpen = true;
   }
   ngOnInit(){
-     this.taskserv.getAll().subscribe((res:Task[])=>{
-      this.loading = true
-      let ev = []
-      res.forEach((elem:Task)=>{
-        console.log(elem)
-        ev.push({ 
-          start: new Date(elem.date_echance),
-          end : new Date(elem.date_echance),
-          title: elem.nom_tache,
-          color: colors.blue,
-          allDay: true,
-        }
-          )
-      })
-      this.events = ev
-      this.loading = false
+    this.userv.getCurrentUser().subscribe((user:User)=>{
+      if(user.role ==='admin'){
+        this.taskserv.getAll().subscribe((res:Task[])=>{
+          this.loading = true
+          let ev = []
+          res.forEach((elem:Task)=>{
+            ev.push({ 
+              start: new Date(elem.date_echance),
+              end : new Date(elem.date_echance),
+              title: elem.nom_tache,
+              color: colors.blue,
+              allDay: true,
+            }
+              )
+          })
+          this.events = ev
+          this.loading = false
+        })
+      }
+      else{
+        this.taskserv.getTasksOfUser(user.id).subscribe((res:Task[])=>{
+          this.loading = true
+          let ev = []
+          res.forEach((elem:Task)=>{
+            ev.push({ 
+              start: new Date(elem.date_echance),
+              end : new Date(elem.date_echance),
+              title: elem.nom_tache,
+              color: colors.blue,
+              allDay: true,
+            }
+              )
+          })
+          this.events = ev
+          this.loading = false
+        })
+      }
+      
     })
+    
   }
 }

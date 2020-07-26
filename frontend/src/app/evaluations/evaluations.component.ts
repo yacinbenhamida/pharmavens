@@ -110,14 +110,6 @@ export class EvaluationsComponent implements OnInit {
     },3000)
     
   } 
-  // events
-  public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
-    console.log(event, active);
-  }
-
-  public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
-    console.log(event, active);
-  }
   cancelEditionOrAdd(){
     this.ajout = false
     this.modification = false
@@ -203,6 +195,9 @@ export class EvaluationsComponent implements OnInit {
     this.evalToAdd = ev
     this.ajout = false
     this.modification = true
+  }
+  deleteEval(){
+    this.evalserv.delete(this.evalToDelete.id).subscribe((res)=>window.location.reload())
   }
   ngOnDestroy(): void {
     this.trigger.unsubscribe();

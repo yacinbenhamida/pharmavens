@@ -1,3 +1,7 @@
 .msg{
     color:rgb(220, 53, 69)
 }
+.foot {
+    margin-top: 150px;
+    bottom: 0;
+}

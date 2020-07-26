@@ -16,6 +16,7 @@ export class ClientPharmaciesComponent implements OnInit {
   showForm : boolean = false
   ajout : boolean = false
   modification : boolean =false
+  addError:boolean = false
   listgr : Client [] = []
   error : boolean = false
   selectedpharmacie : Client = {} as Client
@@ -60,7 +61,7 @@ export class ClientPharmaciesComponent implements OnInit {
         if(res) {
           window.location.reload()
         }
-      },err => this.error = true)
+      },err => this.addError = true)
     } 
   }
   editpharmacie(ph:Client){

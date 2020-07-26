@@ -4,11 +4,13 @@ import { HttpHeaders } from '@angular/common/http';
 import { UserService } from './user.service';
 import { Contact } from '../models/contact.model';
 import { Rapport } from '../models/rapport.model';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RapportService {
+  baseUrl : string = environment.backend.baseUrl;
 
   constructor(private http:HttpClient, private userService : UserService) { }
   getRdOfRapport(rapport){
@@ -18,7 +20,7 @@ export class RapportService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/getRDOfrapport',{report : rapport},options)
+      return this.http.post(this.baseUrl+'/getRDOfrapport',{report : rapport},options)
     }       
     return null
   }
@@ -29,7 +31,7 @@ export class RapportService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/addRapport',{rapport : rapport, rapport_data : rapport_data , email:connnectedUser.email},options)
+      return this.http.post(this.baseUrl+'/addRapport',{rapport : rapport, rapport_data : rapport_data , email:connnectedUser.email},options)
     }       
     return null
   }
@@ -40,7 +42,7 @@ export class RapportService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/editRapport',{rapport : rapport, rapport_data : rapport_data , 
+      return this.http.post(this.baseUrl+'/editRapport',{rapport : rapport, rapport_data : rapport_data , 
         deletable : deletableRows,email:connnectedUser.email},options)
     }       
     return null
@@ -52,7 +54,7 @@ export class RapportService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.get('/api/getAllRapports',options)
+      return this.http.get(this.baseUrl+'/getAllRapports',options)
     }
     return null
   }
@@ -63,7 +65,7 @@ export class RapportService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/deleteRapport',{id : id},options)
+      return this.http.post(this.baseUrl+'/deleteRapport',{id : id},options)
     }
     return null
   }

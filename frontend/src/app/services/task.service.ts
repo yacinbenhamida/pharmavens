@@ -5,11 +5,13 @@ import { UserService } from './user.service';
 import { Produit } from '../models/produit.model';
 import { Task } from '../models/task.model';
 import { User } from '../models/user.model';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
+  baseUrl : string = environment.backend.baseUrl;
 
   constructor(private http:HttpClient, private userService : UserService) { }
   get(id){
@@ -19,7 +21,7 @@ export class TaskService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/getTask',{task : id},options)
+      return this.http.post(this.baseUrl+'/getTask',{task : id},options)
     }
     return null
   }
@@ -30,7 +32,7 @@ export class TaskService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/addTask',{task : task , users : users},options)
+      return this.http.post(this.baseUrl+'/addTask',{task : task , users : users},options)
     }       
     return null
   }
@@ -41,7 +43,7 @@ export class TaskService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/editProduct',{produit : product},options)
+      return this.http.post(this.baseUrl+'/editProduct',{produit : product},options)
     }
     return null
   }
@@ -52,7 +54,7 @@ export class TaskService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/getUTOfTask',{task : id},options)
+      return this.http.post(this.baseUrl+'/getUTOfTask',{task : id},options)
     }
     return null
   }
@@ -63,7 +65,7 @@ export class TaskService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/getTasksOfUser',{user : id},options)
+      return this.http.post(this.baseUrl+'/getTasksOfUser',{user : id},options)
     }
     return null
   }
@@ -74,7 +76,7 @@ export class TaskService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/updateTaskstatus',{id : id , state : status},options)
+      return this.http.post(this.baseUrl+'/updateTaskstatus',{id : id , state : status},options)
     }
     return null
   }
@@ -85,7 +87,7 @@ export class TaskService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.get('/api/getAllTasks',options)
+      return this.http.get(this.baseUrl+'/getAllTasks',options)
     }
     return null
   }
@@ -96,7 +98,7 @@ export class TaskService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/deleteTask',{id : id},options)
+      return this.http.post(this.baseUrl+'/deleteTask',{id : id},options)
     }
     return null
   }

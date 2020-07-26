@@ -188,7 +188,7 @@
                                         <label *ngIf="type_rapport && type_rapport.value === 'VM'" >Réalisé SP</label>
                                         <label *ngIf="type_rapport && type_rapport.value === 'VP'" >Réalisé P Jour</label>
                                         <input formControlName="realise_obj_1" required
-                                        (change)="rapportToAdd.objectif_1 && obj1_r.value? p_rsp1.value = ((obj1_r.value / rapportToAdd.objectif_1 )* 100):return" 
+                                        (change)="rapportToAdd.objectif_1 && obj1_r.value? p_rsp1.value = ((obj1_r.value / rapportToAdd.objectif_1 )* 100):0" 
                                         #obj1_r name="realise_obj_1" type="number" class="form-control">
                                         <span class="msg font-11" *ngIf="obj1_r.touched && obj1_r.value > rapportToAdd.objectif_1">dépasse l'objectif</span>
                                     </div>
@@ -202,7 +202,7 @@
                                         <label *ngIf="type_rapport && type_rapport.value === 'VM'">Réalisé SH</label>
                                         <label *ngIf="type_rapport && type_rapport.value === 'VP'">Réalisé P Nuit</label>
                                         <input #obj2_r formControlName="realise_obj_2" 
-                                        (change)="rapportToAdd.objectif_2 && obj2_r.value? p_rsp2.value = ((obj2_r.value / rapportToAdd.objectif_2 )* 100):return" 
+                                        (change)="rapportToAdd.objectif_2 && obj2_r.value? p_rsp2.value = ((obj2_r.value / rapportToAdd.objectif_2 )* 100):0" 
                                         name="realise_obj_2" type="number" class="form-control">
                                         <span class="msg font-11" *ngIf="obj2_r.touched && obj2_r.value > rapportToAdd.objectif_2">dépasse l'objectif</span>
                                     </div>

@@ -12,6 +12,8 @@ export interface Commande{
     selectedPackId : number
     grossiteIntermediareId : number
     remise_total_grossite: number
+    grossiste_intermediare : any
+    pack_choisit : any
     createdAt:Date
     updatedAt: Date
 }

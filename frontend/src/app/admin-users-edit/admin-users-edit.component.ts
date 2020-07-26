@@ -30,7 +30,9 @@ export class AdminUsersEditComponent implements OnInit {
       })
     }
   }
-
+  checkGender(s){
+    this.targetUser.sexe = s
+  }
   updateUser(f:NgForm) {
     if(this.targetUser && f.valid){
       this.targetUser.vehicule = this.cartToEdit

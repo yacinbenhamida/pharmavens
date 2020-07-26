@@ -43,7 +43,6 @@ export class ProductsVeillecAdminComponent implements OnInit {
         }
       this.trigger.next()
     })
-      console.log(this.group(this.veilles,(v)=>v.produitCible.libelle))
       })
     }
   }

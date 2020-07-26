@@ -3,11 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { UserService } from './user.service';
 import { Produit } from '../models/produit.model';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
+  baseUrl : string = environment.backend.baseUrl;
 
   constructor(private http:HttpClient, private userService : UserService) { }
 
@@ -18,7 +20,7 @@ export class ProductService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/addProduct',{produit : product},options)
+      return this.http.post(this.baseUrl+'/addProduct',{produit : product},options)
     }
     return null
   }
@@ -29,7 +31,7 @@ export class ProductService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/editProduct',{produit : product},options)
+      return this.http.post(this.baseUrl+'/editProduct',{produit : product},options)
     }
     return null
   }
@@ -40,7 +42,7 @@ export class ProductService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.get('/api/allProducts',options)
+      return this.http.get(this.baseUrl+'/allProducts',options)
     }
     return null
   }
@@ -51,7 +53,7 @@ export class ProductService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/deleteProduct',{id : id},options)
+      return this.http.post(this.baseUrl+'/deleteProduct',{id : id},options)
     }
     return null
   }

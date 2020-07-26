@@ -1,11 +1,13 @@
 <ngx-loading-bar></ngx-loading-bar>
-<body data-theme="dark" data-layout="fluid" data-sidebar="left">
+<body data-theme="default" data-layout="fluid" data-sidebar="left">
   <div class="wrapper">
     <app-navbar *ngIf="router.url != '/login'"></app-navbar>
     <div class='main'>
       <app-topbar *ngIf="router.url != '/login'"></app-topbar>
       <router-outlet></router-outlet>
-      <app-footer *ngIf="router.url != '/login'"></app-footer>
+      <div *ngIf="router.url != '/login'" class="foot">
+      <app-footer ></app-footer>
+      </div>
     </div>
   </div>
 </body>
