@@ -43,14 +43,14 @@ export class TasksComponent implements OnInit {
                 this.tasks = task
                 this.loading = false
               })
-            })},5000)
+            })},500)
         }else {
           setTimeout(()=>{
             this.taskserv.getTasksOfUser(user.id).subscribe((tasks : Task[])=>{
               this.loading = false
               this.tasks = tasks             
             })
-          },5000)
+          },500)
           
         }
         }

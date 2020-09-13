@@ -14,7 +14,8 @@ const reunions = require('../controllers/reunions.controller')
 const contacts = require('../controllers/contact.controller')
 const eval = require('../controllers/eval.controller')
 const rapports = require('../controllers/rapport.controller')
-const stats = require('../controllers/stat.controller')
+const stats = require('../controllers/stat.controller');
+const { task } = require("../models/index.js");
 
 
 
@@ -222,4 +223,8 @@ module.exports = app => {
   app.use('/getStats', passport.authenticate('jwt', {
     session: false
   })).get('/getStats', stats.getStats);
+
+  app.use('/getPlannings', passport.authenticate('jwt', {
+    session: false
+  })).get('/getPlannings', tasks.getPlannings);
 };

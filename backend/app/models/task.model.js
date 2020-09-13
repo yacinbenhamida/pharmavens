@@ -20,6 +20,10 @@ module.exports = (sequelize, Sequelize) => {
         attached_file : {
             type : Sequelize.TEXT
         },
+        private : {
+            type : Sequelize.BOOLEAN,
+            defaultValue : false
+        },
         isdone : {
             type : Sequelize.BOOLEAN,
             defaultValue : false

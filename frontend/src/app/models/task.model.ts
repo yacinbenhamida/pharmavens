@@ -6,6 +6,7 @@ export interface Task {
     date_echance : Date,
     attached_file :string,
     isdone :boolean,
+    private : boolean
     createdAt: Date
     updatedAt: Date
 }

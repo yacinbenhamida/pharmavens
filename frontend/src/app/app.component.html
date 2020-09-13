@@ -3,7 +3,9 @@
   <div class="wrapper">
     <app-navbar *ngIf="router.url != '/login'"></app-navbar>
     <div class='main'>
-      <app-topbar *ngIf="router.url != '/login'"></app-topbar>
+      <div *ngIf="router.url != '/login'">
+      <app-topbar ></app-topbar>
+    </div>
       <router-outlet></router-outlet>
       <div *ngIf="router.url != '/login'" class="foot">
       <app-footer ></app-footer>

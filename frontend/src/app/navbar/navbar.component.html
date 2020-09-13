@@ -1,55 +1,71 @@
 <nav id="sidebar" class="sidebar">
     <div class="sidebar-content js-simplebar" *ngIf="user">
-        <a class="sidebar-brand" routerLink="/dashboard">
+        <a class="sidebar-brand" (click)="goHome()">
             <span class="align-middle"><img src="assets/img/logowh.png" /></span>
         </a>
         <ul class="sidebar-nav">
             <li *ngIf="user" class="sidebar-header">
-                {{today | date : 'EEEE dd/MM/yyyy hh:mm'}}
+                {{today | date : 'EEEE dd/MM/yyyy hh:mm' : 'fr'}}
             </li>         
             <li  [ngClass]="user.role === 'admin'?isActiveTab('/dashboard'):'none'">
                 <a routerLink="/dashboard"  class="sidebar-link">
-                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
+                    <i class="align-middle mr-2 far fa-fw fa-chart-bar"></i> <span class="align-middle">Dashboard</span>
                 </a>
             </li>
-            <li [ngClass]="isActiveTab('/calendrier')" >
-                <a routerLink="/calendrier" class="sidebar-link"  >
-                    <i class="align-middle" data-feather="clipboard"></i> <span class="align-middle">Planning</span>
-                </a>
+            <li class="sidebar-header">
+                Commercial
             </li>
             <li [ngClass]="user.role === 'admin'? isActiveTab('/products') : 'none'" >
                 <a routerLink="/products" class="sidebar-link"  >
-                    <i class="align-middle" data-feather="tag"></i> <span class="align-middle">Produits</span>
+                    <i class="align-middle mr-2 far fa-fw fa-bookmark"></i> <span class="align-middle">Produits</span>
                 </a>
             </li>
             <li [ngClass]="user.role === 'admin' ? isActiveTab('/comparateur'):'none'" >
                 <a routerLink="/comparateur" class="sidebar-link"  >
-                    <i class="align-middle" data-feather="cpu"></i> <span class="align-middle">Comparateur</span>
+                    <i class="align-middle mr-2 far fa-fw fa-file-code"></i> <span class="align-middle">Comparateur</span>
                 </a>
             </li>  
+             
             <li [ngClass]="isActiveTab('/veille-concurentielle')" >
                 <a routerLink="/veille-concurentielle" class="sidebar-link">
-                    <i class="align-middle" data-feather="activity"></i> <span class="align-middle">Analyse concurrentielle</span>
+                    <i class="align-middle mr-2 far fa-fw fa-folder"></i> <span class="align-middle">Analyse concurrentielle</span>
                 </a>
             </li> 
             <li [ngClass]="isActiveTab('/veille-concurentielle-admin')" >
                 <a routerLink="/veille-concurentielle-admin"  class="sidebar-link" >
-                    <i class="align-middle" data-feather="list"></i> <span class="align-middle">Veilles concurrentielles</span>
+                    <i class="align-middle mr-2 far fa-fw fa-flag"></i> <span class="align-middle">Veilles concurrentielles</span>
                 </a>
             </li> 
             <li [ngClass]="isActiveTab('/packs')" >
                 <a routerLink="/packs" class="sidebar-link"  >
-                    <i class="align-middle" data-feather="layers"></i> <span class="align-middle">Packs</span>
+                    <i  class="align-middle mr-2 far fa-fw fa-clone"></i> <span class="align-middle">Packs</span>
                 </a>
-            </li> 
+            </li>     
+            <li [ngClass]="isActiveTab('commandes')">
+                <a href="#pages" data-toggle="collapse" class="sidebar-link collapsed">
+                    <i  class="align-middle mr-2 far fa-fw fa-credit-card"></i> <span class="align-middle">Commandes</span>
+                </a>
+                <ul id="pages" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+                    <li [ngClass]="isActiveTab('/saisie-commandes')"><a class="sidebar-link" routerLink="/saisie-commandes">Saisie</a></li>
+                    <li [ngClass]="isActiveTab('/historique-commandes')"><a class="sidebar-link" routerLink="/historique-commandes">Historique</a></li>
+                </ul>
+            </li>       
+            <li class="sidebar-header">
+                Contacts & Utilisateurs
+            </li>                    
             <li [ngClass]="user.role === 'admin' ? isActiveTab('/users') : 'none'" >
                 <a routerLink="/users" class="sidebar-link">
-                    <i class="align-middle" data-feather="users"></i> <span class="align-middle">Utilisateurs</span>
+                    <i  class="align-middle mr-2 far fa-fw fa-address-card"></i> <span class="align-middle">Utilisateurs</span>
+                </a>
+            </li>
+            <li [ngClass]="isActiveTab('/planning')" >
+                <a routerLink="/planning" class="sidebar-link"  >
+                    <i class="align-middle mr-2 far fa-fw fa-calendar-check"></i> <span class="align-middle">Planning</span>
                 </a>
             </li>
             <li [ngClass]="user.role === 'admin' ? isActiveTab('clients') : 'none'">
                 <a href="#pages2" data-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="align-middle" data-feather="shopping-cart"></i> <span class="align-middle">Clients</span>
+                    <i  class="align-middle mr-2 far fa-fw fa-address-book"></i> <span class="align-middle">Clients</span>
                 </a>
                 <ul id="pages2" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
                     <li [ngClass]="isActiveTab('/grossite-clients')"><a class="sidebar-link" routerLink="/grossiste-clients">Grossistes</a></li>
@@ -57,43 +73,35 @@
                 </ul>
             </li>
 
-            <li [ngClass]="isActiveTab('commandes')">
-                <a href="#pages" data-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Commandes</span>
-                </a>
-                <ul id="pages" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-                    <li [ngClass]="isActiveTab('/saisie-commandes')"><a class="sidebar-link" routerLink="/saisie-commandes">Saisie</a></li>
-                    <li [ngClass]="isActiveTab('/historique-commandes')"><a class="sidebar-link" routerLink="/historique-commandes">Historique</a></li>
-                </ul>
-            </li>
+          
             <li [ngClass]="isActiveTab('/taches')">
                 <a routerLink="/taches" class="sidebar-link" >
-                    <i class="align-middle" data-feather="edit-2"></i> <span class="align-middle">Taches</span>
+                    <i  class="align-middle mr-2 far fa-fw fa-clipboard"></i> <span class="align-middle">Taches</span>
                 </a>
             </li>  
             <li  [ngClass]="user.role === 'admin' ? isActiveTab('/contacts') : 'none'">
                 <a routerLink="/contacts" class="sidebar-link" >
-                    <i class="align-middle" data-feather="message-circle"></i> <span class="align-middle">Contacts</span>
+                    <i  class="align-middle mr-2 far fa-fw fa-envelope-open"></i> <span class="align-middle">Contacts</span>
                 </a>
             </li>  
             <li [ngClass]="user.role === 'admin' ? isActiveTab('/reunions') : 'none'">
                 <a routerLink="/reunions" class="sidebar-link" >
-                    <i class="align-middle" data-feather="cast"></i> <span class="align-middle">Reunions</span>
+                    <i  class="align-middle mr-2 far fa-fw fa-handshake"></i> <span class="align-middle">Reunions</span>
                 </a>
             </li> 
             <li [ngClass]="(user.role === 'admin' || user.role === 'superviseur') ? isActiveTab('/evaluations') : 'none'">
                 <a routerLink="/evaluations" class="sidebar-link" >
-                    <i class="align-middle" data-feather="star"></i> <span class="align-middle">Evaluations</span>
+                    <i  class="align-middle mr-2 far fa-fw fa-star"></i> <span class="align-middle">Evaluations</span>
                 </a>
             </li>  
             <li [ngClass]="user.role === 'admin' ? isActiveTab('/rapports'):'none'">
                 <a routerLink="/rapports" class="sidebar-link" >
-                    <i class="align-middle" data-feather="info"></i> <span class="align-middle">Rapports</span>
+                    <i  class="align-middle mr-2 far fa-fw fa-keyboard"></i> <span class="align-middle">Rapports</span>
                 </a>
             </li>  
             <li [ngClass]="isActiveTab('/profile')">
                 <a routerLink="/profile" class="sidebar-link" >
-                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>
+                    <i  class="align-middle mr-2 far fa-fw fa-user"></i> <span class="align-middle">Profile</span>
                 </a>
             </li>  
         </ul>

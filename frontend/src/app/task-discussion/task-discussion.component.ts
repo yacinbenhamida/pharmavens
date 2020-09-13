@@ -46,7 +46,7 @@ export class TaskDiscussionComponent implements OnInit {
         else this.router.navigateByUrl('/tasks')
       })
     })
-    },5000)
+    },2000)
     
   }
   sendComment(){

@@ -107,7 +107,7 @@ export class EvaluationsComponent implements OnInit {
       this.loading = false
       this.loadUsers = false
     })
-    },3000)
+    },1000)
     
   } 
   cancelEditionOrAdd(){

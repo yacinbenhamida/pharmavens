@@ -6,6 +6,7 @@ import { Produit } from '../models/produit.model';
 import { Task } from '../models/task.model';
 import { User } from '../models/user.model';
 import { environment } from 'src/environments/environment.prod';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -90,6 +91,14 @@ export class TaskService {
       return this.http.get(this.baseUrl+'/getAllTasks',options)
     }
     return null
+  }
+  getAllPlannings() : Observable<any> {
+    let connnectedUser :any = this.userService.getLoggedOn()
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "JWT "+connnectedUser.token });
+    let options = { headers: headers };
+    return this.http.get(this.baseUrl+'/getPlannings',options)
   }
   delete(id){
     let connnectedUser :any = this.userService.getLoggedOn()

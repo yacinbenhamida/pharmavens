@@ -47,10 +47,11 @@ import { ProductsComparatorComponent } from './products-comparator/products-comp
 import { RoleGuardService } from './services/roleguard.service';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { CalendrierComponent } from './calendrier/calendrier.component';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-registerLocaleData(localeFr, 'fr');
+import { PlanningComponent } from './planning/planning.component';
+import { LOCALE_ID } from '@angular/core';
+registerLocaleData(localeFr);
 @NgModule({
   declarations: [
     AppComponent,
@@ -84,7 +85,7 @@ registerLocaleData(localeFr, 'fr');
     RapportsComponent,
     RapportFormComponent,
     ProductsComparatorComponent,
-    CalendrierComponent
+    PlanningComponent
   ],
   imports: [
     BrowserModule,
@@ -103,7 +104,7 @@ registerLocaleData(localeFr, 'fr');
     BrowserAnimationsModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
-  providers: [AuthGuardService,RoleGuardService],
+  providers: [AuthGuardService,RoleGuardService,  { provide: LOCALE_ID, useValue: "fr-FR" }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

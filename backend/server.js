@@ -9,11 +9,9 @@ const session = require('express-session')
 const http = require('http');
 const { HOST } = require("./app/config/db.config");
 const path = require('path');
-const corsOptions = {
-  origin: "http://"+process.env.HOST_URL+':'+process.env.PORT
-};
 
-app.use(cors(corsOptions));
+
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());

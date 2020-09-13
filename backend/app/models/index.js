@@ -51,7 +51,7 @@ db.comments.belongsTo(db.users, {as : 'emitter'})
 db.comments.belongsTo(db.task, {as : 'targetTask'})
 db.notifications.belongsTo(db.users , {as : 'sender' , foreignKey : 'senderId'})
 db.notifications.belongsTo(db.users , {as : 'reciever' , foreignKey : 'recieverId'})
-db.notifications.belongsTo(db.task , {as : 'subject', foreignKey : 'taskId'})
+db.notifications.belongsTo(db.task , {as : 'subject', foreignKey : 'taskId', onDelete: 'cascade'})
 db.evaluations.belongsTo(db.users , {as : 'delegue_evaluee', foreignKey : 'idDelegue'})
 db.rapports.belongsTo(db.users , {as : 'rapporteur', foreignKey : 'ownerId'})
 db.commandes.belongsTo(db.packs , {as : 'pack_choisit', foreignKey : 'selectedPackId'})
@@ -104,11 +104,13 @@ db.task.belongsToMany(db.users,{
   through: 'userTask',
   foreignKey: 'idTache',
   otherKey: 'idDelegue',
+  unique : false
 })
 db.users.belongsToMany(db.task,{
   through: 'userTask',
   foreignKey: 'idDelegue',
   otherKey: 'idTache',
+  unique : false
 })
 db.usertask.belongsToMany(db.users, {
   through: 'userTask',

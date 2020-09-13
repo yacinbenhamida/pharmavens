@@ -7,9 +7,11 @@ module.exports = (sequelize, Sequelize) => {
         },
         idDelegue : {
             type: Sequelize.INTEGER,
+            unique : false
         },
         idTache : {
             type: Sequelize.INTEGER,
+            unique : false
         },
         createdAt: {type : Sequelize.DATE , default : Date.now()},
     });

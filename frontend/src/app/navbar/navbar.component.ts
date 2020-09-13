@@ -32,4 +32,12 @@ export class NavbarComponent implements OnInit {
     if(this.router.url === input || this.router.url.endsWith(input)) return 'sidebar-item active'
     else return 'sidebar-item'
   }
+  goHome(){
+    if(this.user.role == 'admin'){
+      this.router.navigateByUrl('/dashboard')
+    }else{
+      this.router.navigateByUrl('/planning')
+
+    }
+  }
 }

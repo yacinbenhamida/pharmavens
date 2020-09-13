@@ -23,11 +23,11 @@ import { EvaluationsComponent } from './evaluations/evaluations.component';
 import { RapportsComponent } from './rapports/rapports.component';
 import { ProductsComparatorComponent } from './products-comparator/products-comparator.component';
 import { RoleGuardService } from './services/roleguard.service';
-import { CalendrierComponent } from './calendrier/calendrier.component';
+import { PlanningComponent } from './planning/planning.component';
 
 
 const routes: Routes = [
-  {path : 'dashboard' , component : DashboardComponent , canActivate : [AuthGuardService]},
+  {path : 'dashboard' , component : DashboardComponent , canActivate : [RoleGuardService],data : {role : ['admin','superviseur']}},
   {path : 'saisie-commandes', component : CommandesComponent, canActivate : [RoleGuardService],data : {role : ['admin','delege']}},
   {path : 'historique-commandes', component : CommandesHistoriqueComponent, canActivate : [RoleGuardService],data : {role : ['admin','delege']}},
   {path : 'profile', component : ProfileComponent, canActivate : [AuthGuardService]},
@@ -45,9 +45,9 @@ const routes: Routes = [
   {path : 'evaluations', component : EvaluationsComponent, canActivate : [RoleGuardService],data : {role : ['admin','superviseur']}},
   {path : 'rapports', component : RapportsComponent, canActivate : [RoleGuardService],data : {role : ['admin','superviseur']}},
   {path : 'comparateur', component : ProductsComparatorComponent, canActivate : [RoleGuardService],data : {role : ['admin']}},
-  {path : 'calendrier', component : CalendrierComponent, canActivate : [AuthGuardService]}, 
+  {path : 'planning' , component : PlanningComponent},
   {path : 'login' , component : LoginComponent},
-  { path: '', component: DashboardComponent, canActivate :[AuthGuardService] },
+  { path: '', component: DashboardComponent, canActivate : [RoleGuardService],data : {role : ['admin','superviseur']} },
   {path : '**', redirectTo : ''}
 ];
 

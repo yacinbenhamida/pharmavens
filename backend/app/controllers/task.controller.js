@@ -5,7 +5,7 @@ exports.addTask = (req,res) => {
     const task = req.body.task
     const users = req.body.users
     if(task && users){
-        Task.create(task,{w : 1},{returning : true}).then(ctask=>{
+        Task.create(task,{returning : true}).then(ctask=>{
             if(ctask){
                 users.forEach(element => {
                     User.findOne({where : {id : element.delege}}).then(user=>{
@@ -14,15 +14,21 @@ exports.addTask = (req,res) => {
                                 idDelegue : user.id,
                                 idTache : ctask.id,
                             }
-                            UserTask.create(ut,{w:1},{returning : true}).then(f=>{
+                            UserTask.create(ut,{returning : true}).then(f=>{
                                 console.log({message : 'added new utask'})
                             })
                         }else console.log({message : 'failed to add new utask'})
-                    })
+                    }).catch(function(err) {
+                        // print the error details
+                        console.log({message : err});
+                    });
                 });
                 return res.status(200).send({message : 'done'})
             }else return res.status(401)
-        })
+        }).catch(function(err) {
+            // print the error details
+            console.log({message : err});
+        });
     }else return res.status(403)
 }
 
@@ -96,4 +102,19 @@ exports.getTask = (req,res)=>{
     if(taskId){
         Task.findOne({where : {id : taskId}}).then(task=>res.send(task))
     }else return res.status(404)
+}
+exports.getPlannings = (req,res)=>{
+        UserTask.findAll({include: [{
+            model: User,
+            as: 'task_users',
+            required: false,
+            attributes: ['id', 'nom','prenom','email','imageUrl','telephone','telephone_perso','status','role'],
+          },{
+            model: Task,
+            as: 'ut_tasks',
+            required: false,
+            attributes: ['id', 'nom_tache','date_rappel','date_echance','attached_file','isdone']
+          }]}).then(ut=>{
+            return res.send(ut)
+        })
 }

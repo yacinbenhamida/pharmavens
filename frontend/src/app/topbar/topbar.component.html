@@ -9,7 +9,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-icon dropdown-toggle" id="messagesDropdown" (click)="loadMessages()" data-toggle="dropdown">
                     <div class="position-relative">
-                        <i class="align-middle" data-feather="message-square"></i>
+                        <i class="align-middle far fa-fw fa-comments"></i>
                         <span class="indicator" *ngIf="messages.length > 0">{{messages.length}}</span>
                     </div>
                 </a>
@@ -54,10 +54,8 @@
                     <img [src]="user.imageUrl ? user.imageUrl : 'assets/img/default.png'" class="avatar img-fluid rounded mr-1" /> <span class="text-dark" >{{user.prenom}} {{user.nom}}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" routerLink="profile"><i class="align-middle mr-1" data-feather="user"></i> Profile</a>
-                    <a class="dropdown-item" routerLink="dashboard"><i class="align-middle mr-1" data-feather="pie-chart"></i> dashboard</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" routerLink="manual"><i class="align-middle mr-1" data-feather="help-circle"></i>Manuel</a>
+                    <a class="dropdown-item" routerLink="profile"><i class="align-middle far fa-fw fa-user"></i> Profile</a>
+                    <a *ngIf="user.role == 'admin'" class="dropdown-item" routerLink="dashboard"><i class="align-middle far fa-fw fa-chart-bar"></i> dashboard</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" (click)="logout()">Se deconnecter</a>
                 </div>

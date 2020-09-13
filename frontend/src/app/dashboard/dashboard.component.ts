@@ -83,11 +83,7 @@ export class DashboardComponent implements OnInit {
   constructor(private uservice: UserService,private statserv:StatService) { }
   
   ngOnInit() {
-    if (!localStorage.getItem('foo')) { 
-      localStorage.setItem('foo', 'no reload') 
-      location.reload() 
-    } else {
-    localStorage.removeItem('foo') 
+
     this.statserv.getAll().subscribe((res:any)=>{
       this.stats = res
       let lineTab:any = []
@@ -114,7 +110,7 @@ export class DashboardComponent implements OnInit {
       }
       this.barChartData = tabBar
     })
-  }
+  
 }
 
 }
