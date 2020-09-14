@@ -51,6 +51,9 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PlanningComponent } from './planning/planning.component';
 import { LOCALE_ID } from '@angular/core';
+import { PlanningPopupComponent } from './planning-popup/planning-popup.component';
+import * as bootstrap from "bootstrap";
+import * as $ from "jquery";
 registerLocaleData(localeFr);
 @NgModule({
   declarations: [
@@ -85,7 +88,8 @@ registerLocaleData(localeFr);
     RapportsComponent,
     RapportFormComponent,
     ProductsComparatorComponent,
-    PlanningComponent
+    PlanningComponent,
+    PlanningPopupComponent
   ],
   imports: [
     BrowserModule,

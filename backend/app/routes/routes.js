@@ -224,7 +224,23 @@ module.exports = app => {
     session: false
   })).get('/getStats', stats.getStats);
 
-  app.use('/getPlannings', passport.authenticate('jwt', {
+  app.use('/getPlannings/:iduser', passport.authenticate('jwt', {
     session: false
-  })).get('/getPlannings', tasks.getPlannings);
+  })).get('/getPlannings/:iduser', tasks.getPlannings);
+  app.use('/getUserPlanning', passport.authenticate('jwt', {
+    session: false
+  })).get('/getUserPlanning', tasks.getDisponibilitesForSimpleUser);
+  app.use('/getAdminPlanning', passport.authenticate('jwt', {
+    session: false
+  })).get('/getAdminPlanning', tasks.getDisponibilitesForAdmin);
+  
+  app.use('/addPlanning', passport.authenticate('jwt', {
+    session: false
+  })).post('/addPlanning', tasks.addPlanning);
+  app.use('/deletePlanning', passport.authenticate('jwt', {
+    session: false
+  })).post('/deletePlanning', tasks.deletePlanning);
+  app.use('/updatePlanning', passport.authenticate('jwt', {
+    session: false
+  })).post('/updatePlanning', tasks.editPlanning);
 };

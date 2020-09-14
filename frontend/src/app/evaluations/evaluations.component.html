@@ -327,7 +327,7 @@
                         
                         <div class="row no-gutters">
                             <div class="col-sm-3 col-xl-12 col-xxl-3 text-center mb-3 mt-2">
-                                <img [src]="selectedDelegue.imageUrl ? selectedDelegue.imageUrl :  'assets/img/default.png'" width="64" height="64" class="rounded-circle mt-2" alt="Angelica Ramos">
+                                <img [src]="selectedDelegue.imageUrl ? selectedDelegue.imageUrl :  'assets/img/default.png'" (error)="selectedDelegue.imageUrl = 'assets/img/default.png'" width="64" height="64" class="rounded-circle mt-2" alt="Angelica Ramos">
                                 <span class="badge badge-pill badge-primary ml-2">{{noteDelegeTotal? noteDelegeTotal.toFixed(1) : 0}}/10</span>
                             </div>
                             <div class="col-sm-9 col-xl-12 col-xxl-9" *ngIf="selectedDelegue.about">

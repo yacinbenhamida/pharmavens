@@ -22,6 +22,7 @@ export class TopbarComponent implements OnInit {
       this.user.prenom = res.prenom
       this.user.imageUrl = res.imageUrl
       this.user.email = res.email
+      this.user.role = res.role
       this.loadMessages()
     })
   }

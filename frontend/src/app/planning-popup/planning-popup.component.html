@@ -1,0 +1,62 @@
+<!-- BEGIN primary modal -->
+<button type="button" class="btn btn-primary ml-2" (click)="showModal()">
+    <i class="align-middle fas fa-fw fa-calendar-plus"></i>  Planning
+</button>
+<div class="modal fade" id="centeredModalPrimary" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> {{edit == true && planning ? 'Modifier le planning de '+planning.user.nom +' '+planning.user.prenom : 'Ajouter un planning'}}</h5>
+                <button type="button" class="close" (click)="hideModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+                <div class="left">
+                        <div class="card-body">
+                            <h6>Vous pouvez spécifier votre disponibilité ou ajouter une tache pour un jour choisit, ou une période bien déterminée.</h6>
+                            <form #form="ngForm">
+                                <div class="form-group">
+                                    <label class="form-label">Intitule</label>
+                                    <input required type="text" [(ngModel)]="planning.intitule" 
+                                    name="intitule" #intit="ngModel" class="form-control" placeholder="Titre">
+                                    <span class="msg font-11" *ngIf="intit.touched && intit.errors">titre
+                                        invalide*</span>
+                                </div>
+                                <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="form-label">Début</label>
+                                    <input required type="date"  [(ngModel)]="planning.date_debut" 
+                                     #date_e="ngModel"  name="debut" class="form-control" >
+                                     <span class="msg font-11" *ngIf="date_e.touched && date_e.errors || (date_r.touched && date_e.touched && date_e.value > date_r.value)">date
+                                        invalide*</span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="form-label">Fin</label>
+                                    <input required [(ngModel)]="planning.date_fin" 
+                                    #date_r="ngModel"  type="date" name="fin" class="form-control">
+                                    <span class="msg font-11" *ngIf="date_r.touched && date_r.errors || (date_r.touched && date_e.touched && date_r.value < date_e.value)">date
+                                        invalide*</span>
+                                </div>
+                            </div>
+                                <div class="form-group">
+                                    <label class="form-label">Remarques</label>
+                                    <textarea class="form-control"
+                                    [(ngModel)]="planning.remarques" 
+                                    name="remarques" #remarques="ngModel"  placeholder="vos remarques içi..."></textarea>
+                                </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" *ngIf="edit == true" (click)="deletePlan()" class="btn btn-danger">Supprimer</button>
+                <button type="button" class="btn btn-secondary" (click)="hideModal()">Annuler</button>
+                <button type="button" [disabled]="form.invalid" (click)="addPlan()" class="btn btn-primary">Sauvegarder</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END primary modal -->

@@ -365,7 +365,7 @@
                                 <tbody>
                                     <tr *ngFor="let user of data">
                                         <td class="text-center">
-                                            <img [src]="user.imageUrl ? user.imageUrl : 'assets/img/default.png'" width="48" height="48" class="rounded-circle mr-2" alt="Avatar">
+                                            <img [src]="user.imageUrl ? user.imageUrl : 'assets/img/default.png'" (error)="user.imageUrl = 'assets/img/default.png'" width="48" height="48" class="rounded-circle mr-2" alt="Avatar">
                                         </td>
                                         <td class="text-center"><span
                                                 [ngClass]="roleClass(user.role)">{{user.role}}</span></td>

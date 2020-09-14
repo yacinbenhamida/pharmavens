@@ -57,7 +57,7 @@ export class AdminUsersComponent implements OnInit {
     else this.error = true
   }
   online(str){
-    return str == 'active' ? 'badge badge-success text-center' : 'badge badge-danger text-center'
+    return str == 'active' ? 'badge badge-success text-center ml-2' : 'badge badge-danger text-center ml-2'
   }
   roleClass(role){
     return role == 'admin' ? 'badge badge-danger' : 'badge badge-warning'

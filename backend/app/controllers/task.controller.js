@@ -1,6 +1,7 @@
 const Task = require('../models').task
 const UserTask = require('../models').usertask
 const User = require('../models').users
+const Disponibilite = require('../models').disponibilite
 exports.addTask = (req,res) => {
     const task = req.body.task
     const users = req.body.users
@@ -104,17 +105,131 @@ exports.getTask = (req,res)=>{
     }else return res.status(404)
 }
 exports.getPlannings = (req,res)=>{
-        UserTask.findAll({include: [{
-            model: User,
-            as: 'task_users',
-            required: false,
-            attributes: ['id', 'nom','prenom','email','imageUrl','telephone','telephone_perso','status','role'],
-          },{
-            model: Task,
-            as: 'ut_tasks',
-            required: false,
-            attributes: ['id', 'nom_tache','date_rappel','date_echance','attached_file','isdone']
-          }]}).then(ut=>{
-            return res.send(ut)
+    const iduser = req.params.iduser
+    if(iduser){
+        User.findOne({where : {id: iduser}}).then(targetuser=>{
+            if(targetuser){
+                UserTask.findAll({include: [{
+                    model: User,
+                    as: 'task_users',
+                    required: false,
+                    attributes: ['id', 'nom','prenom','email','imageUrl','telephone','telephone_perso','status','role'],
+                  },{
+                    model: Task,
+                    as: 'ut_tasks',
+                    required: false,
+                    attributes: ['id', 'nom_tache','date_rappel','date_echance','attached_file','isdone']
+                  }]}).then(ut=>{
+                      if(ut){
+                          Disponibilite.findAll({include: [{
+                        model: User,
+                        as: 'user'}]}).then(dispos=>{
+                            let result = []
+                            ut.forEach(tache=>{
+                                result.push({
+                                    type : 'task',
+                                    id : tache.id,
+                                    user : tache.task_users[0],
+                                    task : tache.ut_tasks[0]
+                                })
+                            })
+                            if(dispos && dispos.length > 0  && targetuser.role != "admin"){
+                                dispos.forEach(element => {
+                                    if(element.user.role != 'admin') {
+                                        result.push({
+                                            type : 'dispo',
+                                            id : element.id,
+                                            intitule : element.intitule,
+                                            user : element.user,
+                                            remarques: element.remarques
+                                        })
+                                    }
+                                });
+                            }else if(dispos && dispos.length > 0 ){
+                                dispos.forEach(element => {
+                                        result.push({
+                                            type : 'dispo',
+                                            id : element.id,
+                                            intitule : element.intitule,
+                                            date_debut : element.date_debut,
+                                            date_fin : element.date_fin,
+                                            user : element.user,
+                                            remarques: element.remarques
+                                        })
+                                })
+                            }   
+                            return res.send(result)
+                    })
+                      }
+                })
+            }
         })
+        
+    }
+       
+}
+exports.addPlanning = (req,res)=>{
+    const planning = req.body.planning
+    const userId = req.body.user
+    if(planning && userId){
+        User.findOne({where : {id : userId}}).then(user=>{
+            if(user){
+                planning.user_id = user.id
+                Disponibilite.create(planning,{returning : true}).then(dispo=>{
+                    if(dispo){
+                        return res.send({message : 'added'})
+                    }
+                    else return res.status(404)
+                })
+            }
+            else return res.status(404)
+        })
+    }
+    else return res.status(404)
+}
+exports.deletePlanning = (req,res)=>{
+    const id = req.body.id
+    if(id){
+        Disponibilite.destroy({where : {id : id}}).then(task=>res.send({message : 'done'}))
+    }else return res.status(404)
+}
+exports.editPlanning = (req,res)=>{
+    const planning = req.body.planning
+    const userId = req.body.user
+    if(planning && userId){
+        User.findOne({where : {id : userId}}).then(user=>{
+            if(user){
+                planning.user_id = user.id
+                Disponibilite.update(planning,{where : {id : planning.id}},{returning : true}).then(dispo=>{
+                    if(dispo){
+                        return res.send({message : 'updated'})
+                    }
+                    else return res.status(404)
+                })
+            }
+            else return res.status(404)
+        })
+    }
+    else return res.status(404)
+}
+// display planning for simple user
+exports.getDisponibilitesForSimpleUser = (req,res)=>{
+    Disponibilite.findAll({include: [{
+        model: User,
+        as: 'user'}]}).then(dispos=>{
+            let result = []
+            if(dispos && dispos.length > 0 ){
+                dispos.forEach(element => {
+                    if(element.user.role != 'admin') result.push(element)
+                });
+            }       
+            return res.send(result)
+    })
+}
+exports.getDisponibilitesForAdmin = (req,res)=>{
+    Disponibilite.findAll({include: [{
+        model: User,
+        as: 'user'}]}).then(dispos=>{
+            return res.send(dispos)
+    })
 }

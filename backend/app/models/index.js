@@ -37,6 +37,7 @@ db.contacts = require('./contact.model')(sequelize,Sequelize)
 db.evaluations = require('./evaluation.model')(sequelize,Sequelize)
 db.rapports = require('./rapport.model')(sequelize,Sequelize)
 db.rapportsdelege = require('./rapportdelege.model')(sequelize,Sequelize)
+db.disponibilite = require('./disponiblite.model')(sequelize,Sequelize)
 // relations
 
 db.users.hasOne(db.vehicules)
@@ -56,7 +57,7 @@ db.evaluations.belongsTo(db.users , {as : 'delegue_evaluee', foreignKey : 'idDel
 db.rapports.belongsTo(db.users , {as : 'rapporteur', foreignKey : 'ownerId'})
 db.commandes.belongsTo(db.packs , {as : 'pack_choisit', foreignKey : 'selectedPackId'})
 db.commandes.belongsTo(db.clients , {as : 'grossiste_intermediare', foreignKey : 'grossiteIntermediareId' , unique : false})
-
+db.disponibilite.belongsTo(db.users,{as : 'user', foreignKey : "user_id", unique : false} )
 // join tbl commande produit
 db.produits.belongsToMany(db.commandes,{
     through: 'commandeProduit',

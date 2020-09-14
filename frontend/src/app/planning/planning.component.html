@@ -37,6 +37,10 @@
             <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
               Jour
             </div>
+            <div>
+              <app-planning-popup (source)="interceptEmit($event)" [edit]="edit" [planning]="selectedPlanning" [user]="user"></app-planning-popup>
+            </div>
+           
           </div>
         </div>
       </div>

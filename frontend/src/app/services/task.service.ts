@@ -92,13 +92,13 @@ export class TaskService {
     }
     return null
   }
-  getAllPlannings() : Observable<any> {
+  getAllPlannings(iduser) : Observable<any> {
     let connnectedUser :any = this.userService.getLoggedOn()
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': "JWT "+connnectedUser.token });
     let options = { headers: headers };
-    return this.http.get(this.baseUrl+'/getPlannings',options)
+    return this.http.get(this.baseUrl+'/getPlannings/'+iduser,options)
   }
   delete(id){
     let connnectedUser :any = this.userService.getLoggedOn()
@@ -110,5 +110,54 @@ export class TaskService {
       return this.http.post(this.baseUrl+'/deleteTask',{id : id},options)
     }
     return null
+  }
+  addPlanning(planning, userid){
+    let connnectedUser :any = this.userService.getLoggedOn()
+    if(userid && planning && connnectedUser){
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "JWT "+connnectedUser.token });
+      let options = { headers: headers };
+      return this.http.post(this.baseUrl+'/addPlanning',{planning : planning , user : userid},options)
+    }       
+    return null
+  }
+  editPlanning(planning, userid){
+    let connnectedUser :any = this.userService.getLoggedOn()
+    if(userid && planning && connnectedUser){
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "JWT "+connnectedUser.token });
+      let options = { headers: headers };
+      return this.http.post(this.baseUrl+'/updatePlanning',{planning : planning , user : userid},options)
+    }       
+    return null
+  }
+  deletePlanning(id){
+    let connnectedUser :any = this.userService.getLoggedOn()
+    if(id && connnectedUser){
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "JWT "+connnectedUser.token });
+      let options = { headers: headers };
+      return this.http.post(this.baseUrl+'/deletePlanning',{id : id},options)
+    }
+    return null
+  }
+  getDisponibilitesForSimpleUser(){
+    let connnectedUser :any = this.userService.getLoggedOn()
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "JWT "+connnectedUser.token });
+    let options = { headers: headers };
+    return this.http.get(this.baseUrl+'/getUserPlanning',options)
+  }
+  getDisponibilitesForAdmin(){
+    let connnectedUser :any = this.userService.getLoggedOn()
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "JWT "+connnectedUser.token });
+    let options = { headers: headers };
+    return this.http.get(this.baseUrl+'/getAdminPlanning',options)
   }
 }
