@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output,EventEmitter } from '@angular/core';
 import { Disponibilite } from '../models/disponibilite.model';
 import { TaskService } from '../services/task.service';
 import { User } from '../models/user.model';
+declare var $ : any;
 
 @Component({
   selector: 'app-planning-popup',
@@ -13,17 +14,16 @@ export class PlanningPopupComponent implements OnInit {
   @Input() user : User
   @Input() edit : boolean
   @Output() source = new EventEmitter<string>();
-  $ : any
   constructor(private taskServ:TaskService) { }
 
   ngOnInit() {
   }
   showModal(){
     this.source.emit('new');
-    ($('#centeredModalPrimary') as any).modal('show')
+    $('#centeredModalPrimary').modal('show')
   }
   hideModal(){    
-    ($('#centeredModalPrimary') as any).modal('hide')
+    $('#centeredModalPrimary').modal('hide')
   }
   addPlan(){
     if(this.edit == false){

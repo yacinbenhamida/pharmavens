@@ -20,11 +20,8 @@ import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
 import { environment } from 'src/environments/environment.prod';
 import { Disponibilite } from '../models/disponibilite.model';
-interface Film {
-  id: number;
-  title: string;
-  release_date: string;
-}
+declare var $ : any;
+
 
 function getTimezoneOffsetString(date: Date): string {
   const timezoneOffset = date.getTimezoneOffset();
@@ -69,7 +66,6 @@ export class PlanningComponent implements OnInit {
   activeDayIsOpen: boolean = false;
   selectedPlanning : Disponibilite
   edit : boolean = false // when editing a plan this becomes true
-  $: any;
   constructor(private http: HttpClient,private taskserv:TaskService,private userv:UserService) {}
 
   ngOnInit(): void {
@@ -159,7 +155,7 @@ export class PlanningComponent implements OnInit {
     else if (event.plan && (event.user == this.user.id || this.user.role == "admin" || this.user.role == "superviseur")){
       this.selectedPlanning = event.plan
       this.edit = true;
-      ($('#centeredModalPrimary') as any).modal('show');
+      $('#centeredModalPrimary').modal('show');
     }
     
   }

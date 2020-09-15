@@ -52,8 +52,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PlanningComponent } from './planning/planning.component';
 import { LOCALE_ID } from '@angular/core';
 import { PlanningPopupComponent } from './planning-popup/planning-popup.component';
-import * as bootstrap from "bootstrap";
-import * as $ from "jquery";
+declare var $ : any;
+
 registerLocaleData(localeFr);
 @NgModule({
   declarations: [
