@@ -4,7 +4,7 @@
     <app-navbar *ngIf="router.url != '/login'"></app-navbar>
     <div class='main'>
       <div *ngIf="router.url != '/login'">
-      <app-topbar ></app-topbar>
+      <app-topbar [navbarshown]='collapsedNavbar' (hideNav)="handlehideNav($event)"></app-topbar>
     </div>
       <router-outlet></router-outlet>
       <div *ngIf="router.url != '/login'" class="foot">

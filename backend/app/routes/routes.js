@@ -130,6 +130,9 @@ module.exports = app => {
   app.use('/updateTaskstatus', passport.authenticate('jwt', {
     session: false
   })).post('/updateTaskstatus', tasks.updateTaskStatus);
+  app.use('/setTaskToprivate', passport.authenticate('jwt', {
+    session: false
+  })).post('/setTaskToprivate', tasks.setTaskToPrivate);
   // comments
   app.use('/addComment', passport.authenticate('jwt', {
     session: false

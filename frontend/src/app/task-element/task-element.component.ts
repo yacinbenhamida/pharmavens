@@ -29,9 +29,8 @@ export class TaskElementComponent implements OnInit {
     }) 
   }
   updateTaskStatus(){
-    let bool = !(this.task.isdone)
-      this.taskserv.updateTaskStatus(this.task.id,bool).subscribe(x=>{
-        window.location.reload()
+      this.taskserv.updateTaskStatus(this.task.id,!this.task.isdone).subscribe(x=>{
+        this.task.isdone = !this.task.isdone
       })
   }
   deleteTask(){
@@ -43,5 +42,9 @@ export class TaskElementComponent implements OnInit {
   disscuss(){
     this.router.navigateByUrl('/discussion/'+this.task.id)
   }
-
+  changePrivate(){  
+    this.taskserv.setTaskToPrivate(this.task.id,!this.task.private).subscribe(x=>{
+      this.task.private = ! this.task.private
+    })
+  }
 }

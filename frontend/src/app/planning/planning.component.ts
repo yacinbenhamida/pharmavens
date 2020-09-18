@@ -2,6 +2,8 @@ import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
+import { DatePipe,formatDate } from '@angular/common';
+import * as moment from 'moment'
 import {
   isSameMonth,
   isSameDay,
@@ -92,6 +94,7 @@ export class PlanningComponent implements OnInit {
       .pipe(
         map(( results: any[] ) => {
           return results.map((result: any) => {
+            console.log(result)
             if(result.type == 'dispo'){
               return {
                 start: new Date(result.date_debut),
@@ -106,16 +109,18 @@ export class PlanningComponent implements OnInit {
               };
             }
             else{
-              return {
-                start: new Date(result.task.date_rappel),
-                end : new Date(result.task.date_echance),
-                title: result.user.nom+' '+result.user.prenom+' ('+result.user.role+') : '+ result.task.nom_tache, 
-                color: result.user.id == user.id ? colors.yellow : colors.blue,
-                allDay: true,
-                meta : result.user.id,
-                user : result.user.id,
-                plan : null
-              };
+                return {
+                  start: new Date(result.task.date_rappel),
+                  end : new Date(result.task.date_echance),
+                  title: result.user.nom+' '+result.user.prenom+' ('+result.user.role+') : '+ result.task.nom_tache, 
+                  color: result.user.id == user.id ? colors.yellow : colors.blue,
+                  allDay: true,
+                  meta : result.user.id,
+                  user : result.user.id,
+                  plan : null
+                };
+              
+              
             }
           });
         })

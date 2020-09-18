@@ -81,6 +81,17 @@ export class TaskService {
     }
     return null
   }
+  setTaskToPrivate(id:number,status:boolean){
+    let connnectedUser :any = this.userService.getLoggedOn()
+    if(connnectedUser){
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "JWT "+connnectedUser.token });
+      let options = { headers: headers };
+      return this.http.post(this.baseUrl+'/setTaskToprivate',{id : id , state : status},options)
+    }
+    return null
+  }
   getAll(){
     let connnectedUser :any = this.userService.getLoggedOn()
     if(connnectedUser){

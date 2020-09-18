@@ -22,15 +22,15 @@
                             <div class="col-md-3">
                             <label>Du</label>
                             <input #date_debut_rapport="ngModel" required 
-                                [(ngModel)]="rapportToAdd.date_debut_rapport" name="date_debut_rapport" type="date"
-                                class="form-control" placeholder="sortie 1,sortie 2...">
+                                [(ngModel)]="rapportToAdd.date_debut_rapport" name="date_debut_rapport" placeholder="AAAA-MM-JJ" type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                                class="form-control" >
                             <span class="msg font-11" *ngIf="date_debut_rapport.touched && date_debut_rapport.errors">Date
                                 invalide*</span>
                             </div>
                             <div class="col-md-3">
                                 <label>Au</label>
                                 <input #date_fin_rapport="ngModel" required 
-                                    [(ngModel)]="rapportToAdd.date_fin_rapport" name="date_fin_rapport" type="date"
+                                    [(ngModel)]="rapportToAdd.date_fin_rapport" name="date_fin_rapport" placeholder="AAAA-MM-JJ" type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
                                     class="form-control" >
                                 <span class="msg font-11" *ngIf="date_fin_rapport.touched && date_fin_rapport.errors">Date
                                     invalide*</span>

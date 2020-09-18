@@ -40,6 +40,7 @@
                 <div class="col-12 col-lg-7 col-xl-9">
                     <div class="py-2 px-4 border-bottom d-none d-lg-block">
                         <div class="media align-items-center py-1">
+                            <button *ngIf="targetTask.private" class="btn btn-success" alt="privée"><i class="align-center fas fa-fw fa-lock"></i></button>
                             <div class="media-body pl-3">
                                 <strong>Tache : {{targetTask.nom_tache}}</strong>
                                 <div class="text-muted small"><em>{{targetTask.isdone ? 'terminée' : 'en cours...'}}</em></div>
@@ -66,7 +67,6 @@
                                     <div class="font-weight-bold mb-1">Vous</div>
                                     {{c.content}}
                                 </div>
-                                <button (click)="deleteMessage(c)" class="btn btn-round btn-sm">x</button>
                             </div>
 
                             <div *ngIf="c.emitter.email !== connectedUser.email" class="chat-message-left pb-4">

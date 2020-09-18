@@ -27,18 +27,19 @@
                                 <div class="row">
                                 <div class="form-group col-md-6">
                                     <label class="form-label">Début</label>
-                                    <input required type="date"  [(ngModel)]="planning.date_debut" 
-                                     #date_e="ngModel"  name="debut" class="form-control" >
+                                    <input required  type="text" bsDatepicker  [(ngModel)]="planning.date_debut" 
+                                     #date_e="ngModel" id="debut"  [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" name="debut"  class="form-control" >
                                      <span class="msg font-11" *ngIf="date_e.touched && date_e.errors || (date_r.touched && date_e.touched && date_e.value > date_r.value)">date
                                         invalide*</span>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="form-label">Fin</label>
                                     <input required [(ngModel)]="planning.date_fin" 
-                                    #date_r="ngModel"  type="date" name="fin" class="form-control">
+                                    #date_r="ngModel"  type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" name="fin" class="form-control">
                                     <span class="msg font-11" *ngIf="date_r.touched && date_r.errors || (date_r.touched && date_e.touched && date_r.value < date_e.value)">date
                                         invalide*</span>
                                 </div>
+                                
                             </div>
                                 <div class="form-group">
                                     <label class="form-label">Remarques</label>

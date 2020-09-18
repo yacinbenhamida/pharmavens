@@ -125,7 +125,7 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-4">
                                             <label for="inputZip">Date naissance</label>
-                                            <input type="date" #date_naiss [(ngModel)]="user.date_naissance" name="date_naissance" class="form-control" id="inputZip">
+                                            <input placeholder="AAAA-MM-JJ" type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" #date_naiss [(ngModel)]="user.date_naissance" name="date_naissance" class="form-control" id="inputZip">
                                             <span class="msg font-11" *ngIf="date_naiss.touched && date_naiss.errors">Date
                                                 invalide*</span>
                                         </div>

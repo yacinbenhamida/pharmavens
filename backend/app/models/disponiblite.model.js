@@ -12,7 +12,7 @@ module.exports = (sequelize, Sequelize) => {
             type : Sequelize.TEXT
         },
         date_debut : {
-            type : Sequelize.DATEONLY
+            type : Sequelize.DATEONLY,
         },
         date_fin : {
             type : Sequelize.DATEONLY

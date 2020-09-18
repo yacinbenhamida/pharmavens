@@ -52,6 +52,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PlanningComponent } from './planning/planning.component';
 import { LOCALE_ID } from '@angular/core';
 import { PlanningPopupComponent } from './planning-popup/planning-popup.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
 declare var $ : any;
 
 registerLocaleData(localeFr);
@@ -106,6 +108,7 @@ registerLocaleData(localeFr);
     NgbModalModule,
     CommonModule,
     BrowserAnimationsModule,
+    BsDatepickerModule.forRoot(),
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
   providers: [AuthGuardService,RoleGuardService,  { provide: LOCALE_ID, useValue: "fr-FR" }],

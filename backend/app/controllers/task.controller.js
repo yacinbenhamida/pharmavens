@@ -2,6 +2,8 @@ const Task = require('../models').task
 const UserTask = require('../models').usertask
 const User = require('../models').users
 const Disponibilite = require('../models').disponibilite
+const sequelize = require("../models").Sequelize;
+
 exports.addTask = (req,res) => {
     const task = req.body.task
     const users = req.body.users
@@ -104,6 +106,22 @@ exports.getTask = (req,res)=>{
         Task.findOne({where : {id : taskId}}).then(task=>res.send(task))
     }else return res.status(404)
 }
+exports.setTaskToPrivate = (req,res) => {
+    const taskId = req.body.id
+    const state = req.body.state
+    if(taskId && state != null && state != undefined){
+        Task.findOne({where : {id : taskId}}).then(x=>{
+            if(x){
+                Task.update({private : state}, {where : {id : x.id}}).then(t=>{
+                    return res.status(200).send({message : 'done'})
+                })
+            }
+            else return res.status(404).send({message : 'param missing'})
+        })
+        
+    }
+    else return res.status(405).send({message : 'error'})
+}
 exports.getPlannings = (req,res)=>{
     const iduser = req.params.iduser
     if(iduser){
@@ -118,20 +136,27 @@ exports.getPlannings = (req,res)=>{
                     model: Task,
                     as: 'ut_tasks',
                     required: false,
-                    attributes: ['id', 'nom_tache','date_rappel','date_echance','attached_file','isdone']
+                    attributes: ['id', 'nom_tache','date_rappel','date_echance','attached_file','isdone','private']
                   }]}).then(ut=>{
                       if(ut){
                           Disponibilite.findAll({include: [{
                         model: User,
-                        as: 'user'}]}).then(dispos=>{
+                        as: 'user'}]},{attributes : [
+                            "id",
+                            [sequelize.fn('date_format', sequelize.col('date_debut'), '%d/%m/%y'), 'date_debut'],
+                            [sequelize.fn('date_format', sequelize.col('date_fin'), '%d/%m/%y'), 'date_fin'],
+                            'remarques','intitule' , 'date_debut','date_fin'
+                        ]}).then(dispos=>{
                             let result = []
                             ut.forEach(tache=>{
-                                result.push({
-                                    type : 'task',
-                                    id : tache.id,
-                                    user : tache.task_users[0],
-                                    task : tache.ut_tasks[0]
-                                })
+                                if(tache.ut_tasks[0].private == false || targetuser.role == "admin" || targetuser.id ==tache.task_users[0].id ){
+                                    result.push({
+                                        type : 'task',
+                                        id : tache.id,
+                                        user : tache.task_users[0],
+                                        task : tache.ut_tasks[0]
+                                    })
+                                }                             
                             })
                             if(dispos && dispos.length > 0  && targetuser.role != "admin"){
                                 dispos.forEach(element => {
@@ -141,6 +166,8 @@ exports.getPlannings = (req,res)=>{
                                             id : element.id,
                                             intitule : element.intitule,
                                             user : element.user,
+                                            date_debut : element.date_debut,
+                                            date_fin : element.date_fin,
                                             remarques: element.remarques
                                         })
                                     }

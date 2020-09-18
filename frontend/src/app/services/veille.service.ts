@@ -22,7 +22,7 @@ export class VeilleService {
         'Content-Type': 'application/json',
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
-      return this.http.post('/api/addVeille',{veille : veille, user : connnectedUser.email},options)
+      return this.http.post(this.baseUrl+'/addVeille',{veille : veille, user : connnectedUser.email},options)
     }       
     return null
   }

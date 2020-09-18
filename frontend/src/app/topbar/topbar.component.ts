@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output,EventEmitter, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
@@ -13,6 +13,8 @@ import { Notification } from '../models/notification.model';
 export class TopbarComponent implements OnInit {
   user : User = {} as User
   messages : Notification[] = []
+  @Input() navbarshown : boolean
+  @Output() hideNav = new EventEmitter<boolean>()
   constructor(private router: Router, private userv:UserService
     , private nserv:NotificationService) { }
   ngOnInit() {
@@ -45,5 +47,9 @@ export class TopbarComponent implements OnInit {
     this.nserv.delete(m.id).subscribe(res=>{
       this.router.navigateByUrl('discussion/'+m.subject.id)
     })
+  }
+  hideNavbar(){
+    this.navbarshown = ! this.navbarshown
+    this.hideNav.emit(this.navbarshown)
   }
 }

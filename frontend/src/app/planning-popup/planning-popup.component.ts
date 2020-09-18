@@ -14,9 +14,13 @@ export class PlanningPopupComponent implements OnInit {
   @Input() user : User
   @Input() edit : boolean
   @Output() source = new EventEmitter<string>();
+  bsInlineValue = new Date();
+  bsInlineRangeValue: Date[];
+  maxDate = new Date();
   constructor(private taskServ:TaskService) { }
 
   ngOnInit() {
+    this.maxDate.setDate(this.maxDate.getDate() + 7);    
   }
   showModal(){
     this.source.emit('new');

@@ -57,7 +57,8 @@
                                     <div class="form-group col-md-6">
                                         <label>date de naissance</label>
                                         <input #daten="ngModel" required [(ngModel)]="targetUser.date_naissance"
-                                            name="date_naissance" type="date" class="form-control">
+                                            name="date_naissance" placeholder="AAAA-MM-JJ" type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                                            class="form-control">
                                         <span class="msg font-11" *ngIf="daten.touched && daten.errors">date
                                             invalide*</span>
                                     </div>
@@ -147,11 +148,11 @@
                                 <div class="form-row" *ngIf="targetUser.type_contrat === 'SIVP' || targetUser.type_contrat === 'CDD'">
                                     <div class="form-group col-md-6">
                                         <label>date debut contrat</label>
-                                        <input type="date" [(ngModel)]="targetUser.date_debut_contrat" class="form-control" name="date_d_c"/>
+                                        <input type="text" placeholder="AAAA-MM-JJ" bsDatepicker  [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="targetUser.date_debut_contrat" class="form-control" name="date_d_c"/>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>date fin contrat</label>
-                                        <input type="date" [(ngModel)]="targetUser.date_fin_contrat" class="form-control" name="date_f_c"/>
+                                        <input placeholder="AAAA-MM-JJ" type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="targetUser.date_fin_contrat" class="form-control" name="date_f_c"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -206,13 +207,13 @@
                                             <div class="form-group col-md-6">
                                                 <label>date échénace assurance</label>
                                                 <input name="assurc" [(ngModel)]="cartToEdit.date_echeance_assurance"
-                                                    minlength="1" type="date" class="form-control">
+                                                    minlength="1" placeholder="AAAA-MM-JJ" type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" class="form-control">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>date derniere vidange</label>
                                                 <input name="date_derniere_vidange"
                                                     [(ngModel)]="cartToEdit.date_derniere_vidange" minlength="1"
-                                                    type="date" class="form-control">
+                                                    placeholder="AAAA-MM-JJ" type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" class="form-control">
                                             </div>
                                         </div>
                                         <div *ngIf="cartToEdit.vehicule_societe" class="form-row">

@@ -22,9 +22,20 @@ export class NavbarComponent implements OnInit {
       this.user.nom = res.nom
       this.user.prenom = res.prenom
       this.user.role = res.role
+    },err=>{
+      alert('session expirée, veuillez vous reconnecter')
+      this.logout()
     })
   }
   }
+  logout(){
+    this.userv.logout().subscribe(res=>{
+      localStorage.clear()
+      sessionStorage.clear()
+      this.router.navigate(['login'])
+    })
+    
+}
   tick(){
     setInterval(()=>this.today = new Date(),1000)
   }
