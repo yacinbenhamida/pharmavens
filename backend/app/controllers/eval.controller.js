@@ -1,13 +1,13 @@
 const Evaluation = require('../models').evaluations
 const User =  require('../models').users
 exports.addEvaluation =  (req,res)=>{
-    let eval = req.body.eval
+    let evaluation = req.body.eval
     const email = req.body.email
-    if(eval && email){
+    if(evaluation && email){
         User.findOne({where : {email : email}}).then(user=>{
-            if(user && eval){
-                eval.idDelegue = user.id
-                Evaluation.create(eval,{w:1},{returning : true}).then(d=>{
+            if(user && evaluation){
+                evaluation.idDelegue = user.id
+                Evaluation.create(evaluation,{w:1},{returning : true}).then(d=>{
                     return res.send(d)
                 })
             }else return res.send({message : 'error'})

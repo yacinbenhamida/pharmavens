@@ -21,8 +21,17 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'Fr' }}</h3>
+        <div class="col-md-2 center">
+          <h4 class="center">{{ viewDate | calendarDate:(view + 'ViewTitle'):'Fr' }}</h4>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <select required
+            name="user" [(ngModel)]="selectedUser" (change)="filterCalendar()"  class="form-control" >
+            <option value="0">Collaborateur</option>
+            <option *ngFor="let u of filterUsersList" [ngValue]="u.id" > {{u.nom +' '+u.prenom + ' ('+u.role+') '}}</option>
+        </select>
+        </div>
         </div>
         <div class="col-md-4">
           <div class="btn-group">
@@ -38,9 +47,8 @@
               Jour
             </div>
             <div>
-              <app-planning-popup (source)="interceptEmit($event)" [edit]="edit" [planning]="selectedPlanning" [user]="user"></app-planning-popup>
-            </div>
-           
+              <app-planning-popup [usersList]="usersList" (source)="interceptEmit($event)" [edit]="edit" [planning]="selectedPlanning" [user]="user"></app-planning-popup>
+            </div> 
           </div>
         </div>
       </div>

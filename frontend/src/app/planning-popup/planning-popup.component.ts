@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output,EventEmitter } from '@angular/core';
 import { Disponibilite } from '../models/disponibilite.model';
 import { TaskService } from '../services/task.service';
 import { User } from '../models/user.model';
+import { UserService } from '../services/user.service';
 declare var $ : any;
 
 @Component({
@@ -17,9 +18,15 @@ export class PlanningPopupComponent implements OnInit {
   bsInlineValue = new Date();
   bsInlineRangeValue: Date[];
   maxDate = new Date();
-  constructor(private taskServ:TaskService) { }
+  @Input() usersList : User []
+  selectedUser: number
+  constructor(private taskServ:TaskService,private userv:UserService) { }
 
   ngOnInit() {
+    if(this.edit){
+      this.selectedUser = this.user.id
+    }
+    else this.selectedUser = 0
     this.maxDate.setDate(this.maxDate.getDate() + 7);    
   }
   showModal(){
@@ -31,7 +38,11 @@ export class PlanningPopupComponent implements OnInit {
   }
   addPlan(){
     if(this.edit == false){
-      this.taskServ.addPlanning(this.planning,this.user.id).subscribe(res=>window.location.reload())
+      if(this.selectedUser == 0){
+        this.taskServ.addPlanning(this.planning,this.user.id).subscribe(res=>window.location.reload())
+      }else{
+        this.taskServ.addPlanning(this.planning,this.selectedUser).subscribe(res=>window.location.reload())
+      }
     }
     else{
       this.taskServ.editPlanning(this.planning,this.user.id).subscribe(res=>window.location.reload())

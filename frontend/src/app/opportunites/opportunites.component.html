@@ -1,0 +1,246 @@
+<main class="content">
+    <div class="container-fluid p-0">
+
+        <h1 class="h3 mb-3">Notes d'opportunités</h1>
+        <div class="row" *ngIf="ajout || modification">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Nouvelle note d'opportunité</h5>
+                        <button *ngIf="ajout || modification" (click)="cancelEditionOrAdd()"
+                            class="btn btn-round btn-danger float-right">Annuler</button>
+                    </div>
+                    <!--    alert message    -->
+                    <div *ngIf="addError" class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <div class="alert-message">
+                            <strong>Ajout echoué</strong> Veuillez réessayer ultérieurement, ou vérifiez vos
+                            champs.
+                        </div>
+                    </div>
+                    <!--end alert-->
+                    <div class="card-body">
+                        <form #grForm="ngForm">
+                            <div class="row">
+                                <div class="col-12 col-lg-12">
+                                    <div class="form-row mb-2">
+                                        <div class="col-md-6">
+                                            <label>Nom</label>
+                                            <input #nomg="ngModel" minlength="2" required
+                                                [(ngModel)]="prospetToAdd.nom_complet" name="nom_client" type="text"
+                                                class="form-control" placeholder="pharmacie, medecin, ou autres...">
+                                            <span class="msg font-11" *ngIf="nomg.touched && nomg.errors">nom
+                                                invalide*</span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Details</label>
+                                            <input minlength="2" required name="details" type="text"
+                                                [(ngModel)]="prospetToAdd.details" class="form-control"
+                                                placeholder="details de l'offre">
+                                        </div>
+                                    </div>
+                                    <div class="form-row mb-2">
+                                        <div class="col-md-6">
+                                            <label>Type de prospet</label>
+                                            <select #type="ngModel" required minlength="3"
+                                                [(ngModel)]="prospetToAdd.type_prospet" name="type"
+                                                class="form-control">
+                                                <option selected value="null">Type</option>
+                                                <option value="pharmacie">Pharmacie</option>
+                                                <option value="medecin">Medecin</option>
+                                                <option value="autres">Autres</option>
+                                            </select>
+                                            <span class="msg font-11" *ngIf="type.touched && type.errors">type
+                                                invalide*</span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Localité</label>
+                                            <input #localite="ngModel" required minlength="3"
+                                                [(ngModel)]="prospetToAdd.localite" name="localite" type="text"
+                                                class="form-control" placeholder="adresse...">
+                                            <span class="msg font-11"
+                                                *ngIf="localite.touched && localite.errors">localité
+                                                invalide*</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-row mb-2">
+                                        <div
+                                            [ngClass]="prospetToAdd.type_prospet == 'medecin' ? 'col-md-6' : 'col-md-12'">
+                                            <label>Budget</label>
+                                            <input required 
+                                                [(ngModel)]="prospetToAdd.budget" name="budget" type="number"
+                                                class="form-control" placeholder="TND.">
+                                        </div>
+
+
+                                        <div *ngIf="prospetToAdd.type_prospet == 'medecin'" class="col-md-6">
+                                            <label>Spécialite</label>
+                                            <input #spec="ngModel" required minlength="3"
+                                                [(ngModel)]="prospetToAdd.specialite" name="specialite" type="text"
+                                                class="form-control" placeholder="medecine generale, gynecologie...">
+                                            <span class="msg font-11" *ngIf="spec.touched && spec.errors">specialite
+                                                invalide
+                                                invalide*</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <label>Produits</label>
+                                        <textarea [(ngModel)]="prospetToAdd.produits" name="prods" class="form-control"
+                                            placeholder="Produits desirés..." rows="4"></textarea>
+                                    </div>
+                                    <div class="form-row mb-4">
+                                        <div class="col-md-4">
+                                            <label>Potentiel</label>
+                                            <select required name="potentiel" class="form-control"
+                                                [(ngModel)]="prospetToAdd.potentiel">
+                                                <option selected value="null">Potentiel</option>
+                                                <option value="A">A (élevé)</option>
+                                                <option value="B">B (bon)</option>
+                                                <option value="C">C (normale)</option>
+                                                <option value="F">F (faible)</option>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                            <label>Duree</label>
+                                            <input [(ngModel)]="prospetToAdd.duree" type="text" name="duree"
+                                                class="form-control" placeholder="1 mois, deux ans...">
+                                        </div>
+                                        <div class="col-md-4 mb-2">
+                                            <label>Nombre de prescription / conseil par jour</label>
+                                            <input required name="nbp" type="number"
+                                                [(ngModel)]="prospetToAdd.nb_prescription_jour" class="form-control"
+                                                placeholder="1">
+                                        </div>
+                                    </div>
+                                    <div *ngIf="modification" class="from-row mt-2">
+                                        <div class="alert alert-primary alert-dismissible" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                            <div class="alert-message">
+                                                <span>Enregistré le {{prospetToAdd.createdAt | date : 'medium'}}</span> <br/>
+                                                <span>Derniére modification le {{prospetToAdd.updatedAt | date : 'medium'}}</span> <br/>
+                                                <span *ngIf="prospetToAdd.accord_direction" class="card-title">Confirmé
+                                                    par la direction.</span><br/>
+                                                <span *ngIf="!prospetToAdd.accord_direction" class="card-title">En attente
+                                                    de confirmation de la part de la direction.</span>
+                                                <span *ngIf="prospetToAdd.accord_superviseur" class="card-title">Confirmé
+                                                    par un superviseur.</span><br/>
+                                                <span *ngIf="!prospetToAdd.accord_superviseur" class="card-title">En
+                                                    attente de confirmation par un superviseur.</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row mt-3 float-right ">
+                                        <div class="">
+                                            <button type="submit" *ngIf="ajout" [disabled]="grForm.invalid"
+                                                (click)="add(grForm)" class="btn btn-primary btn-lg ">Ajouter</button>
+                                            <button type="submit" *ngIf="modification" [disabled]="grForm.invalid"
+                                                (click)="update(grForm)"
+                                                class="btn btn-warning btn-lg ">Enregistrer</button>
+                                            <button type="reset"
+                                                class="btn btn-danger btn-lg ml-2">Réinitialiser</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Liste des opportunités</h5>
+                        <button *ngIf="!ajout && !modification" (click)="addNewOpp()"
+                            class="btn btn-round btn-primary float-right">Ajouter</button>
+                    </div>
+                    <div class="card-body">
+                        <table id="datatables-clients" datatable [dtOptions]="options" [dtTrigger]="trigger"
+                            class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Prospet</th>
+                                    <th>Type</th>
+                                    <th>Localité</th>
+                                    <th>Potentiel</th>
+                                    <th *ngIf="user.role != 'delegue' ">Emetteur</th>
+                                    <th>Direction</th>
+                                    <th>Superviseur</th>
+                                    <th>actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let c of prospets">
+                                    <td>{{c.nom_complet}}</td>
+                                    <td>{{c.type_prospet}}</td>
+                                    <td>{{c.localite}}</td>
+                                    <td class="white-center"><span
+                                            class="badge bg-primary rounded-pill">{{c.potentiel}}</span></td>
+                                    <td *ngIf="user.role != 'delegue' ">{{c.delegue.nom +' '+ c.delegue.prenom}}</td>
+                                    <td>
+                                        <button *ngIf="user.role == 'admin'" (click)="accordAdmin(c,true)"
+                                            class="btn btn-success btn-sm"><i
+                                                class="align-middle fas fa-fw fa-check-double"></i></button>
+                                        <button *ngIf="user.role == 'admin'" (click)="accordAdmin(c,false)"
+                                            class="btn btn-danger btn-sm ml-2"><i
+                                                class="align-middle fas fa-fw fa-times"></i></button>
+                                        <span
+                                            *ngIf="user.role != 'admin'">{{c.accord_direction ? 'approuvé' : 'en attente'}}</span>
+                                    </td>
+                                    <td class="center">
+                                        <button *ngIf="user.role == 'admin' || user.role == 'superviseur'"
+                                            (click)="accordSup(c,true)" class="btn btn-warning btn-sm"><i
+                                                class="align-middle fas fa-fw fa-check"></i></button>
+                                        <button *ngIf="user.role == 'admin' || user.role == 'superviseur'"
+                                            (click)="accordSup(c,false)" class="btn btn-danger btn-sm ml-2"><i
+                                                class="align-middle fas fa-fw fa-times"></i></button>
+                                        <span
+                                            *ngIf="user.role == 'delege'">{{c.accord_superviseur ? 'approuvé' : 'en attente'}}</span>
+                                    </td>
+                                    <td>
+                                        <button (click)="setContactForEdit(c)"
+                                            class="btn btn-success btn-sm">détails</button>
+                                        <button (click)="setOpp(c)"
+                                            class="btn btn-danger btn-sm ml-2">x</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" *ngIf="prospetToDelete" id="sizedModalSm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Supprimer l'opportunité</h5>
+                <button (click)="prospetToDelete = null" type="button" class="close" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body m-3">
+                <p class="mb-0">Etes vous sûr(e) de vouloir supprimer {{prospetToDelete.nom_complet}} ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="prospetToDelete = null" class="btn btn-secondary"
+                    data-dismiss="modal">annuler</button>
+                <button type="button" (click)="deleteOpp()" class="btn btn-danger">supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END  modal -->

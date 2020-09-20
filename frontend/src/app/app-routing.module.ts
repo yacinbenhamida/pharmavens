@@ -24,6 +24,7 @@ import { RapportsComponent } from './rapports/rapports.component';
 import { ProductsComparatorComponent } from './products-comparator/products-comparator.component';
 import { RoleGuardService } from './services/roleguard.service';
 import { PlanningComponent } from './planning/planning.component';
+import { OpportunitesComponent } from './opportunites/opportunites.component';
 
 
 const routes: Routes = [
@@ -36,8 +37,8 @@ const routes: Routes = [
   {path : 'packs', component : PacksComponent, canActivate : [RoleGuardService],data : {role : ['admin','delege']}},
   {path : 'pharmacie-clients', component : ClientPharmaciesComponent, canActivate : [RoleGuardService],data : {role : ['admin','delege']}},
   {path : 'grossiste-clients', component : ClientGrossistesComponent, canActivate :[RoleGuardService],data : {role : ['admin','delege']}},
-  {path : 'veille-concurentielle', component : ProductsVeillecComponent, canActivate : [RoleGuardService],data : {role : ['admin','delege']}},
-  {path : 'veille-concurentielle-admin', component : ProductsVeillecAdminComponent, canActivate :[RoleGuardService],data : {role : ['admin','delege']}},
+  {path : 'veille-concurentielle', component : ProductsVeillecComponent, canActivate : [RoleGuardService],data : {role : ['admin','delege','superviseur']}},
+  {path : 'veille-concurentielle-admin', component : ProductsVeillecAdminComponent, canActivate :[RoleGuardService],data : {role : ['admin','delege','superviseur']}},
   {path : 'taches', component : TasksComponent, canActivate : [AuthGuardService]},
   {path : 'discussion/:id', component : TaskDiscussionComponent, canActivate : [AuthGuardService]},
   {path : 'reunions', component : ReunionsComponent, canActivate : [RoleGuardService],data : {role : ['admin']}},
@@ -45,7 +46,8 @@ const routes: Routes = [
   {path : 'evaluations', component : EvaluationsComponent, canActivate : [RoleGuardService],data : {role : ['admin','superviseur']}},
   {path : 'rapports', component : RapportsComponent, canActivate : [RoleGuardService],data : {role : ['admin','superviseur']}},
   {path : 'comparateur', component : ProductsComparatorComponent, canActivate : [RoleGuardService],data : {role : ['admin']}},
-  {path : 'planning' , component : PlanningComponent},
+  {path : 'planning' , component : PlanningComponent, canActivate : [AuthGuardService]},
+  {path : 'opportunite' , component : OpportunitesComponent, canActivate : [AuthGuardService]},
   {path : 'login' , component : LoginComponent},
   { path: '', component: DashboardComponent, canActivate : [RoleGuardService],data : {role : ['admin','superviseur']} },
   {path : '**', redirectTo : ''}

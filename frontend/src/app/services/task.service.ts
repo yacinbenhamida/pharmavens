@@ -111,6 +111,14 @@ export class TaskService {
     let options = { headers: headers };
     return this.http.get(this.baseUrl+'/getPlannings/'+iduser,options)
   }
+  getAllPlanningsOfUser(iduser) : Observable<any> {
+    let connnectedUser :any = this.userService.getLoggedOn()
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "JWT "+connnectedUser.token });
+    let options = { headers: headers };
+    return this.http.get(this.baseUrl+'/getPlanningsOfUser/'+iduser,options)
+  }
   delete(id){
     let connnectedUser :any = this.userService.getLoggedOn()
     if(id && connnectedUser){

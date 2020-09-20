@@ -53,6 +53,7 @@ import { PlanningComponent } from './planning/planning.component';
 import { LOCALE_ID } from '@angular/core';
 import { PlanningPopupComponent } from './planning-popup/planning-popup.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { OpportunitesComponent } from './opportunites/opportunites.component';
 
 declare var $ : any;
 
@@ -91,7 +92,8 @@ registerLocaleData(localeFr);
     RapportFormComponent,
     ProductsComparatorComponent,
     PlanningComponent,
-    PlanningPopupComponent
+    PlanningPopupComponent,
+    OpportunitesComponent
   ],
   imports: [
     BrowserModule,

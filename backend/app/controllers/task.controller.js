@@ -149,7 +149,7 @@ exports.getPlannings = (req,res)=>{
                         ]}).then(dispos=>{
                             let result = []
                             ut.forEach(tache=>{
-                                if(tache.ut_tasks[0].private == false || targetuser.role == "admin" || targetuser.id ==tache.task_users[0].id ){
+                                if(tache.ut_task && (tache.ut_tasks[0].private == false || targetuser.role == "admin" || targetuser.id ==tache.task_users[0].id) ){
                                     result.push({
                                         type : 'task',
                                         id : tache.id,
@@ -185,6 +185,66 @@ exports.getPlannings = (req,res)=>{
                                         })
                                 })
                             }   
+                            return res.send(result)
+                    })
+                      }
+                })
+            }
+        })
+        
+    }
+       
+}
+
+exports.getPlanningsOfUser = (req,res)=>{
+    const iduser = req.params.iduser
+    if(iduser){
+        User.findOne({where : {id: iduser}}).then(targetuser=>{
+            if(targetuser){
+                UserTask.findAll({where : {idDelegue : targetuser.id},include: [{
+                    model: User,
+                    as: 'task_users',
+                    required: false,
+                    attributes: ['id', 'nom','prenom','email','imageUrl','telephone','telephone_perso','status','role'],
+                  },{
+                    model: Task,
+                    as: 'ut_tasks',
+                    required: false,
+                    attributes: ['id', 'nom_tache','date_rappel','date_echance','attached_file','isdone','private']
+                  }]}).then(ut=>{
+                      if(ut){
+                          Disponibilite.findAll({where : {user_id : targetuser.id},include: [{
+                        model: User,
+                        as: 'user'}]},{attributes : [
+                            "id",
+                            [sequelize.fn('date_format', sequelize.col('date_debut'), '%d/%m/%y'), 'date_debut'],
+                            [sequelize.fn('date_format', sequelize.col('date_fin'), '%d/%m/%y'), 'date_fin'],
+                            'remarques','intitule' , 'date_debut','date_fin'
+                        ]}).then(dispos=>{
+                            let result = []
+                            ut.forEach(tache=>{
+                                if(tache.ut_tasks && tache.task_users && (tache.ut_tasks[0].private == false || targetuser.role == "admin" || targetuser.id ==tache.task_users[0].id )){
+                                    result.push({
+                                        type : 'task',
+                                        id : tache.id,
+                                        user : tache.task_users[0],
+                                        task : tache.ut_tasks[0]
+                                    })
+                                }                             
+                            })
+                            if(dispos && dispos.length > 0){
+                                dispos.forEach(element => {
+                                        result.push({
+                                            type : 'dispo',
+                                            id : element.id,
+                                            intitule : element.intitule,
+                                            user : element.user,
+                                            date_debut : element.date_debut,
+                                            date_fin : element.date_fin,
+                                            remarques: element.remarques
+                                        })
+                                });
+                            }  
                             return res.send(result)
                     })
                       }

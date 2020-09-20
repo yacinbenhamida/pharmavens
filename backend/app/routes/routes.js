@@ -1,22 +1,21 @@
-const users = require("../controllers/user.controller.js");
-const passport = require("passport");
-const auth = require("../controllers/auth.controller")
-const cars = require("../controllers/vehicule.controller")
-const products = require("../controllers/produit.controller")
-const clients = require('../controllers/client.controller')
-const commande = require('../controllers/commande.controller')
-const packs = require('../controllers/pack.controller')
-const veilles = require('../controllers/veille.controller')
-const tasks = require('../controllers/task.controller')
-const comments = require('../controllers/comment.controller')
-const notifs = require('../controllers/notifications.controller')
-const reunions = require('../controllers/reunions.controller')
-const contacts = require('../controllers/contact.controller')
-const eval = require('../controllers/eval.controller')
-const rapports = require('../controllers/rapport.controller')
-const stats = require('../controllers/stat.controller');
-const { task } = require("../models/index.js");
-
+var users = require("../controllers/user.controller.js");
+var passport = require("passport");
+var auth = require("../controllers/auth.controller")
+var cars = require("../controllers/vehicule.controller")
+var products = require("../controllers/produit.controller")
+var clients = require('../controllers/client.controller')
+var commande = require('../controllers/commande.controller')
+var packs = require('../controllers/pack.controller')
+var veilles = require('../controllers/veille.controller')
+var tasks = require('../controllers/task.controller')
+var comments = require('../controllers/comment.controller')
+var notifs = require('../controllers/notifications.controller')
+var reunions = require('../controllers/reunions.controller')
+var contacts = require('../controllers/contact.controller')
+var evaluation = require('../controllers/eval.controller')
+var rapports = require('../controllers/rapport.controller')
+var stats = require('../controllers/stat.controller');
+var prospets = require('../controllers/prospet.controller');
 
 
 module.exports = app => {
@@ -191,19 +190,19 @@ module.exports = app => {
   // evals
   app.use('/addEval', passport.authenticate('jwt', {
     session: false
-  })).post('/addEval', eval.addEvaluation);
+  })).post('/addEval', evaluation.addEvaluation);
   app.use('/getAllEvals', passport.authenticate('jwt', {
     session: false
-  })).get('/getAllEvals', eval.getAll);
+  })).get('/getAllEvals', evaluation.getAll);
   app.use('/getEvalsOfdeleg', passport.authenticate('jwt', {
     session: false
-  })).post('/getEvalsOfdeleg', eval.getEvalsOfdeleg);
+  })).post('/getEvalsOfdeleg', evaluation.getEvalsOfdeleg);
   app.use('/deleteEval', passport.authenticate('jwt', {
     session: false
-  })).post('/deleteEval', eval.delete);
+  })).post('/deleteEval', evaluation.delete);
   app.use('/editEval', passport.authenticate('jwt', {
     session: false
-  })).post('/editEval', eval.edit);
+  })).post('/editEval', evaluation.edit);
 
   // rapports
   app.use('/addRapport', passport.authenticate('jwt', {
@@ -226,10 +225,13 @@ module.exports = app => {
   app.use('/getStats', passport.authenticate('jwt', {
     session: false
   })).get('/getStats', stats.getStats);
-
+ // planning
   app.use('/getPlannings/:iduser', passport.authenticate('jwt', {
     session: false
   })).get('/getPlannings/:iduser', tasks.getPlannings);
+  app.use('/getPlanningsOfUser/:iduser', passport.authenticate('jwt', {
+    session: false
+  })).get('/getPlanningsOfUser/:iduser', tasks.getPlanningsOfUser);
   app.use('/getUserPlanning', passport.authenticate('jwt', {
     session: false
   })).get('/getUserPlanning', tasks.getDisponibilitesForSimpleUser);
@@ -246,4 +248,21 @@ module.exports = app => {
   app.use('/updatePlanning', passport.authenticate('jwt', {
     session: false
   })).post('/updatePlanning', tasks.editPlanning);
+
+  app.use('/getAllProspets', passport.authenticate('jwt', {
+    session: false
+  })).get('/getAllProspets', prospets.getAllProspet);
+  app.use('/getAllProspetsOfUser', passport.authenticate('jwt', {
+    session: false
+  })).post('/getAllProspetsOfUser', prospets.getAllProspetOfUser);
+  app.use('/addProspet', passport.authenticate('jwt', {
+    session: false
+  })).post('/addProspet', prospets.addProspet);
+  app.use('/deleteProspet', passport.authenticate('jwt', {
+    session: false
+  })).post('/deleteProspet', prospets.deleteProspet);
+  app.use('/updateProspet', passport.authenticate('jwt', {
+    session: false
+  })).post('/updateProspet', prospets.editProspet);
+
 };

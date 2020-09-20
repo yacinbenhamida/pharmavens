@@ -24,6 +24,14 @@
                                     <span class="msg font-11" *ngIf="intit.touched && intit.errors">titre
                                         invalide*</span>
                                 </div>
+                                <div *ngIf="user.role == 'admin' && edit == false" class="form-group">
+                                    <label class="form-label">Collaborateur</label>
+                                    <select required
+                                    name="user" [(ngModel)]="selectedUser"  class="form-control" >
+                                    <option value="0">Moi</option>
+                                    <option *ngFor="let u of usersList" [ngValue]="u.id" > {{u.nom +' '+u.prenom + ' ('+u.role+') '}}</option>
+                                </select>
+                                </div>
                                 <div class="row">
                                 <div class="form-group col-md-6">
                                     <label class="form-label">Début</label>

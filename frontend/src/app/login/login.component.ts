@@ -33,7 +33,9 @@ export class LoginComponent implements OnInit {
           }
           else sessionStorage.setItem('connected',JSON.stringify(user))
           if(user.role === 'admin'){
-            this.router.navigate(['/dashboard'])
+            this.router.navigate(['/dashboard']).then(() => {
+              window.location.reload();
+            });
           }else{
             this.router.navigate(['/planning'])
           }
