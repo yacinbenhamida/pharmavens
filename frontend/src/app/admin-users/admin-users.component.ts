@@ -4,6 +4,7 @@ import { UserService } from '../services/user.service';
 import { NgForm } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Vehicule } from '../models/vehicule.model';
+declare var $ : any;
 
 @Component({
   selector: 'app-admin-users',
@@ -30,11 +31,11 @@ export class AdminUsersComponent implements OnInit {
   usersTrigger: Subject<User> = new Subject();
   ngOnInit() {
     this.userToAdd.type_contrat = 'type'
-    this.userToAdd.role='Role'
+    this.userToAdd.role=null
     this.userToAdd.sexe = 'homme'
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 5,
+      pageLength: 10,
       processing: true,
       responsive : true
     };
@@ -70,11 +71,13 @@ export class AdminUsersComponent implements OnInit {
  }
  deleteUser(){
    if(this.selectedUser){
-    this.userservice.deleteUser(this.selectedUser.id).subscribe(res=>{
+    $('#sizedModalSm').modal('hide');
+    this.userservice.deleteUser(this.selectedUser.id).subscribe(()=>{
       window.location.reload()
     },err=>{
-      this.deletionError = true
+      window.location.reload()
     })
+      
    }
  }
  setEditableUser(user:User){
