@@ -13,6 +13,7 @@ export interface User{
     diplome : string
     matricule_cnss : string
     vehicule : Vehicule
+    vehicule_societe : boolean
     imageUrl : string
     email:string
     emailPerso : string

@@ -43,6 +43,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             defaultValue : 0
         },
+        visible : {
+            type: Sequelize.BOOLEAN,
+            defaultValue : true
+        },
         createdAt: {type : Sequelize.DATE , default : Date.now()},
         updatedAt: {type : Sequelize.DATE, default : null},
     });

@@ -81,7 +81,17 @@ export class AdminUsersComponent implements OnInit {
    }
  }
  setEditableUser(user:User){
-   this.editableUser = null 
-  this.editableUser = user
+    this.editableUser = null 
+    this.editableUser = user
+ }
+
+ updateVehiculeInfo(){
+    this.carToAdd.date_derniere_vidange = null
+    this.carToAdd.carte_grise = null;
+    this.carToAdd.date_echeance_assurance = null;
+    this.carToAdd.date_vignette = null
+    this.carToAdd.immatriculation = null
+    this.carToAdd.kilometrage = null
+    this.carToAdd.modele = null
  }
 }

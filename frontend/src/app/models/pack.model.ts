@@ -12,6 +12,7 @@ export interface Pack{
     remise_total_dans_un_mois : number,
     prix_total : number
     times_sold : number
+    visible : boolean
     createdAt: Date
     updatedAt: Date
 }

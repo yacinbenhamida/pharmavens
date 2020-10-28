@@ -32,7 +32,7 @@
                                                     invalide*</span>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label>prenom</label>
+                                                <label>Prenom</label>
                                                 <input #prenom="ngModel" required minlength="3" 
                                                     [(ngModel)]="userToAdd.prenom" name="prenom" type="text"
                                                     class="form-control" placeholder="ben foulen">
@@ -42,7 +42,7 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label>date de naissance</label>
+                                                <label>Date de naissance</label>
                                                 <input #daten="ngModel" required [(ngModel)]="userToAdd.date_naissance"
                                                     name="date_naissance" type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" class="form-control"
                                                     placeholder="AAAA-MM-JJ">
@@ -50,7 +50,7 @@
                                                     invalide*</span>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label>n° CIN</label>
+                                                <label>N° CIN</label>
                                                 <input #cin="ngModel" required [(ngModel)]="userToAdd.cin"
                                                      name="cin" minlength="8" maxlength="8" pattern="^[0-9]{8}"
                                                     type="text" class="form-control" placeholder="XXXXXXX">
@@ -59,28 +59,28 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label>adresse</label>
+                                            <label>Adresse</label>
                                             <input type="text" [(ngModel)]="userToAdd.adresse" name="adr"
                                                 class="form-control" placeholder="15 rue des jasmins">
                                         </div>
                                         <div class="form-group">
-                                            <label>adresse actuelle</label>
+                                            <label>Adresse actuelle</label>
                                             <input type="text" [(ngModel)]="userToAdd.adresse_actuelle" name="adract"
                                                 class="form-control" placeholder="24 rue el attarine">
                                         </div>
                                         <div class="form-group">
-                                            <label>image</label>
+                                            <label>Image</label>
                                             <input type="text" [(ngModel)]="userToAdd.imageUrl" name="image"
                                                 class="form-control" placeholder="http://img.png">
                                         </div>
                                         <div class="form-group">
-                                            <label>diplome</label>
+                                            <label>Diplome</label>
                                             <input type="text" [(ngModel)]="userToAdd.diplome" name="diplome"
                                                 class="form-control" placeholder="License, doctorat, mastére...">
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label>email personnel</label>
+                                                <label>Email personnel</label>
                                                 <input #emailp="ngModel" minlength="0"
                                                     pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
                                                     [(ngModel)]="userToAdd.emailPerso" name="emailp" type="text"
@@ -89,7 +89,7 @@
                                                     invalide*</span>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label>email attribué</label>
+                                                <label>Email attribué (de connexion)</label>
                                                 <input #email="ngModel" minlength="0" type="text"
                                                     pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
                                                     [(ngModel)]="userToAdd.email" name="email" class="form-control"
@@ -100,7 +100,7 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label>type de contrat</label>
+                                                <label>Type de contrat</label>
                                                 <select required #contrat='ngModel' [(ngModel)]="userToAdd.type_contrat"
                                                     name="contrat" class="form-control mb-3">
                                                     <option selected value="type">type</option>
@@ -115,7 +115,7 @@
                                                     non choisit*</span>
                                             </div>
                                             <div class="form-group col-md-3">
-                                                <label>salaire</label>
+                                                <label>Salaire</label>
                                                 <input #salaire="ngModel" minlength="1" [(ngModel)]="userToAdd.salaire"
                                                     name="salaire" type="number" class="form-control" placeholder="TND.">
                                                 <span class="msg font-11"
@@ -123,7 +123,7 @@
                                                     invalide*</span>
                                             </div>
                                             <div class="form-group col-md-3">
-                                                <label>frais</label>
+                                                <label>Frais</label>
                                                 <input #frais="ngModel" [(ngModel)]="userToAdd.frais" required="false"
                                                     name="frais" type="number" class="form-control" placeholder="TND.">
                                                 <span class="msg font-11"
@@ -133,18 +133,18 @@
                                         </div>
                                         <div class="form-row" *ngIf="userToAdd.type_contrat === 'SIVP' || userToAdd.type_contrat === 'CDD'">
                                             <div class="form-group col-md-6">
-                                                <label>date debut contrat</label>
+                                                <label>Date debut contrat</label>
                                                 <input type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" 
                                                 [(ngModel)]="userToAdd.date_debut_contrat" class="form-control" placeholder="AAAA-MM-JJ" name="date_d_c"/>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label>date fin contrat</label>
+                                                <label>Date fin contrat</label>
                                                 <input placeholder="AAAA-MM-JJ" type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="userToAdd.date_fin_contrat" class="form-control" name="date_f_c"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="form-group custom-control custom-switch">
-                                                <input [(ngModel)]="carToAdd.vehicule_societe" name="vehicule" type="checkbox" class="custom-control-input"
+                                                <input [(ngModel)]="carToAdd.vehicule_societe" (click)="updateVehiculeInfo()" name="vehicule" type="checkbox" class="custom-control-input"
                                                     id="customSwitch2">
                                                 <label for="customSwitch2" class="custom-control-label">Vehicule personnel
                                                 </label>
@@ -152,30 +152,30 @@
                                             <div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-4" *ngIf="carToAdd.vehicule_societe">
-                                                    <label>modele</label>
+                                                    <label>Modele</label>
                                                     <input #modele="ngModel" [(ngModel)]="carToAdd.modele" 
                                                      name="modele" 
                                                     type="text" class="form-control" placeholder="Peugeot,VW...">
                                                 </div>
-                                            <div class="form-group col-md-4">
-                                                <label>amortissement</label>
+                                            <div [ngClass]="carToAdd.vehicule_societe ? 'form-group col-md-4': 'form-group col-md-12'">
+                                                <label>Amortissement</label>
                                                 <input #amortissement="ngModel" [(ngModel)]="carToAdd.amortissement_vehicule"  min="1"
                                                  name="amortissementTND" 
                                                 type="number" class="form-control" placeholder="valeur en TND.">
                                             </div>
                                             <div class="form-group col-md-4" *ngIf="carToAdd.vehicule_societe">
-                                                <label>kilométrage</label>
+                                                <label>Kilométrage</label>
                                                 <input [(ngModel)]="carToAdd.kilometrage" name="km"  minlength="1" type="number" placeholder="km." class="form-control">
                                             </div>
                                             </div>
                                             <div class="form-row" *ngIf="carToAdd.vehicule_societe">
                                                 <div class="form-group col-md-4">
-                                                    <label>immatriculation</label>
+                                                    <label>Immatriculation</label>
                                                     <input name="carm" maxlength="9" [(ngModel)]="carToAdd.immatriculation" minlength="8"
                                                          type="text" class="form-control" placeholder="XXXTUXXXX">
                                                 </div>
                                                 <div class="form-group col-md-3">
-                                                    <label>n° carte grise</label>
+                                                    <label>N° carte grise</label>
                                                     <input name="cg" [(ngModel)]="carToAdd.carte_grise" minlength="1"
                                                          type="text" class="form-control" placeholder="XQKLMCODSDS...">
                                                 </div>
@@ -187,26 +187,26 @@
                                                 </div>
                                                 <div class="form-row" *ngIf="carToAdd.vehicule_societe">
                                                 <div class="form-group col-md-6">
-                                                    <label>date échénace assurance</label>
+                                                    <label>Date échénace assurance</label>
                                                     <input name="assurc" [(ngModel)]="carToAdd.date_echeance_assurance"  
                                                     type="text" placeholder="AAAA-MM-JJ" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" class="form-control">
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <label>date derniere vidange</label>
+                                                    <label>Date derniere vidange</label>
                                                     <input  name="date_derniere_vidange" [(ngModel)]="carToAdd.date_derniere_vidange"  minlength="1"
                                                     type="text" placeholder="AAAA-MM-JJ" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" class="form-control">
                                                 </div>
                                                 </div>
-                                                <div class="form-row" *ngIf="carToAdd.vehicule_societe">
+                                                <div class="form-row">
                                                     <div class="form-group col-md-6">
-                                                    <label>numero carte essence</label>
+                                                    <label>N° carte carburant</label>
                                                     <input  name="numero_carte_essence" [(ngModel)]="carToAdd.numero_carte_essence" minlength="1"
                                                     type="text" class="form-control" placeholder="ABDCEFGH...">
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <label>code carte essence</label>
+                                                    <label>Code carte carburant</label>
                                                     <input name="code_carte_essence" [(ngModel)]="carToAdd.code_carte_essence" minlength="1"
-                                                    type="password" class="form-control" placeholder="*****">
+                                                    type="text" class="form-control" placeholder="ABXG">
                                                 </div>                         
                                                 </div>
                                                 </div>
@@ -248,7 +248,7 @@
                                                 faible*</span>
                                         </div>
                                         <div class="form-group">
-                                            <label>confirmer le mot de passe</label>
+                                            <label>Confirmer le mot de passe</label>
                                             <input  placeholder="*******" required #confirmpw="ngModel" ngModel pattern="^[A-Z]+[a-zA-Z0-9]*[*.! @#$%^&(){}[]:;<>,.?/~_+-=|\]*"
                                                 minlength="8" type="password" name="confirmpw" class="form-control">
                                             <span class="msg font-11"
@@ -304,13 +304,13 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label>etat du compte </label>
+                                            <label>Etat du compte </label>
                                             <div class="custom-control custom-switch">
                                                 <input #enabled="ngModel" [(ngModel)]="userToAdd.isActivated"
                                                     name="etat" type="checkbox" class="custom-control-input"
                                                     id="customSwitch1">
                                                 <label class="custom-control-label"
-                                                    for="customSwitch1">{{enabled.value == true ? 'activé' : 'desactivé'}}
+                                                    for="customSwitch1">{{enabled.value == true ? 'activé' : 'désactivé'}}
                                                 </label>
                                             </div>
                                         </div>
@@ -318,7 +318,7 @@
                                             <label>A propos</label>
                                             <textarea [(ngModel)]="userToAdd.about" name="abt" class="form-control"
                                                 placeholder="Vos remarques, ou autres informations içi..."
-                                                rows="3"></textarea>
+                                                rows="6"></textarea>
                                         </div>
                                         <div class="form-row mt-3 float-right">
                                             <div class="">
@@ -377,7 +377,7 @@
                                                 *ngIf="user.telephone_perso"> <br /> (P){{user.telephone_perso}}</span>
                                         </td>
                                         <td class="text-center"><span
-                                                [ngClass]="etatCompte(user.isActivated)">{{user.isActivated == true ? 'activé' : 'desactivé'}}</span>
+                                                [ngClass]="etatCompte(user.isActivated)">{{user.isActivated == true ? 'activé' : 'désactivé'}}</span>
                                             <span [ngClass]="online(user.status)">{{user.status}}</span></td>
                                         <td class="text-center"><button (click)="setEditableUser(user)" class="btn btn-pill btn-primary btn-sm"><i
                                                     class="fas fa-info"></i></button>

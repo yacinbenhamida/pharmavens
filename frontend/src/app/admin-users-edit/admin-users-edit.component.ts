@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { User } from '../models/user.model';
 import { Vehicule } from '../models/vehicule.model';
 import { UserService } from '../services/user.service';
@@ -10,18 +10,23 @@ import { NgForm } from '@angular/forms';
   templateUrl: './admin-users-edit.component.html',
   styleUrls: ['./admin-users-edit.component.css']
 })
-export class AdminUsersEditComponent implements OnInit {
+export class AdminUsersEditComponent implements OnInit,OnChanges {
   @Input() targetUser : User 
   cartToEdit : Vehicule 
   showSection : boolean = false
   error : boolean  = false
   isVisible : boolean = false
   constructor(private userservice:UserService, private vehicleService : VehiculeService) { }
-
+  ngOnChanges(){
+    this.ngOnInit()
+  }
   ngOnInit() {
     if(this.targetUser){        
       this.isVisible = true
+      this.cartToEdit = {} as Vehicule 
+      this.targetUser.vehicule = {} as Vehicule
       this.vehicleService.getUserVehicle(this.targetUser.email).subscribe((res:Vehicule)=>{
+        this.isVisible = true
         if (res) this.cartToEdit = res
         else this.cartToEdit = {} as Vehicule 
         setTimeout(()=>this.showSection = true , 2500)

@@ -92,6 +92,12 @@ module.exports = app => {
   app.use('/getPacks', passport.authenticate('jwt', {
     session: false
   })).get('/getPacks', packs.getAllPacks);
+  app.use('/getVisiblePacks', passport.authenticate('jwt', {
+    session: false
+  })).get('/getVisiblePacks', packs.getVisiblePacks);
+  app.use('/togglePack', passport.authenticate('jwt', {
+    session: false
+  })).post('/togglePack', packs.togglePack);
   app.use('/getProdPacks', passport.authenticate('jwt', {
     session: false
   })).post('/getProdPacks', packs.getProductsOfPack);

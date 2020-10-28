@@ -165,6 +165,17 @@
                                                 class="btn btn-danger btn-lg ml-2">Réinitialiser</button>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label>visiblité</label>
+                                        <div class="custom-control custom-switch">
+                                            <input #visible="ngModel" [(ngModel)]="packToadd.visible"
+                                                name="visible" type="checkbox" class="custom-control-input"
+                                                id="customSwitch1">
+                                            <label class="custom-control-label"
+                                                for="customSwitch1">{{visible.value == true ? 'visible' : 'invisible'}}
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -187,7 +198,7 @@
                                     <th>Nom pack</th>
                                     <th>Type</th>
                                     <th>Prix</th>
-                                    <th *ngIf="user.role === 'admin'">Unités vendues</th>
+                                    <th *ngIf="user.role === 'admin'">ventes</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
@@ -197,8 +208,21 @@
                                     <td><span class="badge badge-pill badge-danger" *ngIf="p.type_pack == 'panache'">{{p.type_pack}}</span> <span class="badge badge-pill badge-info" *ngIf="p.type_pack == 'normal'">{{p.type_pack}}</span></td>
                                     <td>{{p.prix_total ? p.prix_total.toFixed(2) : 0}} TND.</td>
                                     <td *ngIf="user.role === 'admin'">{{p.times_sold}} unités</td>
-                                    <td class="text-center"><button (click)="showPackDetails(p)" class="btn btn-success btn-sm">Details</button>
-                                    <button *ngIf="user.role === 'admin'" (click)="setPack(p)" data-target="#sizedModalSm" class="btn btn-danger btn-sm ml-2" data-toggle="modal">X</button></td>
+                                    <td class="text-center">
+                                    <div class="btn-group btn-group" *ngIf="user.role === 'admin'">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Actions
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" (click)="showPackDetails(p)"><i class="align-middle mr-2 fas fa-fw fa-pen"></i> Détails</a>
+                                            <a class="dropdown-item" (click)="togglePackVisiblity(p)" >
+                                                <i *ngIf="!p.visible" class="align-middle mr-2 fas fa-fw fa-eye"></i> <i *ngIf="p.visible" class="align-middle mr-2 fas fa-fw fa-eye-slash"></i> 
+                                                {{p.visible ? 'Cacher' : 'Afficher'}}</a>
+                                            <a class="dropdown-item" (click)="setPack(p)" data-target="#sizedModalSm" data-toggle="modal"><i class="align-middle mr-2 fas fa-fw fa-trash-alt"></i> Supprimer</a>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-sm btn-success" (click)="showPackDetails(p)" *ngIf="user.role !== 'admin'">détails</button>
+                                </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -209,7 +233,9 @@
             <div class="col-xl-4" *ngIf="selectedPack">
                 <div class="card">
                     <div class="card-header">
-                        <h3>{{selectedPack.nom_pack}}</h3>
+                        <h3>{{selectedPack.nom_pack}} <i *ngIf="!selectedPack.visible" class="align-middle fas ml-2 fa-fw fa-eye-slash"></i>
+                            <i *ngIf="selectedPack.visible" class="align-middle fas ml-2  fa-fw fa-eye"></i></h3>
+                        
                     </div>
                     <div class="card-body">
                         <div class="row no-gutters">
@@ -262,14 +288,14 @@
                             <div>
                                 <strong>{{selectedPack.pourcentage_unite_gratuites_grossiste}} % unités gratuites</strong>
                                 <span class="float-right text-muted text-sm">OU</span>
-                                <p>{{selectedPack.valeur_unite_gratuites_grossiste_ttc }} TND Unités gratuites au choix </p>
+                                <p>{{selectedPack.valeur_unite_gratuites_grossiste_ttc.toFixed(2) }} TND Unités gratuites au choix </p>
                             </div>
                         </li>
                         <li class="timeline-item">
                             <div>
                                 <strong>{{selectedPack.pourcentage_unite_gratuites_vd}} % unités gratuites (VD)</strong>
                                 <span class="float-right text-muted text-sm">OU</span>
-                                <p>{{selectedPack.valeur_unite_gratuites_vd_ttc }} TND Unités gratuites au choix</p>
+                                <p>{{selectedPack.valeur_unite_gratuites_vd_ttc.toFixed(2) }} TND Unités gratuites au choix</p>
                             </div>
                         </li>
                         <li class="timeline-item">

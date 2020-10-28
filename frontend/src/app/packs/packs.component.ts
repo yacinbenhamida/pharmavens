@@ -8,6 +8,7 @@ import { PackService } from '../services/pack.service';
 import { PackProduit } from '../models/packproduit.model';
 import { User } from '../models/user.model';
 import { UserService } from '../services/user.service';
+declare var $ : any;
 
 @Component({
   selector: 'app-packs',
@@ -38,6 +39,7 @@ export class PacksComponent implements OnInit {
 
   ngOnInit() {
     this.packToadd.prix_total = 0
+    this.selectedPackForDelete = {} as Pack
     this.initialLoder = true
     this.options = {
       pagingType: 'full_numbers',
@@ -47,13 +49,21 @@ export class PacksComponent implements OnInit {
     };
     this.userv.getCurrentUser().subscribe((u: User) => {
       this.produitserv.getAll().subscribe((resl: Produit[]) => {
-        this.packserv.getAll().subscribe((packs: Pack[]) => {
-          this.user = u
-          this.produits = resl
-          this.listPacks = packs
-          this.initialLoder = false
-          this.trigger.next()
-        })
+        this.user = u
+        this.produits = resl
+        if(u.role === 'admin'){
+          this.packserv.getAll().subscribe((packs: Pack[]) => {
+            this.listPacks = packs
+            this.initialLoder = false
+            this.trigger.next()
+          })
+        }else{
+          this.packserv.getVisiblePacks().subscribe((packs: Pack[]) => {
+            this.listPacks = packs
+            this.initialLoder = false
+            this.trigger.next()
+          })
+        }    
       })
     })
 
@@ -137,13 +147,17 @@ export class PacksComponent implements OnInit {
 
   }
   deletePack() {
+    $('#sizedModalSm').modal('hide');
     this.packserv.delete(this.selectedPackForDelete.id).subscribe(() => {
       this.selectedPackForDelete = null
       window.location.reload()
     })
   }
   setPack(p) {
-    this.selectedPackForDelete = p
+    if(p){
+      this.selectedPackForDelete = p
+      $('#sizedModalSm').modal('show');
+    }
   }
   calculPourcentage() {
     if (this.packToadd.pourcentage_unite_gratuites_grossiste >= 0 && this.packToadd.prix_total >= 0) {
@@ -160,5 +174,10 @@ export class PacksComponent implements OnInit {
       this.packToadd.pourcentage_unite_gratuites_vd = 0
       alert('pourcentage > 0')
     }
+  }
+  togglePackVisiblity(p){  
+    this.packserv.updatePackVisiblity(p.id).subscribe((res)=>{
+      p.visible = !p.visible
+    })
   }
 }

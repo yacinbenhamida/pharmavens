@@ -65,7 +65,7 @@ export class CommandesComponent implements OnInit {
             this.prodserv.getAll().subscribe((p:Produit[])=>{
               this.produits = p
               this.grossistes = g
-               this.packserv.getAll().subscribe((packs: Pack[]) => {
+               this.packserv.getVisiblePacks().subscribe((packs: Pack[]) => {
               this.packs = packs
               if (user) {
                 if (user.role == 'admin') {

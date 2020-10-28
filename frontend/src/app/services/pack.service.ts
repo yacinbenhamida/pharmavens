@@ -69,6 +69,17 @@ export class PackService {
     }
     return null
   }
+  getVisiblePacks(){
+    let connnectedUser :any = this.userService.getLoggedOn()
+    if(connnectedUser){
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "JWT "+connnectedUser.token });
+      let options = { headers: headers };
+      return this.http.get(this.baseUrl+'/getVisiblePacks',options)
+    }
+    return null
+  }
   delete(id){
     let connnectedUser :any = this.userService.getLoggedOn()
     if(id && connnectedUser){
@@ -77,6 +88,17 @@ export class PackService {
         'Authorization': "JWT "+connnectedUser.token });
       let options = { headers: headers };
       return this.http.post(this.baseUrl+'/deletePack',{packId : id},options)
+    }
+    return null
+  }
+  updatePackVisiblity(p:number){
+    let connnectedUser :any = this.userService.getLoggedOn()
+    if(connnectedUser){
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "JWT "+connnectedUser.token });
+      let options = { headers: headers };
+      return this.http.post(this.baseUrl+'/togglePack',{packId : p},options)
     }
     return null
   }

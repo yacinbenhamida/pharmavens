@@ -65,7 +65,11 @@ exports.getAllPacks = (req,res)=>{
         res.send(result)
     })
 }
-
+exports.getVisiblePacks = (req,res)=>{
+    Pack.findAll({where : {visible : true}}).then(result=>{
+        res.send(result)
+    })
+}
 exports.deletePack = (req,res) => {
     const packId = req.body.packId
     Pack.findOne({where : {id : packId}}).then(cmd=>{
@@ -73,6 +77,21 @@ exports.deletePack = (req,res) => {
             Pack.destroy({
                 where : {
                     id : packId
+                }
+            }).then(exec=>{
+                res.send({message :'done' })
+            })
+        }
+        else res.status(404)
+    })
+}
+exports.togglePack = (req,res)=>{
+    const packId = req.body.packId
+    Pack.findOne({where : {id : packId}}).then(pack=>{
+        if(pack){
+            Pack.update({visible : !pack.visible},{
+                where : {
+                    id : pack.id
                 }
             }).then(exec=>{
                 res.send({message :'done' })

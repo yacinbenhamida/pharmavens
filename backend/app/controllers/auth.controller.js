@@ -107,7 +107,7 @@ exports.logout = (req,res) =>{
 exports.editUser = (req,res) => {
   User.findOne({
     where: {
-      email: req.body.user.email,
+      id: req.body.user.id,
     }, include : ['vehicule']}).then(user => {
     if (user) {
       User
@@ -135,26 +135,35 @@ exports.editUser = (req,res) => {
           type_contrat : req.body.user.type_contrat,
           salaire : req.body.user.salaire,
           frais : req.body.user.frais,
+          vehicule_societe: req.body.user.vehicule_societe,
           updatedAt : Date(),
         },{ where : {id : user.id}})
         .then((result) => {
-          if(result && req.body.user.vehicule){
-            let car = req.body.user.vehicule
+          let car = req.body.user.vehicule
+          if (result && !result.vehicule && car){
+            Vehicule.create(
+              car
+              ,{w:1},{returning : true}).then(v => {
+                v.setUser(user)
+                v.save()
+              })    
+          }
+          else if(result && car && result.vehicule){
             Vehicule.update({
               modele: car.modele,
-              vehicule_societe:car.vehicule_societe,
               immatriculation : car.immatriculation,
               carte_grise:  car.carte_grise,
               date_echeance_assurance : car.date_echeance_assurance,
               numero_carte_essence : car.numero_carte_essence,
               code_carte_essence : car.code_carte_essence,
               date_derniere_vidange : car.date_derniere_vidange ,
+              date_vignette : car.date_vignette,
               kilometrage : car.kilometrage,
               amortissement_vehicule : car.amortissement_vehicule
             },{ where : {userId : user.id}}).then(v => {
               console.log('user car updated in db');
             })          
-          }
+          } 
           console.log('user updated in db');
           res.status(200).send({ message: 'user updated' });
         });

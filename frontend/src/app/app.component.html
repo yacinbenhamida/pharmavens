@@ -1,15 +1,16 @@
 <ngx-loading-bar></ngx-loading-bar>
 <body data-theme="default" data-layout="fluid" data-sidebar="left">
-  <div class="wrapper">
-    <app-navbar *ngIf="router.url != '/login'"></app-navbar>
-    <div class='main'>
+  <div class="wrapper ">
+      <app-navbar *ngIf="router.url != '/login'"></app-navbar>
+    <div class="main">
       <div *ngIf="router.url != '/login'">
       <app-topbar [navbarshown]='collapsedNavbar' (hideNav)="handlehideNav($event)"></app-topbar>
-    </div>
+      </div>
       <router-outlet></router-outlet>
       <div *ngIf="router.url != '/login'" class="foot">
-      <app-footer ></app-footer>
+        <app-footer></app-footer>
       </div>
     </div>
   </div>
 </body>
+
